@@ -1,14 +1,7 @@
 // Full user flow against the recorded sandbox: values must match sandbox/EXPECTED.md.
 import { expect, test } from '@playwright/test';
 import { SANDBOX_URL, serveGitHub } from './fixtures';
-
-const EXPECTED = {
-  deploymentFrequency: '0.62 per week',
-  leadTime: '3.0 days',
-  changeFailureRate: '25%',
-  recoveryTime: '34 hours',
-  reworkRate: '37.5%',
-};
+import { EXPECTED } from '../tests/expected';
 
 test('typing a repo and dates shows the five metrics from EXPECTED.md', async ({ page }) => {
   const gh = await serveGitHub(page);
@@ -20,7 +13,7 @@ test('typing a repo and dates shows the five metrics from EXPECTED.md', async ({
 
   await expect(page.getByTestId('results')).toBeVisible();
   for (const [key, value] of Object.entries(EXPECTED)) {
-    await expect(page.getByTestId(`value-${key}`)).toHaveText(value);
+    await expect(page.getByTestId(`value-${key}`)).toHaveText(value.shown);
   }
   // Proxy metrics are labelled as proxies; the measured ones are not.
   for (const key of ['changeFailureRate', 'recoveryTime', 'reworkRate']) {

@@ -1,8 +1,100 @@
-# Placeholder to confirm workflows can be pushed and run. Replaced in Phase 3.
 name: CI
-on: [push, workflow_dispatch]
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
 jobs:
-  probe:
+  checks:
+    name: Lint, types, unit, build, e2e
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Actions works"
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Type check
+        run: npm run typecheck
+      - name: Lint
+        run: npm run lint
+      - name: Unit tests (must match sandbox/EXPECTED.md)
+        run: npm test
+      - name: Production build
+        run: npm run build
+      - name: Install browser
+        run: npx playwright install --with-deps chromium
+      - name: End-to-end tests (fixtures, offline)
+        run: npm run e2e
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+  live:
+    name: Live checks (real GitHub API)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Live sandbox equals EXPECTED.md
+        run: npm run live-check -- sandbox
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Live large repo finishes within the anonymous budget
+        run: npm run live-check -- large grafana/grafana
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+  deploy:
+    name: Deploy to GitHub Pages
+    if: github.ref == 'refs/heads/main'
+    needs: [checks, live]
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - id: deployment
+        uses: actions/deploy-pages@v4
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
+
+  smoke:
+    name: Smoke test the deployed site
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Deployed site loads and shows the sandbox numbers
+        run: npm run e2e
+        env:
+          SMOKE_URL: ${{ needs.deploy.outputs.page_url }}
+          SMOKE_TOKEN: ${{ github.token }}

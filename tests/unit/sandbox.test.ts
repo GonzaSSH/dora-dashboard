@@ -6,12 +6,11 @@ import { runAnalysis } from '../../src/run';
 import { DEFAULT_SETTINGS } from '../../src/config';
 import { formatDuration, formatPercent, formatPerWeek } from '../../src/format';
 import { fixtureFetch, sandboxResponses } from '../helpers/fixtures';
-
-const WINDOW = { start: new Date('2026-01-01T00:00:00Z'), end: new Date('2026-04-01T00:00:00Z') };
+import { EXPECTED as E, SANDBOX_REPO, SANDBOX_WINDOW as WINDOW } from '../expected';
 
 async function run() {
   return runAnalysis({
-    repo: 'GonzaSSH/dora-sandbox',
+    repo: SANDBOX_REPO,
     settings: DEFAULT_SETTINGS,
     window: WINDOW,
     fetchFn: fixtureFetch(sandboxResponses),
@@ -63,26 +62,26 @@ describe('sandbox matches EXPECTED.md', () => {
 
   it('step 4: the five metrics, exact values', async () => {
     const { metrics: m } = await run();
-    expect(m.deploymentFrequency.count).toBe(8);
-    expect(m.deploymentFrequency.days).toBe(90);
-    expect(m.deploymentFrequency.perWeek).toBe(56 / 90);
-    expect(m.leadTime.medianHours).toBe(73);
-    expect(m.leadTime.commitCount).toBe(16);
-    expect(m.changeFailureRate.rate).toBe(0.25);
-    expect(m.changeFailureRate.failed).toBe(2);
-    expect(m.recoveryTime.medianHours).toBe(34);
-    expect(m.recoveryTime.count).toBe(2);
-    expect(m.reworkRate.rate).toBe(0.375);
-    expect(m.reworkRate.rework).toBe(3);
+    expect(m.deploymentFrequency.count).toBe(E.deploymentFrequency.count);
+    expect(m.deploymentFrequency.days).toBe(E.deploymentFrequency.days);
+    expect(m.deploymentFrequency.perWeek).toBe(E.deploymentFrequency.perWeek);
+    expect(m.leadTime.medianHours).toBe(E.leadTime.medianHours);
+    expect(m.leadTime.commitCount).toBe(E.leadTime.commitCount);
+    expect(m.changeFailureRate.rate).toBe(E.changeFailureRate.rate);
+    expect(m.changeFailureRate.failed).toBe(E.changeFailureRate.failed);
+    expect(m.recoveryTime.medianHours).toBe(E.recoveryTime.medianHours);
+    expect(m.recoveryTime.count).toBe(E.recoveryTime.count);
+    expect(m.reworkRate.rate).toBe(E.reworkRate.rate);
+    expect(m.reworkRate.rework).toBe(E.reworkRate.rework);
   });
 
   it('summary: values as shown to the user', async () => {
     const { metrics: m } = await run();
-    expect(formatPerWeek(m.deploymentFrequency.perWeek)).toBe('0.62 per week');
-    expect(formatDuration(m.leadTime.medianHours!)).toBe('3.0 days');
-    expect(formatPercent(m.changeFailureRate.rate!)).toBe('25%');
-    expect(formatDuration(m.recoveryTime.medianHours!)).toBe('34 hours');
-    expect(formatPercent(m.reworkRate.rate!)).toBe('37.5%');
+    expect(formatPerWeek(m.deploymentFrequency.perWeek)).toBe(E.deploymentFrequency.shown);
+    expect(formatDuration(m.leadTime.medianHours!)).toBe(E.leadTime.shown);
+    expect(formatPercent(m.changeFailureRate.rate!)).toBe(E.changeFailureRate.shown);
+    expect(formatDuration(m.recoveryTime.medianHours!)).toBe(E.recoveryTime.shown);
+    expect(formatPercent(m.reworkRate.rate!)).toBe(E.reworkRate.shown);
   });
 
   it('fits comfortably inside the 60/hour unauthenticated limit', async () => {
