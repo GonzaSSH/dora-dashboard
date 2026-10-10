@@ -1,4 +1,4 @@
-# One-off: read pages the Claude Code session can't reach (here: Swarmia's help centre).
+# One-off: read sources the Claude Code session can't reach (here: DORA's 2025 benchmark data).
 name: Fetch DORA 2025 report
 on:
   push:
@@ -9,15 +9,14 @@ jobs:
   fetch:
     runs-on: ubuntu-latest
     steps:
-      - name: Swarmia change failure rate docs
+      - name: DORA Quick Check 2025 benchmark data and licence
         run: |
-          for u in https://linearb.helpdocs.io/article/bqkxf4rjom-what-is-cfr; do
-            echo "################ $u"
-            curl -sSL --max-time 30 "$u" | python3 -c "
-          import sys,re,html
-          t=sys.stdin.read()
-          t=re.sub(r'(?s)<(script|style)[^>]*>.*?</\1>','',t)
-          t=html.unescape(re.sub(r'<[^>]+>','\n',t))
-          lines=[l.strip() for l in t.split('\n') if l.strip()]
-          print('\n'.join(l for l in lines if re.search(r'(?i)incident|deploy|failure|bug|defin|calculat',l))[:6000])"
-          done
+          git clone -q --depth 1 https://github.com/dora-team/dora.dev site
+          cd site
+          echo "=== LICENSE files"; ls LICENSE* 2>/dev/null; head -5 LICENSE* 2>/dev/null
+          echo "=== 2025 data files"; find . -path '*2025*' -name '*.json' | head -30
+          for f in $(find . -path '*editions/2025*' -name '*.json' | head -10); do echo "################ $f"; head -c 6000 "$f"; echo; done
+          echo "=== Quick Check question text for deployment frequency and lead time"
+          grep -rn -i -E 'deploy.*frequen|lead time|how often' svelte/quick-check/src --include=*.json --include=*.ts --include=*.svelte | head -40
+          echo "=== Licence statements in the quick-check app"
+          grep -rn -i -E 'CC BY|creative commons|license' svelte/quick-check --include=*.md --include=*.json --include=*.svelte | head -20
