@@ -13,7 +13,7 @@ through a built-in GitHub connector plus `git`, and network access is limited.
 | 2 | Push backdated commits and tags to `dora-sandbox` | **Me, after you approve one permission** | `git` can set any date. But this session can only push to repos attached to it. Attaching a repo with write access is blocked until you explicitly approve it. If it's still blocked, you start a new session with both repos selected (§0.1). |
 | 3 | Turn on GitHub Pages for `dora-dashboard` | **You** (one setting) | I have no tool for repo settings. Steps in §0.1. |
 | 4 | Create and run GitHub Actions workflows | **Me** (tested: pushed a placeholder workflow and GitHub started running it) | I push workflow files on my branch. They run on GitHub's servers, and I can read their results. |
-| 4b | Get changes into `main` (Pages deploys from `main`) | **You merge a pull request**, unless you let me push to `main` | I'm only allowed to push to `claude/funny-wright-eioqk2`. |
+| 4b | Get changes into `main` (Pages deploys from `main`) | **You merge a pull request** (decided) | I'm only allowed to push to `claude/funny-wright-eioqk2`. |
 
 Other limits, and how the plan works around them:
 
@@ -23,7 +23,7 @@ Other limits, and how the plan works around them:
 - **The Cypress test-runner download is blocked here**, so I can't run Cypress
   in this container, only in CI. Playwright, with a browser already installed,
   works in both places. That's a strong reason to switch, so it's a question for
-  you (§9).
+  you (§9). Decided: Playwright.
 
 ### 0.1 Manual steps (only the ones you need)
 
@@ -183,8 +183,8 @@ limit). Tests swap `fetch` for a fixture lookup, so they run offline.
 ## 5. Stack
 
 TypeScript + Vite, plain DOM (no framework, it's one page), ESLint, Vitest,
-GitHub Actions, GitHub Pages. **End-to-end tests:** Cypress as requested, or
-Playwright (my recommendation, see §0 and §9).
+GitHub Actions, GitHub Pages. **End-to-end tests: Playwright** instead of
+Cypress, because the Cypress download is blocked here (see §0 and §9).
 
 ## 6. File structure
 
@@ -231,10 +231,10 @@ using the workflow's own temporary token (it's never printed).
 - Sandbox: https://github.com/GonzaSSH/dora-sandbox
 - Live demo: https://gonzassh.github.io/dora-dashboard/
 
-## 9. Open questions (asked in chat)
+## 9. Decisions (answered by the delivery lead)
 
-1. E2E tool: Playwright (recommended) or Cypress?
-2. Getting work into `main`: you merge pull requests, or I may push to `main` directly?
-3. Default window: last 90 days?
-4. Approve force-pushing the scripted history to `dora-sandbox`'s `main`
-   (it's a throwaway test repo; rerunning the script rewrites it)?
+1. E2E tool: **Playwright**. Cypress can't be downloaded in this environment;
+   Playwright runs both here and in CI.
+2. Getting work into `main`: **I open pull requests; the delivery lead merges them.**
+3. Default window: **last 90 days.**
+4. Force-pushing the scripted history to `dora-sandbox`'s `main`: **approved.**
