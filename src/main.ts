@@ -10,7 +10,7 @@ const SANDBOX = { repo: 'GonzaSSH/dora-sandbox', from: '2026-01-01', to: '2026-0
 const DAY = 86_400_000;
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
-const form = $<HTMLFormElement>('form');
+const form = $<HTMLElement>('form');
 const repoIn = $<HTMLInputElement>('repo');
 const fromIn = $<HTMLInputElement>('from');
 const toIn = $<HTMLInputElement>('to');
@@ -106,9 +106,13 @@ async function analyse(): Promise<void> {
   }
 }
 
-form.addEventListener('submit', (e) => {
-  e.preventDefault();
-  void analyse();
+goBtn.addEventListener('click', () => void analyse());
+// Enter in any text box runs the analysis (the page has no <form>, see index.html).
+form.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && e.target instanceof HTMLInputElement && e.target.type !== 'checkbox') {
+    e.preventDefault();
+    void analyse();
+  }
 });
 $<HTMLButtonElement>('demo').addEventListener('click', () => {
   repoIn.value = SANDBOX.repo;

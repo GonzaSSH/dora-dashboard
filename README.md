@@ -43,7 +43,7 @@ outcome, not the typing, so they're how you tell whether AI is actually helping 
 
 | Metric | The question it answers | Strong | Weak |
 |---|---|---|---|
-| **Deployment frequency** | How often does the team ship? | every working day or more | less than once a month |
+| **Deployment frequency** | How often does the team ship? | daily or more | less than once a month |
 | **Change lead time** | How long does a change wait before users get it? | under a day | over a month |
 | **Change failure rate** *(proxy)* | How often does a release go wrong? | under 15% | over 30% |
 | **Failed deployment recovery time** *(proxy)* | When a release goes wrong, how fast is it fixed? | under a day | over a week |

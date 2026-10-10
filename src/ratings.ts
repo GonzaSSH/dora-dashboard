@@ -4,8 +4,8 @@ export type Rating = 'strong' | 'middle' | 'weak';
 
 const DAY = 24;
 const BANDS: Record<MetricKey, { strong: (v: number) => boolean; weak: (v: number) => boolean }> = {
-  // per week: every working day or more / less than once a month
-  deploymentFrequency: { strong: (v) => v >= 5, weak: (v) => v < 7 / 30 },
+  // per week: daily or more / less than once a month
+  deploymentFrequency: { strong: (v) => v >= 7, weak: (v) => v < 7 / 30 },
   // hours
   leadTime: { strong: (v) => v < DAY, weak: (v) => v > 30 * DAY },
   changeFailureRate: { strong: (v) => v < 0.15, weak: (v) => v > 0.3 },

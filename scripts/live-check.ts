@@ -47,18 +47,45 @@ async function sandbox(): Promise<boolean> {
   return rows.every(([, e, a]) => e === a);
 }
 
-async function large(repo: string): Promise<boolean> {
+/** GitHub's own count of core API requests used this hour (this call itself is free). */
+async function usedByGitHub(withToken: boolean): Promise<{ used: number; remaining: number }> {
+  const headers: Record<string, string> = { Accept: 'application/vnd.github+json' };
+  if (withToken && token) headers.Authorization = `Bearer ${token}`;
+  const res = await fetch('https://api.github.com/rate_limit', { headers });
+  const body = (await res.json()) as { resources: { core: { used: number; remaining: number } } };
+  return body.resources.core;
+}
+
+async function largeRun(repo: string, useToken: boolean): Promise<boolean> {
   const end = new Date(Date.parse(new Date().toISOString().slice(0, 10)) + 86_400_000);
   const window = { start: new Date(end.getTime() - DEFAULT_WINDOW_DAYS * 86_400_000), end };
+  const before = await usedByGitHub(useToken);
   const started = Date.now();
-  const r = await runAnalysis({ repo, token, settings: DEFAULT_SETTINGS, window, budget: BUDGET_WITHOUT_TOKEN });
-  const secs = ((Date.now() - started) / 1000).toFixed(1);
-  console.log(`Live large-repo check: ${repo}, last ${DEFAULT_WINDOW_DAYS} days, source=${r.collected.source}`);
+  const r = await runAnalysis({ repo, token: useToken ? token : undefined, settings: DEFAULT_SETTINGS, window, budget: BUDGET_WITHOUT_TOKEN });
+  const secs = (Date.now() - started) / 1000;
+  const after = await usedByGitHub(useToken);
+  // GitHub's counter is the independent check: it counts every request the app really made.
+  const counted = after.used - before.used;
+  console.log(`\nLive large-repo check (${useToken ? 'with token, capped at the anonymous budget' : 'NO token'}): ${repo}, last ${DEFAULT_WINDOW_DAYS} days, source=${r.collected.source}`);
   console.table(show(r));
-  console.log(`Finished in ${secs}s using ${r.requestsUsed} requests (cap ${BUDGET_WITHOUT_TOKEN}, GitHub's anonymous limit is 60/hour).`);
+  console.log(`Finished in ${secs.toFixed(1)}s. App counted ${r.requestsUsed} requests; GitHub counted ${counted} (cap ${BUDGET_WITHOUT_TOKEN}, anonymous limit 60/hour).`);
   console.log(`Change details fetched for ${r.collected.changesFetched} of ${r.collected.changesNeeded} deployments.`);
   for (const n of r.collected.notices) console.log(`Notice: ${n}`);
-  return r.requestsUsed <= BUDGET_WITHOUT_TOKEN && r.metrics.deploymentFrequency.count > 0;
+  return counted <= BUDGET_WITHOUT_TOKEN && counted > 0 && secs < 120 && r.metrics.deploymentFrequency.count > 0;
+}
+
+async function large(repo: string): Promise<boolean> {
+  let ok = true;
+  if (token) ok = (await largeRun(repo, true)) && ok;
+  // A genuinely anonymous run, when this machine's shared anonymous allowance has room for it.
+  const anon = await usedByGitHub(false);
+  if (anon.remaining >= BUDGET_WITHOUT_TOKEN) {
+    ok = (await largeRun(repo, false)) && ok;
+  } else {
+    console.log(`\nAnonymous run skipped: this machine's IP has only ${anon.remaining} anonymous requests left this hour (CI machines share IPs).`);
+    if (!token) ok = false;
+  }
+  return ok;
 }
 
 try {

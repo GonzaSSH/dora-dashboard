@@ -18,11 +18,14 @@ export type ErrorKind =
 export class GitHubError extends Error {
   readonly kind: ErrorKind;
   readonly resetAt?: Date;
-  constructor(kind: ErrorKind, message: string, extra: { resetAt?: Date } = {}) {
+  /** Whether the failing request was made with a token (changes the advice shown). */
+  readonly withToken: boolean;
+  constructor(kind: ErrorKind, message: string, extra: { resetAt?: Date; withToken?: boolean } = {}) {
     super(message);
     this.name = 'GitHubError';
     this.kind = kind;
     this.resetAt = extra.resetAt;
+    this.withToken = extra.withToken ?? false;
   }
 }
 
@@ -69,10 +72,16 @@ export class GitHubClient {
   }
 
   async get<T>(path: string): Promise<T> {
-    if (this.requestsLeft <= 0) {
-      throw new GitHubError('budget', 'Request budget used up');
+    // GitHub's own hourly limit is reported as the rate limit; our self-imposed cap as the budget.
+    if (this.rateLimit && this.rateLimit.remaining <= 0) {
+      throw new GitHubError('rate-limit', 'GitHub rate limit reached', { resetAt: this.rateLimit.resetAt, withToken: this.hasToken });
+    }
+    if (this.requestsUsed >= this.budget) {
+      throw new GitHubError('budget', 'Request budget used up', { withToken: this.hasToken });
     }
     this.requestsUsed++;
+    // Count down locally too, in case a response arrives without rate-limit headers.
+    if (this.rateLimit) this.rateLimit = { ...this.rateLimit, remaining: this.rateLimit.remaining - 1 };
     this.#onRequest?.(this.requestsUsed);
     const headers: Record<string, string> = { Accept: 'application/vnd.github+json' };
     if (this.#token) headers.Authorization = `Bearer ${this.#token}`;
@@ -99,7 +108,7 @@ export class GitHubClient {
       const reset = Number(res.headers.get('x-ratelimit-reset'));
       const retry = Number(res.headers.get('retry-after'));
       const resetAt = reset ? new Date(reset * 1000) : retry ? new Date(Date.now() + retry * 1000) : undefined;
-      throw new GitHubError('rate-limit', 'GitHub rate limit reached', { resetAt });
+      throw new GitHubError('rate-limit', 'GitHub rate limit reached', { resetAt, withToken: this.hasToken });
     }
     // Error text below is ours, never GitHub's, so nothing echoed back can leak.
     if (res.status === 401) throw new GitHubError('bad-token', 'GitHub rejected the token (401)');

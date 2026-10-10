@@ -4,7 +4,9 @@ import { rate } from '../../src/ratings';
 
 describe('rate', () => {
   it('deployment frequency: daily or more is strong, under monthly is weak', () => {
-    expect(rate('deploymentFrequency', 5)).toBe('strong');
+    // PLAN.md §2 says "daily or more" = 7 per week (review finding 6).
+    expect(rate('deploymentFrequency', 7)).toBe('strong');
+    expect(rate('deploymentFrequency', 5)).toBe('middle');
     expect(rate('deploymentFrequency', 56 / 90)).toBe('middle');
     expect(rate('deploymentFrequency', 0.2)).toBe('weak');
   });

@@ -67,7 +67,8 @@ describe('GitHubClient errors', () => {
     });
     await c.get('/x');
     await c.get('/y');
-    expect((await errorOf(c.get('/z'))).kind).toBe('budget');
+    // GitHub's own limit is reported as the rate limit (PLAN.md §3, review finding 2).
+    expect((await errorOf(c.get('/z'))).kind).toBe('rate-limit');
     expect(calls).toBe(2);
   });
 });

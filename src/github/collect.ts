@@ -24,6 +24,21 @@ interface CompareJson {
 }
 
 const MAX_RELEASE_PAGES = 10;
+const STALE_LINES_TO_STOP = 3;
+
+function lineOf(name: string): string | null {
+  const v = parseVersion(name);
+  return v ? `${v.major}.${v.minor}` : null;
+}
+
+async function tagDate(client: GitHubClient, base: string, obj: { sha: string; type: string }): Promise<Date> {
+  if (obj.type === 'tag') {
+    const tag = await client.get<{ tagger: { date: string } }>(`${base}/git/tags/${obj.sha}`);
+    return new Date(tag.tagger.date);
+  }
+  const commit = await client.get<{ committer: { date: string } }>(`${base}/git/commits/${obj.sha}`);
+  return new Date(commit.committer.date);
+}
 
 export async function collect(client: GitHubClient, ref: RepoRef, settings: Settings, window: TimeWindow): Promise<Collected> {
   const base = `/repos/${ref.owner}/${ref.name}`;
@@ -59,7 +74,7 @@ export async function collect(client: GitHubClient, ref: RepoRef, settings: Sett
   }
 
   let fetched = 0;
-  let budgetHit = false;
+  let stoppedBy: 'budget' | 'rate-limit' | null = null;
   let noPredecessor = 0;
   for (const d of targets) {
     const pred = findPredecessor(d, deployments);
@@ -73,8 +88,8 @@ export async function collect(client: GitHubClient, ref: RepoRef, settings: Sett
       d.changesTruncated = cmp.total_commits > cmp.commits.length;
       fetched++;
     } catch (e) {
-      if (e instanceof GitHubError && e.kind === 'budget') {
-        budgetHit = true;
+      if (e instanceof GitHubError && (e.kind === 'budget' || e.kind === 'rate-limit')) {
+        stoppedBy = e.kind;
         break;
       }
       if (e instanceof GitHubError && e.kind === 'not-found') continue;
@@ -83,10 +98,15 @@ export async function collect(client: GitHubClient, ref: RepoRef, settings: Sett
   }
 
   const needed = targets.length - noPredecessor;
-  if (budgetHit) {
+  if (stoppedBy === 'budget') {
     notices.push(
       `Change details were fetched for ${fetched} of ${needed} deployments (the newest ones) to stay within ` +
         `GitHub's hourly limit. Lead time, revert detection and rework use this sample. Add a token for the full picture.`,
+    );
+  } else if (stoppedBy === 'rate-limit') {
+    notices.push(
+      `GitHub's hourly limit ran out after change details for ${fetched} of ${needed} deployments (the newest ones). ` +
+        `Lead time, revert detection and rework use this sample. Run again after the limit resets for the full picture.`,
     );
   }
   if (noPredecessor > 0) {
@@ -114,6 +134,7 @@ function toChange(c: CompareJson['commits'][number]): Change {
 async function listReleases(client: GitHubClient, base: string, settings: Settings, versionRe: RegExp, window: TimeWindow) {
   const found: Deployment[] = [];
   let rawCount = 0;
+  let pastWindow = false;
   for (let page = 1; page <= MAX_RELEASE_PAGES; page++) {
     const list = await client.get<ReleaseJson[]>(`${base}/releases?per_page=100&page=${page}`);
     rawCount += list.length;
@@ -123,9 +144,11 @@ async function listReleases(client: GitHubClient, base: string, settings: Settin
       if (!versionRe.test(r.tag_name)) continue;
       found.push({ name: r.tag_name, time: new Date(r.published_at), changes: null, changesTruncated: false });
     }
-    if (list.length < 100) break;
+    if (list.length < 100 || pastWindow) break;
+    // Read one more page after reaching the window start, so the predecessors of the
+    // earliest releases (often on older version lines) are known.
     const oldest = Math.min(...list.map((r) => Date.parse(r.published_at ?? '') || Infinity));
-    if (oldest < window.start.getTime()) break;
+    if (oldest < window.start.getTime()) pastWindow = true;
   }
   return { found, rawCount };
 }
@@ -149,30 +172,39 @@ async function listTags(client: GitHubClient, base: string, versionRe: RegExp, w
     return va ? -1 : vb ? 1 : a.name.localeCompare(b.name);
   });
 
+  // Read dates newest version first, one version line (major.minor) at a time. Within a line,
+  // the first tag older than the window is the predecessor of everything above it, so the rest
+  // of that line is skipped. Older lines can still carry backports released inside the window,
+  // so lines are read until three in a row turn out to be entirely older than the window.
   const out: Deployment[] = [];
-  let reachedBeforeWindow = false;
+  let staleLines = 0;
+  let currentLine: string | null = null;
+  let lineDone = false;
   for (const t of names) {
-    const isVersion = parseVersion(t.name) !== null;
-    if (reachedBeforeWindow && isVersion) continue;
+    const v = parseVersion(t.name);
+    const line = v ? `${v.major}.${v.minor}` : null;
+    if (line !== null && line !== currentLine) {
+      currentLine = line;
+      lineDone = staleLines >= STALE_LINES_TO_STOP; // older lines are skipped entirely
+    }
+    if (line !== null && lineDone) continue;
     let time: Date;
     try {
-      if (t.obj.type === 'tag') {
-        const tag = await client.get<{ tagger: { date: string } }>(`${base}/git/tags/${t.obj.sha}`);
-        time = new Date(tag.tagger.date);
-      } else {
-        const commit = await client.get<{ committer: { date: string } }>(`${base}/git/commits/${t.obj.sha}`);
-        time = new Date(commit.committer.date);
-      }
+      time = await tagDate(client, base, t.obj);
     } catch (e) {
       if (e instanceof GitHubError && e.kind === 'budget') {
-        throw new GitHubError('budget', 'Too many tags to read without a token');
+        throw new GitHubError('budget', 'Too many tags to read without a token', { withToken: client.hasToken });
       }
       throw e;
     }
+    const isNewestOfLine = line !== null && !out.some((d) => lineOf(d.name) === line);
     out.push({ name: t.name, time, changes: null, changesTruncated: false });
-    // Versions are read newest first, so the first one older than the window is the
-    // predecessor of the window's earliest deployment; older ones aren't needed.
-    if (isVersion && time < window.start) reachedBeforeWindow = true;
+    if (line !== null && time < window.start) {
+      lineDone = true;
+      staleLines = isNewestOfLine ? staleLines + 1 : 0;
+    } else if (line !== null && isNewestOfLine) {
+      staleLines = 0;
+    }
   }
   return out;
 }

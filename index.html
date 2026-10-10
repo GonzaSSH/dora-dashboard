@@ -18,7 +18,8 @@
     </header>
 
     <main class="wrap">
-      <form id="form" class="card" novalidate>
+      <!-- Deliberately not a <form>: browsers then never offer to save the token. -->
+      <div id="form" class="card" role="search">
         <div class="row">
           <label class="grow">
             <span>Repository</span>
@@ -37,7 +38,7 @@
           </label>
           <label class="grow">
             <span>GitHub token <em>(optional)</em></span>
-            <input id="token" type="password" autocomplete="off" spellcheck="false"
+            <input id="token" type="text" class="masked" autocomplete="off" autocapitalize="off" spellcheck="false"
               placeholder="Paste a token for large repos" data-testid="token-input" data-1p-ignore data-lpignore="true" />
           </label>
         </div>
@@ -108,10 +109,10 @@
         </details>
 
         <div class="actions">
-          <button type="submit" id="go" class="primary" data-testid="analyse">Analyse</button>
+          <button type="button" id="go" class="primary" data-testid="analyse">Analyse</button>
           <button type="button" id="demo" class="link" data-testid="demo">Try it on the test repository</button>
         </div>
-      </form>
+      </div>
 
       <p id="status" class="status" role="status" aria-live="polite" data-testid="status"></p>
       <div id="error" class="card error" role="alert" hidden data-testid="error"></div>

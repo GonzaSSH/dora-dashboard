@@ -92,8 +92,15 @@ export function renderResults(el: HTMLElement, r: RunResult, window: TimeWindow)
     ? h('ul', { class: 'notices', 'data-testid': 'notices' }, ...r.collected.notices.map((n) => h('li', {}, n)))
     : null;
 
+  const { changesFetched, changesNeeded } = r.collected;
+  const sampled = changesFetched < changesNeeded;
   const grid = h('div', { class: 'tiles' }, ...ORDER.map((key) => {
     const e = EXPLANATIONS[key];
+    // Deployment frequency never depends on change details; the others partly do.
+    const sampleNote = sampled && key !== 'deploymentFrequency'
+      ? h('p', { class: 'sample', 'data-testid': `sample-${key}` },
+        `Based on a sample of ${changesFetched} of ${changesNeeded} deployments (see note above).`)
+      : null;
     return h('article', { class: 'tile', 'data-testid': `metric-${key}` },
       h('div', { class: 'tile-head' },
         h('h3', {}, e.title),
@@ -102,6 +109,7 @@ export function renderResults(el: HTMLElement, r: RunResult, window: TimeWindow)
       valueEl(key, t[key].value),
       ratingChip(key, t[key].raw),
       h('p', { class: 'sub' }, t[key].sub),
+      sampleNote,
       h('details', {},
         h('summary', {}, 'How this was worked out'),
         h('p', {}, e.how),

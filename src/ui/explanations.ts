@@ -16,7 +16,7 @@ export const EXPLANATIONS: Record<MetricKey, Explanation> = {
     title: 'Deployment frequency',
     question: 'How often does the team ship?',
     meaning: 'How many times per week a new version was released. Shipping small changes often is less risky than shipping big batches rarely.',
-    good: 'Strong: every working day or more.',
+    good: 'Strong: daily or more.',
     bad: 'Weak: less than once a month.',
     how: 'Number of releases in the period ÷ number of weeks in the period.',
     proxy: null,

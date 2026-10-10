@@ -33,10 +33,15 @@ export function messageFor(err: unknown): UserMessage {
         detail: 'We found no releases or version tags in the selected dates. Try a longer period, or change "What counts as a deployment" under Settings.',
       };
     case 'rate-limit':
-      return {
-        title: "GitHub's hourly limit is used up",
-        detail: `Without a token GitHub allows 60 requests per hour. It resets at about ${time(err.resetAt)}. To continue now, add a GitHub token (see "Why a token?").`,
-      };
+      return err.withToken
+        ? {
+            title: "Your token's hourly limit is used up",
+            detail: `GitHub allows 5,000 requests per hour with a token. It resets at about ${time(err.resetAt)}; please try again then.`,
+          }
+        : {
+            title: "GitHub's hourly limit is used up",
+            detail: `Without a token GitHub allows 60 requests per hour. It resets at about ${time(err.resetAt)}. To continue now, add a GitHub token (see "Why a token?").`,
+          };
     case 'network':
       return {
         title: "Couldn't reach GitHub",
@@ -57,7 +62,7 @@ export function messageFor(err: unknown): UserMessage {
     case 'budget':
       return {
         title: 'This repository is too large to read without a token',
-        detail: 'Listing its versions alone needs more requests than GitHub allows per hour without a token. Add a token, or shorten the period.',
+        detail: 'It has so many version tags that just reading their dates needs more requests than GitHub allows per hour without a token. Add a GitHub token (see "Why a token?") to analyse it.',
       };
   }
 }

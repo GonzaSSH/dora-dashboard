@@ -12,7 +12,8 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: 0,
-  reporter: process.env.CI ? [['list'], ['html', { open: 'never' }]] : 'list',
+  // No HTML report for the smoke test: its steps include the token typed into the page.
+  reporter: process.env.CI && !smokeUrl ? [['list'], ['html', { open: 'never' }]] : 'list',
   use: {
     baseURL: smokeUrl ?? 'http://localhost:4173/',
     trace: 'retain-on-failure',
