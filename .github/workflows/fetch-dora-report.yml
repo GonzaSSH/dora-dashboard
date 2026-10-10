@@ -9,14 +9,15 @@ jobs:
   fetch:
     runs-on: ubuntu-latest
     steps:
-      - name: DORA Quick Check 2025 benchmark data and licence
+      - name: DORA Quick Check 2025 data - files, licence, scale, distributions
         run: |
           git clone -q --depth 1 https://github.com/dora-team/dora.dev site
           cd site
-          echo "=== LICENSE files"; ls LICENSE* 2>/dev/null; head -5 LICENSE* 2>/dev/null
-          echo "=== 2025 data files"; find . -path '*2025*' -name '*.json' | head -30
-          for f in $(find . -path '*editions/2025*' -name '*.json' | head -10); do echo "################ $f"; head -c 6000 "$f"; echo; done
-          echo "=== Quick Check question text for deployment frequency and lead time"
-          grep -rn -i -E 'deploy.*frequen|lead time|how often' svelte/quick-check/src --include=*.json --include=*.ts --include=*.svelte | head -40
-          echo "=== Licence statements in the quick-check app"
-          grep -rn -i -E 'CC BY|creative commons|license' svelte/quick-check --include=*.md --include=*.json --include=*.svelte | head -20
+          echo "=== top-level licence files"; ls | grep -i -E 'licen|copying' ; for f in $(ls | grep -i -E 'licen|copying'); do head -8 "$f"; done
+          echo "=== all files under quick-check data"; find svelte/quick-check/src/lib/data -type f | head -40
+          echo "=== metrics_details.json"; cat svelte/quick-check/src/lib/data/metrics_details.json | head -c 5000; echo
+          echo "=== any file mentioning distribution / percent / respondents in quick-check"
+          grep -rl -i -E 'distribution|percent|respondent|histogram|quantile|percentile' svelte/quick-check/src | head -20
+          echo "=== 2025 edition files (sizes)"; ls -la svelte/quick-check/src/lib/data/editions/2025/ 2>/dev/null
+          echo "=== first 40 lines of industry_metrics.json"; head -40 svelte/quick-check/src/lib/data/editions/2025/industry_metrics.json
+          echo "=== README sections about scale and benchmarks"; grep -n -i -A3 -E 'scale|benchmark|0-10|normaliz' svelte/quick-check/README.md | head -60
