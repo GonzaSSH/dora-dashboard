@@ -3,10 +3,11 @@
 **See how well any public GitHub project delivers software, in plain language.**
 
 **Live demo: https://gonzassh.github.io/dora-dashboard/**
-· [Try it on the test repository](https://gonzassh.github.io/dora-dashboard/?repo=GonzaSSH/dora-sandbox&from=2026-01-01&to=2026-03-31)
-· [Try it on grafana/grafana](https://gonzassh.github.io/dora-dashboard/?repo=grafana/grafana)
+· [Example: the test repository](https://gonzassh.github.io/dora-dashboard/?demo=sandbox)
+· [Example: angular/angular](https://gonzassh.github.io/dora-dashboard/?demo=angular)
+· [This dashboard, measured by itself](https://gonzassh.github.io/dora-dashboard/?repo=GonzaSSH/dora-dashboard)
 
-Type a repository like `grafana/grafana` and get the five
+Type a repository like `angular/angular` and get the five
 [DORA](https://dora.dev/guides/dora-metrics/) software delivery metrics, each with a
 short plain-language explanation. It runs entirely in your browser:
 no sign-up, no server, nothing stored.
@@ -21,17 +22,30 @@ how fast a change reaches users, how often a release breaks, how fast you recove
 how much work is unplanned fixing.
 
 AI assistants make writing code much faster, but code written isn't value delivered.
-More, faster changes can mean bigger batches, more failed releases and more rework if
-testing and release practices don't keep up. DORA's
-[2024 research](https://dora.dev/research/2024/dora-report/) found that teams using more
-AI saw slightly *lower* delivery throughput and stability. DORA metrics measure the
-outcome, not the typing, so they're how you tell whether AI is actually helping a team ship.
+
+**DORA's 2025 research changes the picture from 2024.** The
+[2025 DORA report](https://dora.dev/research/2025/dora-report/) (*State of AI-assisted
+Software Development*) found that
+["higher AI adoption is associated with an increase in both software delivery throughput and software delivery instability"](https://dora.dev/insights/balancing-ai-tensions/).
+That is a change from the [2024 report](https://dora.dev/research/2024/dora-report/), where
+more AI went with *lower* throughput as well as lower stability.
+
+DORA's conclusion: "AI's primary role in software development is that of an amplifier. It
+magnifies the strengths of high-performing organizations and the dysfunctions of
+struggling ones."
+
+So AI now helps teams ship faster, but not necessarily more safely. That trade-off is
+exactly what DORA metrics measure: throughput (frequency, lead time) next to stability
+(failures, recovery, rework). They measure the outcome, not the typing, so they're how
+you tell whether AI is actually helping a team ship.
 
 ## How to use it
 
 1. Open the [live demo](https://gonzassh.github.io/dora-dashboard/).
 2. In **Repository**, type the project's GitHub name as `owner/name`, for example
-   `grafana/grafana`. You can also paste its GitHub address.
+   `angular/angular`. You can also paste its GitHub address. Or click one of the
+   **Saved examples**: they load instantly and use none of your GitHub allowance (the page
+   says when a result is saved, and **Analyse** fetches live data).
 3. Choose the **From** and **To** dates. The default is the last 90 days.
 4. Click **Analyse**. A small project takes a few seconds; a very busy one up to about 30.
 5. Read the five tiles. Open **How this was worked out** under any tile, or the list of
@@ -62,6 +76,7 @@ Compare a team with its own past, not with other teams.
 | "GitHub's hourly limit is used up" | GitHub allows 60 requests per hour without a token. Wait until the time shown, or add a token (below). |
 | "Couldn't reach GitHub" | Check your internet connection. Some company networks block GitHub's API. |
 | A yellow note saying a **sample** was used | The project is so busy that, without a token, only the newest releases were examined in detail. Add a token for the full picture. |
+| "Only N releases in this period" | Too few releases for the numbers to mean much. They are still shown; pick a longer period for a better picture. |
 
 **Adding a token (optional).** On GitHub open *Settings → Developer settings → Personal
 access tokens → Fine-grained tokens → Generate new token*, choose "Public repositories"
@@ -130,16 +145,31 @@ Full definitions are in [PLAN.md](PLAN.md#2-the-five-metrics-exact-formulas). In
   normal releases, two failures with recoveries and a rework release. The expected value
   of every metric was worked out **by hand before any metric code was written**:
   [sandbox/EXPECTED.md](sandbox/EXPECTED.md).
-- **Unit tests** (Vitest, 65 tests) check that every metric equals EXPECTED.md exactly,
+- **Unit tests** (Vitest, 88 tests) check that every metric equals EXPECTED.md exactly,
   plus the edge cases of each rule, every error case and that the token is never leaked.
   They run offline against recorded GitHub responses.
-- **End-to-end tests** (Playwright, desktop and phone sizes) drive the real page: the full
-  flow, changing settings, the token never being stored, and each error message.
+- **End-to-end tests** (Playwright, 22 scenarios on desktop and phone sizes) drive the real page:
+  - the full flow, and changing settings;
+  - the token never being stored;
+  - each error message;
+  - saved demo results making zero GitHub requests.
 - **Live checks** run against the real GitHub API: the real sandbox must match
   EXPECTED.md, and `grafana/grafana` must finish within the request budget.
+- **Saved demo results** are checked too: the sandbox snapshot must equal EXPECTED.md and
+  be exactly what the current code produces.
 - **CI** ([workflow](.github/workflows/ci.yml)) runs all of the above on every push,
   then deploys to GitHub Pages and checks the deployed site shows the expected numbers.
 - An **independent AI review** checked the code against the plan and the expected values. It found 7 gaps (e.g. backport releases on older version lines being missed, and the wrong message when GitHub's limit ran out mid-run); each got a regression test and a fix.
+
+## This dashboard, measured by itself
+
+The dashboard's own releases (v1.0.0, v1.1.0) are GitHub Releases, so it can measure itself:
+[open it here](https://gonzassh.github.io/dora-dashboard/?repo=GonzaSSH/dora-dashboard).
+
+Honestly, two releases are far too few for meaningful numbers, and the page says so
+("Only 2 releases in this period"). The first release has no earlier version to compare
+with, so lead time comes from v1.1.0 alone. It becomes meaningful after a few months of
+releases.
 
 ## Built with Claude Code
 
