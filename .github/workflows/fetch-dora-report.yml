@@ -1,0 +1,34 @@
+# One-off: read the DORA 2025 report from dora.dev (the Claude Code session can't reach it).
+# Prints the report's pages and passages about AI, throughput and (in)stability.
+name: Fetch DORA 2025 report
+on:
+  push:
+    branches: [claude/fetch-dora-report]
+permissions:
+  contents: read
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install tools
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils >/dev/null
+      - name: Find the report on dora.dev
+        run: |
+          set -e
+          for u in https://dora.dev/research/2025/dora-report/ https://dora.dev/research/2025/ https://dora.dev/research/; do
+            echo "=== $u"; curl -sSL --max-time 30 "$u" -o page.html -w "HTTP %{http_code}\n" || true
+            grep -oE 'href="[^"]+"' page.html | sed 's/href=//; s/"//g' | grep -iE '2025|pdf|report' | sort -u | head -40
+          done
+      - name: Download the PDF and extract text
+        run: |
+          set -e
+          PDF=$(curl -sSL https://dora.dev/research/2025/dora-report/ | grep -oE 'https?://[^"]+\.pdf' | head -1 || true)
+          [ -z "$PDF" ] && PDF=$(curl -sSL https://dora.dev/research/2025/ | grep -oE 'https?://[^"]+\.pdf' | head -1 || true)
+          echo "PDF: $PDF"
+          [ -n "$PDF" ] || { echo "No PDF link found"; exit 0; }
+          curl -sSL "$PDF" -o report.pdf && pdfinfo report.pdf | head -20
+          pdftotext -layout report.pdf report.txt
+          echo "=== Passages mentioning throughput or instability together with AI (page numbers by form feed)"
+          awk 'BEGIN{p=1} /\f/{p++} {print p": "$0}' report.txt | grep -iE 'throughput|instabilit|stability' | grep -iE 'AI|adoption' | head -80
+          echo "=== Key findings section (first 400 lines mentioning 'key finding')"
+          grep -n -i -A25 'key findings' report.txt | head -200
