@@ -180,6 +180,37 @@ explanation, the "Proxy" label, and one sentence on what makes it higher or lowe
 - **Definitions used.** A line under the tiles lists the active rules; ones that differ from
   the defaults are marked "(changed)".
 
+## 2c. Context on the tiles (v1.3)
+
+Worked examples and exact rules: sandbox/EXPECTED.md, "Context on the tiles (v1.3)".
+
+- **Sentence** on every tile, generated from the value (`src/context/sentences.ts`).
+  Durations: "less than an hour" under 1 h, hours under 48 h, days under 14 days, weeks under
+  60 days, else months. Shares: "about 1 in k" when that is within 10% of the exact share,
+  else "f of n". Own wording for zero, one and not enough data.
+- **Previous period** of equal length ending where the window starts, same settings,
+  automatic detection (manual corrections apply to the current period only).
+  - Measured after the current period with the same client and budget. The client remembers
+    successful responses, so listings and tag dates already read are free.
+  - Fewer than 5 releases in it: "Not compared: the previous N days had only M releases (at
+    least 5 are needed)." Change details aren't fetched then.
+  - Budget or rate limit runs out while listing: every tile says the comparison needs a
+    token. Runs out while fetching change details: deployment frequency is compared, the
+    other four say it needs a token. The current period is never affected.
+  - Direction is decided on the shown values; equal shown values say "about the same".
+- **DORA 2025 context** on deployment frequency and lead time only (`src/context/dora2025.ts`),
+  from *State of AI-assisted Software Development 2025* (v2025.2), page 20, Figures 11 and 12,
+  "Top %" column; licence CC BY-NC-SA 4.0 (report page 141), linked on the tile with the
+  source. The band containing the value gives "About X% of surveyed teams ship this often or
+  more" / "have this lead time or shorter". The "on demand" band can't be told apart from
+  "daily" with release data, so daily-or-more uses the hourly–daily figure (22.7%). Always
+  with the note "DORA surveys mostly teams running services. Libraries release on a different
+  rhythm."
+- **Proxies:** no distribution; one line says the survey asks about real incidents while
+  this is estimated from public release patterns.
+- **Snapshots** store the previous period. Live demos are saved with a token (budget 1000)
+  and the page says "saved with a GitHub token"; the sandbox stays on the anonymous budget.
+
 ## 3. GitHub API usage and rate limits
 
 - **Without a token:** 60 requests per hour. The app keeps a **request budget**
