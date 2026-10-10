@@ -49,26 +49,38 @@ describe('quick-patch failure rule', () => {
   });
 });
 
+// v1.1 (delivery lead's decision): a revert must name its target, and fails the release that
+// shipped it. Here commit 'feat: x' (id abc1234def) ships in v1.0.0.
+const REVERT_X = 'Revert "feat: x"\n\nThis reverts commit abc1234def.';
+const featX = (at: string): Change => ({ ...c('feat: x', at), sha: 'abc1234def' });
 describe('revert failure rule', () => {
-  it('blames the predecessor of the deployment that contains the revert', () => {
+  it('blames the release that shipped the reverted commit', () => {
     const r = analyse(
-      [dep('v1.0.0', '05T00:00'), dep('v1.1.0', '09T00:00', [c('Revert "feat: x"', '08T00:00')])],
+      [dep('v1.0.0', '05T00:00', [featX('04T00:00')]), dep('v1.1.0', '09T00:00', [c(REVERT_X, '08T00:00')])],
       WINDOW, DEFAULT_SETTINGS,
     );
     expect(r[0]!.failed).toBe(true);
     expect(r[0]!.remediation).toBe('v1.1.0');
     expect(r[1]!.rework).toBe(true);
   });
+  it('does not blame anything when the revert names no target (v1.1 rule)', () => {
+    const r = analyse(
+      [dep('v1.0.0', '05T00:00', [featX('04T00:00')]), dep('v1.1.0', '09T00:00', [c('Revert "feat: x"', '08T00:00')])],
+      WINDOW, DEFAULT_SETTINGS,
+    );
+    expect(r[0]!.failed).toBe(false);
+    expect(r[1]!.unmatchedReverts).toEqual(['Revert "feat: x"']);
+  });
   it('can be switched off', () => {
     const r = analyse(
-      [dep('v1.0.0', '05T00:00'), dep('v1.1.0', '09T00:00', [c('Revert "feat: x"', '08T00:00')])],
+      [dep('v1.0.0', '05T00:00', [featX('04T00:00')]), dep('v1.1.0', '09T00:00', [c(REVERT_X, '08T00:00')])],
       WINDOW, { ...DEFAULT_SETTINGS, useRevert: false },
     );
     expect(r[0]!.failed).toBe(false);
   });
   it('uses the earliest remediation when both rules fire', () => {
     const r = analyse(
-      [dep('v1.0.0', '05T00:00'), dep('v1.0.1', '05T05:00'), dep('v1.1.0', '05T03:00', [c('Revert "x"', '05T02:00')])],
+      [dep('v1.0.0', '05T00:00', [featX('04T00:00')]), dep('v1.0.1', '05T05:00'), dep('v1.1.0', '05T03:00', [c(REVERT_X, '05T02:00')])],
       WINDOW, DEFAULT_SETTINGS,
     );
     expect(r.find((d) => d.name === 'v1.0.0')!.remediation).toBe('v1.1.0');
@@ -87,27 +99,24 @@ describe('recovery time', () => {
   });
 });
 
+// v1.1 (delivery lead's decision): every patch release is rework, whatever its commits say.
 describe('rework rule', () => {
-  it('needs every change in a patch bump to be a fix', () => {
+  it('counts every patch release, whatever its commit messages', () => {
     const mixed = analyse(
       [dep('v1.0.0', '01T00:00'), dep('v1.0.1', '20T00:00', [c('fix: a', '19T00:00'), c('feat: b', '19T00:00')])],
       WINDOW, DEFAULT_SETTINGS,
     );
-    expect(mixed[1]!.rework).toBe(false);
-    const allFix = analyse(
-      [dep('v1.0.0', '01T00:00'), dep('v1.0.1', '20T00:00', [c('fix: a', '19T00:00'), c('hotfix(api)!: b', '19T00:00')])],
-      WINDOW, DEFAULT_SETTINGS,
-    );
-    expect(allFix[1]!.rework).toBe(true);
+    expect(mixed[1]!.rework).toBe(true);
+    expect(mixed[1]!.reworkReason).toMatch(/patch release/i);
   });
   it('does not count a minor bump of fixes as rework', () => {
     const r = analyse([dep('v1.0.0', '01T00:00'), dep('v1.1.0', '20T00:00', [c('fix: a', '19T00:00')])],
       WINDOW, DEFAULT_SETTINGS);
     expect(r[1]!.rework).toBe(false);
   });
-  it('does not count a deployment with unknown changes', () => {
+  it('counts a patch release even when its changes are unknown (it depends only on the version)', () => {
     const r = analyse([dep('v1.0.0', '01T00:00'), dep('v1.0.1', '20T00:00', null)], WINDOW, DEFAULT_SETTINGS);
-    expect(r[1]!.rework).toBe(false);
+    expect(r[1]!.rework).toBe(true);
   });
 });
 

@@ -1,7 +1,7 @@
 // Full user flow against the recorded sandbox: values must match sandbox/EXPECTED.md.
 import { expect, test } from '@playwright/test';
 import { SANDBOX_URL, serveGitHub } from './fixtures';
-import { sandboxResponses } from '../tests/helpers/fixtures';
+import { prRevertResponses, sandboxResponses } from '../tests/helpers/fixtures';
 import { EXPECTED } from '../tests/expected';
 
 test('typing a repo and dates shows the five metrics from EXPECTED.md', async ({ page }) => {
@@ -23,7 +23,13 @@ test('typing a repo and dates shows the five metrics from EXPECTED.md', async ({
   for (const key of ['deploymentFrequency', 'leadTime']) {
     await expect(page.getByTestId(`proxy-${key}`)).toHaveCount(0);
   }
-  await expect(page.getByTestId('rating-reworkRate')).toContainText('Weak');
+  // v1.1: only the two measured metrics carry a rough-guide rating; proxies explain what moves them.
+  await expect(page.getByTestId('rating-deploymentFrequency')).toContainText('In between');
+  await expect(page.getByTestId('rating-leadTime')).toContainText('In between');
+  for (const key of ['changeFailureRate', 'recoveryTime', 'reworkRate']) {
+    await expect(page.getByTestId(`rating-${key}`)).toHaveCount(0);
+    await expect(page.getByTestId(`drivers-${key}`)).toContainText(/goes up|gets shorter/);
+  }
   await expect(page.getByTestId('notices')).toContainText('no GitHub Releases');
   await expect(page.getByTestId('requests-used')).toHaveText('21 GitHub requests used');
   await expect(page.getByTestId('deployment-v1.2.0')).toContainText('Quick patch');
@@ -117,4 +123,13 @@ test('when GitHub\'s limit runs low, the sampled metrics say so', async ({ page 
   }
   await expect(page.getByTestId('sample-deploymentFrequency')).toHaveCount(0);
   await expect(page.getByTestId('value-deploymentFrequency')).toHaveText('0.62 per week');
+});
+
+test('reverts that name a pull request are matched, and unmatched ones are reported', async ({ page }) => {
+  await serveGitHub(page, prRevertResponses);
+  await page.goto('./?repo=example/pr-reverts&from=2026-01-01&to=2026-03-31');
+  await expect(page.getByTestId('value-changeFailureRate')).toHaveText('25%');
+  await expect(page.getByTestId('value-recoveryTime')).toHaveText('12.0 days');
+  await expect(page.getByTestId('deployment-v2.1.0')).toContainText('Revert');
+  await expect(page.getByTestId('notices')).toContainText('2 reverts could not be matched to a release');
 });
