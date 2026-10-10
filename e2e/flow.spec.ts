@@ -2,7 +2,7 @@
 import { expect, test } from '@playwright/test';
 import { SANDBOX_URL, serveGitHub } from './fixtures';
 import { prRevertResponses, sandboxResponses } from '../tests/helpers/fixtures';
-import { EXPECTED } from '../tests/expected';
+import { EXPECTED, SANDBOX_REQUESTS } from '../tests/expected';
 
 test('typing a repo and dates shows the five metrics from EXPECTED.md', async ({ page }) => {
   const gh = await serveGitHub(page);
@@ -31,7 +31,7 @@ test('typing a repo and dates shows the five metrics from EXPECTED.md', async ({
     await expect(page.getByTestId(`drivers-${key}`)).toContainText(/goes up|gets shorter/);
   }
   await expect(page.getByTestId('notices')).toContainText('no GitHub Releases');
-  await expect(page.getByTestId('requests-used')).toHaveText('21 GitHub requests used');
+  await expect(page.getByTestId('requests-used')).toHaveText(`${SANDBOX_REQUESTS} GitHub requests used`);
   await expect(page.getByTestId('deployment-v1.2.0')).toContainText('Quick patch');
   await expect(page.getByTestId('deployment-v1.3.0')).toContainText('Revert');
   expect(gh.unrecorded).toEqual([]);
@@ -43,13 +43,13 @@ test('the demo button runs the sandbox', async ({ page }) => {
   await serveGitHub(page);
   await page.goto('./');
   await page.getByTestId('demo').click();
-  await expect(page.getByTestId('value-changeFailureRate')).toHaveText('25%');
+  await expect(page.getByTestId('value-changeFailureRate')).toHaveText(EXPECTED.changeFailureRate.shown);
 });
 
 test('a shared link runs straight away', async ({ page }) => {
   await serveGitHub(page);
   await page.goto(`./${SANDBOX_URL}`);
-  await expect(page.getByTestId('value-leadTime')).toHaveText('3.0 days');
+  await expect(page.getByTestId('value-leadTime')).toHaveText(EXPECTED.leadTime.shown);
 });
 
 test('changing the failure settings changes the result', async ({ page }) => {
@@ -58,9 +58,10 @@ test('changing the failure settings changes the result', async ({ page }) => {
   await page.getByTestId('settings').locator('summary').click();
   await page.getByTestId('use-revert').uncheck();
   await page.getByTestId('demo').click();
-  // Only the quick-patch failure (v1.2.0) remains: 1 of 8.
-  await expect(page.getByTestId('value-changeFailureRate')).toHaveText('12.5%');
-  await expect(page.getByTestId('value-recoveryTime')).toHaveText('20 hours');
+  // Worked by hand from EXPECTED.md: without the revert rule v1.3.0 is no longer failed.
+  // Failures: v1.2.0, v1.5.0, v1.5.1 = 3 of 10 = 30%. Recoveries 20, 44, 22 h → median 22 h.
+  await expect(page.getByTestId('value-changeFailureRate')).toHaveText('30%');
+  await expect(page.getByTestId('value-recoveryTime')).toHaveText('22 hours');
 });
 
 test('the token is sent only to GitHub and never stored', async ({ page }) => {
@@ -106,23 +107,23 @@ test('pressing Enter in the repository box runs the analysis', async ({ page }) 
   await page.getByTestId('to-input').fill('2026-03-31');
   await page.getByTestId('repo-input').fill('GonzaSSH/dora-sandbox');
   await page.getByTestId('repo-input').press('Enter');
-  await expect(page.getByTestId('value-reworkRate')).toHaveText('37.5%');
+  await expect(page.getByTestId('value-reworkRate')).toHaveText(EXPECTED.reworkRate.shown);
 });
 
 test('when GitHub\'s limit runs low, the sampled metrics say so', async ({ page }) => {
-  // GitHub reports 15 requests left after the first call: 12 more list the deployments,
-  // leaving 3 change comparisons out of 8.
+  // GitHub reports 17 requests left after the first call: 14 more list the deployments
+  // (EXPECTED.md: 15 listing requests), leaving 3 change comparisons out of 10.
   const repoKey = '/repos/gonzassh/dora-sandbox';
-  const low = { ...sandboxResponses, [repoKey]: { ...sandboxResponses[repoKey]!, headers: { ...sandboxResponses[repoKey]!.headers, 'x-ratelimit-limit': '60', 'x-ratelimit-remaining': '15', 'x-ratelimit-reset': '1791748800' } } };
+  const low = { ...sandboxResponses, [repoKey]: { ...sandboxResponses[repoKey]!, headers: { ...sandboxResponses[repoKey]!.headers, 'x-ratelimit-limit': '60', 'x-ratelimit-remaining': '17', 'x-ratelimit-reset': '1791748800' } } };
   await serveGitHub(page, low);
   await page.goto(`./${SANDBOX_URL}`);
   await expect(page.getByTestId('results')).toBeVisible();
-  await expect(page.getByTestId('notices')).toContainText('3 of 8');
+  await expect(page.getByTestId('notices')).toContainText('3 of 10');
   for (const key of ['leadTime', 'changeFailureRate', 'recoveryTime', 'reworkRate']) {
-    await expect(page.getByTestId(`sample-${key}`)).toContainText('sample of 3 of 8');
+    await expect(page.getByTestId(`sample-${key}`)).toContainText('sample of 3 of 10');
   }
   await expect(page.getByTestId('sample-deploymentFrequency')).toHaveCount(0);
-  await expect(page.getByTestId('value-deploymentFrequency')).toHaveText('0.62 per week');
+  await expect(page.getByTestId('value-deploymentFrequency')).toHaveText(EXPECTED.deploymentFrequency.shown);
 });
 
 test('reverts that name a pull request are matched, and unmatched ones are reported', async ({ page }) => {
@@ -131,5 +132,10 @@ test('reverts that name a pull request are matched, and unmatched ones are repor
   await expect(page.getByTestId('value-changeFailureRate')).toHaveText('25%');
   await expect(page.getByTestId('value-recoveryTime')).toHaveText('12.0 days');
   await expect(page.getByTestId('deployment-v2.1.0')).toContainText('Revert');
-  await expect(page.getByTestId('notices')).toContainText('2 reverts could not be matched to a release');
+  // One collapsed line, expandable to see which reverts.
+  const unmatched = page.getByTestId('unmatched-reverts');
+  await expect(unmatched.locator('summary')).toHaveText('2 reverts could not be matched to a release');
+  await expect(unmatched.getByText('v2.3.0: Revert "chore: tidy"')).toBeHidden();
+  await unmatched.locator('summary').click();
+  await expect(unmatched.getByText('v2.3.0: Revert "chore: tidy"')).toBeVisible();
 });

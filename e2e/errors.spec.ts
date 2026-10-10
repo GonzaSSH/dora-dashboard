@@ -2,6 +2,7 @@
 import { expect, test } from '@playwright/test';
 import { errorFixtures, sandboxResponses } from '../tests/helpers/fixtures';
 import { serveGitHub } from './fixtures';
+import { EXPECTED } from '../tests/expected';
 
 async function analyse(page: import('@playwright/test').Page, repo: string, token = '') {
   await page.goto('./');
@@ -58,6 +59,6 @@ test('the app recovers after an error', async ({ page }) => {
   await expect(page.getByTestId('error')).toBeVisible();
   await page.getByTestId('repo-input').fill('GonzaSSH/dora-sandbox');
   await page.getByTestId('analyse').click();
-  await expect(page.getByTestId('value-changeFailureRate')).toHaveText('25%');
+  await expect(page.getByTestId('value-changeFailureRate')).toHaveText(EXPECTED.changeFailureRate.shown);
   await expect(page.getByTestId('error')).toBeHidden();
 });
