@@ -1,5 +1,7 @@
 import type { RunResult } from '../run';
-import type { TimeWindow } from '../types';
+import type { Settings, TimeWindow } from '../types';
+import type { Corrections } from '../metrics/corrections';
+import { DEFAULT_SETTINGS } from '../config';
 import { formatDuration, formatPercent, formatPerWeek } from '../format';
 import { isRated, rate, type MetricKey, type Rating } from '../ratings';
 import { EXPLANATIONS } from './explanations';
@@ -79,7 +81,21 @@ function ratingChip(key: MetricKey, raw: number | null): HTMLElement | null {
 /** Fewer deployments than this and the numbers say little (shown as a note, never hidden). */
 export const LOW_DATA_DEPLOYMENTS = 5;
 
-export function renderResults(el: HTMLElement, r: RunResult, window: TimeWindow, savedAt?: Date): void {
+export interface ViewOptions {
+  savedAt?: Date;
+  /** The settings the result was computed with (shown under "Definitions used"). */
+  settings: Settings;
+  corrections: Corrections;
+  /** Releases actually corrected, and corrections that couldn't be applied. */
+  corrected: string[];
+  ignored: string[];
+  tableOpen: boolean;
+  onCorrect: (name: string, choice: 'auto' | 'failed' | 'not-failed', fixedBy?: string | null) => void;
+  onReset: () => void;
+}
+
+export function renderResults(el: HTMLElement, r: RunResult, window: TimeWindow, o: ViewOptions): void {
+  const savedAt = o.savedAt;
   const lastDay = new Date(window.end.getTime() - 86_400_000);
   const t = tiles(r);
   const rl = r.rateLimit;
@@ -116,6 +132,19 @@ export function renderResults(el: HTMLElement, r: RunResult, window: TimeWindow,
     ? h('ul', { class: 'notices', 'data-testid': 'notices' }, lowData, ...r.collected.notices.map((m) => h('li', {}, m)), unmatchedItem)
     : null;
 
+  // Manual corrections (v1.2): one summary line above the tiles, with a reset button.
+  const resetBtn = h('button', { type: 'button', class: 'link', 'data-testid': 'reset-corrections' }, 'Reset corrections');
+  resetBtn.addEventListener('click', o.onReset);
+  const correctionsLine = o.corrected.length
+    ? h('p', { class: 'corrections', 'data-testid': 'corrections-summary' },
+      `${o.corrected.length} ${o.corrected.length === 1 ? 'release' : 'releases'} corrected by hand (${o.corrected.join(', ')}). `,
+      resetBtn)
+    : null;
+  const ignoredLine = o.ignored.length
+    ? h('p', { class: 'muted', 'data-testid': 'corrections-ignored' },
+      `Ignored correction for ${o.ignored.join(', ')}: not a release in this period, or the chosen fix is not a later release.`)
+    : null;
+
   const { changesFetched, changesNeeded } = r.collected;
   const sampled = changesFetched < changesNeeded;
   const grid = h('div', { class: 'tiles' }, ...ORDER.map((key) => {
@@ -135,6 +164,9 @@ export function renderResults(el: HTMLElement, r: RunResult, window: TimeWindow,
       h('p', { class: 'sub' }, t[key].sub),
       e.drivers ? h('p', { class: 'drivers', 'data-testid': `drivers-${key}` }, e.drivers) : null,
       sampleNote,
+      key === 'recoveryTime' && r.metrics.recoveryTime.unrecovered
+        ? h('p', { class: 'sample' }, `${r.metrics.recoveryTime.unrecovered} failed ${r.metrics.recoveryTime.unrecovered === 1 ? 'release was' : 'releases were'} not fixed in this period, so ${r.metrics.recoveryTime.unrecovered === 1 ? 'it is' : 'they are'} not in the median.`)
+        : null,
       h('details', {},
         h('summary', {}, 'How this was worked out'),
         h('p', {}, e.how),
@@ -142,27 +174,81 @@ export function renderResults(el: HTMLElement, r: RunResult, window: TimeWindow,
     );
   }));
 
+  const definitions = h('p', { class: 'definitions', 'data-testid': 'definitions' },
+    h('strong', {}, 'Definitions used: '),
+    ...describeSettings(o.settings).flatMap((d, i) => [
+      i > 0 ? ' · ' : '',
+      d.changed ? h('span', { class: 'changed' }, `${d.text} (changed)`) : d.text,
+    ]));
+
   const rows = [...r.analysed].reverse().map((d) => {
     const flags: string[] = [];
     if (d.failed) flags.push(`Failed: ${d.failureReason}`);
     if (d.rework) flags.push(`Rework: ${d.reworkReason}`);
-    return h('tr', { 'data-testid': `deployment-${d.name}` },
+    return h('tr', { 'data-testid': `deployment-${d.name}`, class: d.manuallyCorrected ? 'corrected' : undefined },
       h('td', {}, d.name),
       h('td', { class: 'num' }, utcDateTime(d.time)),
       h('td', {}, d.predecessor ?? '—'),
       h('td', { class: 'num' }, d.changes ? `${d.changes.length}${d.changesTruncated ? '+' : ''}` : 'not fetched'),
-      h('td', {}, flags.length ? flags.join(' · ') : '—'),
+      h('td', {},
+        d.manuallyCorrected ? h('span', { class: 'badge corrected-badge' }, 'manually corrected') : null,
+        d.manuallyCorrected ? ' ' : '',
+        flags.length ? flags.join(' · ') : '—'),
+      h('td', {}, correctionControls(d.name, r, o)),
     );
   });
-  const table = h('details', { class: 'card deployments' },
-    h('summary', {}, `All ${r.analysed.length} deployments in this period, with how each was classified`),
+  const table = h('details', { class: 'card deployments', open: o.tableOpen },
+    h('summary', {}, `All ${r.analysed.length} deployments in this period, with how each was classified (you can correct them)`),
+    h('p', { class: 'muted' },
+      'Disagree with a classification? Mark a release as failed or not failed, and for a failure pick the release that fixed it. ' +
+      'All five numbers update straight away, and the page address keeps your corrections so a shared link shows the same view.'),
     h('div', { class: 'table-scroll' },
       h('table', {},
-        h('thead', {}, h('tr', {}, h('th', {}, 'Version'), h('th', {}, 'Released'), h('th', {}, 'Compared with'), h('th', {}, 'Changes'), h('th', {}, 'Classification'))),
+        h('thead', {}, h('tr', {}, h('th', {}, 'Version'), h('th', {}, 'Released'), h('th', {}, 'Compared with'), h('th', {}, 'Changes'), h('th', {}, 'Classification'), h('th', {}, 'Correction'))),
         h('tbody', {}, ...rows))),
   );
 
-  el.replaceChildren(summary, ...(notices ? [notices] : []), grid, table);
+  el.replaceChildren(summary, ...([correctionsLine, ignoredLine, notices].filter((x) => x !== null) as HTMLElement[]), grid, definitions, table);
+}
+
+function correctionControls(name: string, r: RunResult, o: ViewOptions): HTMLElement {
+  const marked = o.corrections.failed.find((f) => f.name === name);
+  const choice = marked ? 'failed' : o.corrections.notFailed.includes(name) ? 'not-failed' : 'auto';
+  const select = h('select', { 'data-testid': `correct-${name}`, 'aria-label': `Correction for ${name}` },
+    h('option', { value: 'auto', selected: choice === 'auto' }, 'Automatic'),
+    h('option', { value: 'failed', selected: choice === 'failed' }, 'Mark as failed'),
+    h('option', { value: 'not-failed', selected: choice === 'not-failed' }, 'Mark as not failed'));
+  select.addEventListener('change', () => o.onCorrect(name, select.value as 'auto' | 'failed' | 'not-failed'));
+  if (choice !== 'failed') return h('div', {}, select);
+
+  const d = r.analysed.find((x) => x.name === name)!;
+  const later = r.analysed.filter((x) => x.time > d.time);
+  const current = d.remediation; // after corrections: the chosen fix, or null
+  const fix = h('select', { 'data-testid': `fixed-by-${name}`, 'aria-label': `Release that fixed ${name}` },
+    ...later.map((x) => h('option', { value: x.name, selected: x.name === current }, `fixed by ${x.name}`)),
+    h('option', { value: 'none', selected: current === null }, 'not fixed in this period'));
+  fix.addEventListener('change', () => o.onCorrect(name, 'failed', fix.value === 'none' ? null : fix.value));
+  return h('div', { class: 'correction' }, select, fix);
+}
+
+/** The active rules, in words, with the ones that differ from the defaults flagged (v1.2). */
+export function describeSettings(s: Settings): { text: string; changed: boolean }[] {
+  const d = DEFAULT_SETTINGS;
+  const source = { auto: 'GitHub Releases, else version tags', releases: 'GitHub Releases', tags: 'version tags' }[s.source];
+  return [
+    { text: `deployments = ${source}`, changed: s.source !== d.source },
+    { text: `version pattern ${s.versionPattern}`, changed: s.versionPattern !== d.versionPattern },
+    { text: s.skipPrereleases ? 'pre-releases ignored' : 'pre-releases counted', changed: s.skipPrereleases !== d.skipPrereleases },
+    {
+      text: s.useQuickPatch ? `failure = quick patch within ${s.quickPatchHours} hours` : 'quick-patch rule off',
+      changed: s.useQuickPatch !== d.useQuickPatch || (s.useQuickPatch && s.quickPatchHours !== d.quickPatchHours),
+    },
+    {
+      text: s.useRevert ? `or a revert of a shipped commit (${s.revertPattern})` : 'revert rule off',
+      changed: s.useRevert !== d.useRevert || (s.useRevert && s.revertPattern !== d.revertPattern),
+    },
+    { text: s.reworkRule === 'fixes' ? 'rework = fixes of failed releases' : 'rework = fixes and every patch release', changed: s.reworkRule !== d.reworkRule },
+  ];
 }
 
 export function renderAbout(el: HTMLElement): void {

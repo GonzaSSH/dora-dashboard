@@ -6,7 +6,8 @@ export interface Metrics {
   deploymentFrequency: { perWeek: number; count: number; days: number };
   leadTime: { medianHours: number | null; commitCount: number; deploymentsMeasured: number; deploymentsTotal: number };
   changeFailureRate: { rate: number | null; failed: number; total: number; unmatchedReverts: number };
-  recoveryTime: { medianHours: number | null; count: number };
+  /** count: failures with a recovery; unrecovered: failures not fixed within the period. */
+  recoveryTime: { medianHours: number | null; count: number; unrecovered: number };
   reworkRate: { rate: number | null; rework: number; total: number };
 }
 
@@ -38,8 +39,9 @@ export function computeMetrics(deps: Analysed[], window: TimeWindow): Metrics {
       unmatchedReverts: deps.reduce((sum, d) => sum + d.unmatchedReverts.length, 0),
     },
     recoveryTime: {
-      medianHours: median(failed.map((d) => d.recoveryHours!)),
-      count: failed.length,
+      medianHours: median(failed.flatMap((d) => (d.recoveryHours === null ? [] : [d.recoveryHours]))),
+      count: failed.filter((d) => d.recoveryHours !== null).length,
+      unrecovered: failed.filter((d) => d.recoveryHours === null).length,
     },
     reworkRate: { rate: n ? rework / n : null, rework, total: n },
   };

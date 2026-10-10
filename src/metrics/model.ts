@@ -25,6 +25,8 @@ export interface Analysed {
   recoveryHours: number | null;
   /** First lines of reverts in this deployment that couldn't be matched to a release. */
   unmatchedReverts: string[];
+  /** Set by applyCorrections when a person overruled the automatic detection (v1.2). */
+  manuallyCorrected?: boolean;
 }
 
 /**

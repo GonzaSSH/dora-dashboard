@@ -6,6 +6,10 @@ import { renderAbout, renderResults } from './ui/render';
 import { h } from './ui/dom';
 import type { Settings, TimeWindow } from './types';
 import { fromJson, isDemoId, type DemoId } from './snapshot';
+import { readState, writeState } from './url-state';
+import { applyCorrections, hasCorrections, NO_CORRECTIONS, type Corrections } from './metrics/corrections';
+import { computeMetrics } from './metrics/compute';
+import type { RunResult } from './run';
 
 const DAY = 86_400_000;
 
@@ -73,8 +77,62 @@ function showError(err: unknown): void {
 }
 
 let running = false;
+
+// The automatic result being shown, and the person's corrections on top of it (v1.2).
+interface Base {
+  result: RunResult;
+  window: TimeWindow;
+  settings: Settings;
+  savedAt?: Date;
+  demo?: DemoId;
+}
+let base: Base | null = null;
+let corrections: Corrections = NO_CORRECTIONS;
+let tableOpen = false;
+
+/** Applies corrections, recalculates the five metrics (no GitHub requests) and updates the link. */
+function show(): void {
+  if (!base) return;
+  const view = applyCorrections(base.result.analysed, corrections, base.settings);
+  const result: RunResult = { ...base.result, analysed: view.analysed, metrics: computeMetrics(view.analysed, base.window) };
+  renderResults(resultsEl, result, base.window, {
+    savedAt: base.savedAt,
+    settings: base.settings,
+    corrections,
+    corrected: view.corrected,
+    ignored: view.ignored,
+    tableOpen: tableOpen || hasCorrections(corrections),
+    onCorrect: correct,
+    onReset: () => {
+      corrections = NO_CORRECTIONS;
+      show();
+    },
+  });
+  resultsEl.hidden = false;
+  // Shareable link: repository, dates, non-default settings and corrections. Never the token.
+  const params = writeState({
+    demo: base.demo,
+    repo: repoIn.value.trim(),
+    from: fromIn.value,
+    to: toIn.value,
+    settings: base.settings,
+    corrections,
+  });
+  history.replaceState(null, '', `?${params}`);
+}
+
+function correct(name: string, choice: 'auto' | 'failed' | 'not-failed', fixedBy?: string | null): void {
+  tableOpen = true;
+  const failed = corrections.failed.filter((f) => f.name !== name);
+  const notFailed = corrections.notFailed.filter((n) => n !== name);
+  if (choice === 'failed') failed.push({ name, fixedBy: fixedBy === undefined ? 'next' : fixedBy });
+  if (choice === 'not-failed') notFailed.push(name);
+  corrections = { failed, notFailed };
+  show();
+}
+
 /** Loads a saved demo result: zero GitHub requests (v1.1 item 2). */
-async function loadDemo(id: DemoId): Promise<void> {
+async function loadDemo(id: DemoId, keep: Corrections = NO_CORRECTIONS): Promise<void> {
   if (running) return;
   errorEl.hidden = true;
   try {
@@ -85,17 +143,18 @@ async function loadDemo(id: DemoId): Promise<void> {
     fromIn.value = snap.window.start.toISOString().slice(0, 10);
     toIn.value = new Date(snap.window.end.getTime() - DAY).toISOString().slice(0, 10);
     writeSettings(snap.settings);
-    renderResults(resultsEl, snap.result, snap.window, snap.savedAt);
-    resultsEl.hidden = false;
+    base = { result: snap.result, window: snap.window, settings: snap.settings, savedAt: snap.savedAt, demo: id };
+    corrections = keep;
+    tableOpen = false;
     statusEl.textContent = '';
-    history.replaceState(null, '', `?demo=${id}`);
+    show();
   } catch {
     errorEl.replaceChildren(h('h2', {}, "Couldn't load the saved example"), h('p', {}, 'Type a repository and click Analyse to run a live analysis instead.'));
     errorEl.hidden = false;
   }
 }
 
-async function analyse(): Promise<void> {
+async function analyse(keep: Corrections = NO_CORRECTIONS): Promise<void> {
   if (running) return;
   running = true;
   goBtn.disabled = true;
@@ -103,22 +162,22 @@ async function analyse(): Promise<void> {
   resultsEl.hidden = true;
   statusEl.textContent = 'Reading the repository from GitHub…';
   const window = readWindow();
+  const settings = readSettings();
   try {
     const result = await runAnalysis({
       repo: repoIn.value,
       token: tokenIn.value,
-      settings: readSettings(),
+      settings,
       window,
       onRequest: (n) => {
         statusEl.textContent = `Reading the repository from GitHub… (${n} requests)`;
       },
     });
-    renderResults(resultsEl, result, window);
-    resultsEl.hidden = false;
+    base = { result, window, settings };
+    corrections = keep;
+    tableOpen = false;
     statusEl.textContent = '';
-    // Shareable link: repository and dates only, never the token.
-    const params = new URLSearchParams({ repo: repoIn.value.trim(), from: fromIn.value, to: toIn.value });
-    history.replaceState(null, '', `?${params}`);
+    show();
   } catch (err) {
     statusEl.textContent = '';
     showError(err);
@@ -144,14 +203,14 @@ writeSettings(DEFAULT_SETTINGS);
 setDefaultDates();
 renderAbout($<HTMLElement>('about'));
 
-const params = new URLSearchParams(location.search);
-const isDay = (s: string | null): s is string => !!s && /^\d{4}-\d{2}-\d{2}$/.test(s);
-if (isDay(params.get('from'))) fromIn.value = params.get('from')!;
-if (isDay(params.get('to'))) toIn.value = params.get('to')!;
-const demo = params.get('demo');
-if (isDemoId(demo)) {
-  void loadDemo(demo);
-} else if (params.get('repo')) {
-  repoIn.value = params.get('repo')!;
-  void analyse();
+// A shared link reproduces the same view: repository and dates (or a demo), settings, corrections.
+const state = readState(new URLSearchParams(location.search));
+if (state.from) fromIn.value = state.from;
+if (state.to) toIn.value = state.to;
+if (isDemoId(state.demo ?? null)) {
+  void loadDemo(state.demo as DemoId, state.corrections);
+} else if (state.repo) {
+  repoIn.value = state.repo;
+  writeSettings(state.settings);
+  void analyse(state.corrections);
 }

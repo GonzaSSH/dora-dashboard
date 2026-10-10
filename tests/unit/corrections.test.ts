@@ -20,7 +20,7 @@ describe('applyCorrections', () => {
     const r = await auto();
     const out = applyCorrections(r.analysed, NO_CORRECTIONS, DEFAULT_SETTINGS);
     expect(out.corrected).toEqual([]);
-    expect(out.analysed.map(({ manuallyCorrected: _, ...d }) => d)).toEqual(r.analysed);
+    expect(out.analysed).toEqual(r.analysed.map((d) => ({ ...d, manuallyCorrected: false })));
     expect(computeMetrics(out.analysed, W)).toEqual(r.metrics);
   });
 
