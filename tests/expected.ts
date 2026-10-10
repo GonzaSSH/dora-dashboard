@@ -4,12 +4,16 @@ export const SANDBOX_REPO = 'GonzaSSH/dora-sandbox';
 export const SANDBOX_WINDOW = { start: new Date('2026-01-01T00:00:00Z'), end: new Date('2026-04-01T00:00:00Z') };
 
 export const EXPECTED = {
-  deploymentFrequency: { perWeek: 56 / 90, count: 8, days: 90, shown: '0.62 per week' },
-  leadTime: { medianHours: 73, commitCount: 16, shown: '3.0 days' },
-  changeFailureRate: { rate: 0.25, failed: 2, shown: '25%' },
-  recoveryTime: { medianHours: 34, count: 2, shown: '34 hours' },
-  reworkRate: { rate: 0.375, rework: 3, shown: '37.5%' },
+  deploymentFrequency: { perWeek: 70 / 90, count: 10, days: 90, shown: '0.78 per week' },
+  leadTime: { medianHours: 49, commitCount: 18, shown: '2.0 days' },
+  changeFailureRate: { rate: 0.4, failed: 4, shown: '40%' },
+  recoveryTime: { medianHours: 33, count: 4, shown: '33 hours' },
+  reworkRate: { rate: 0.4, rework: 4, shown: '40%' },
 } as const;
+
+/** EXPECTED.md Step 5, non-default setting "every patch release is rework". */
+export const EXPECTED_BROAD_REWORK = { rate: 0.5, rework: 5, shown: '50%' } as const;
+export const SANDBOX_REQUESTS = 25;
 
 // sandbox/EXPECTED.md, "Fixture case: reverts that name a pull request".
 export const PR_REVERTS_REPO = 'example/pr-reverts';
@@ -21,4 +25,15 @@ export const EXPECTED_PR_REVERTS = {
   reworkRate: { rate: 0.25, rework: 1, shown: '25%' },
   unmatchedReverts: 2,
   requests: 8,
+} as const;
+
+/** EXPECTED.md, "Fixture case: reverts of copied commits". */
+export const EXPECTED_COPIED_REVERTS = {
+  deployments: 5,
+  failed: ['v3.0.1'],
+  remediationOf: { 'v3.0.1': 'v3.0.2' },
+  changeFailureRate: 0.2,
+  recoveryHours: 120,
+  reworkRate: 0.2,
+  unmatched: ['Revert "feat: y"'],
 } as const;

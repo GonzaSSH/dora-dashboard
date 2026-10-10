@@ -3,10 +3,11 @@
 **See how well any public GitHub project delivers software, in plain language.**
 
 **Live demo: https://gonzassh.github.io/dora-dashboard/**
-· [Try it on the test repository](https://gonzassh.github.io/dora-dashboard/?repo=GonzaSSH/dora-sandbox&from=2026-01-01&to=2026-03-31)
-· [Try it on grafana/grafana](https://gonzassh.github.io/dora-dashboard/?repo=grafana/grafana)
+· [Example: the test repository](https://gonzassh.github.io/dora-dashboard/?demo=sandbox)
+· [Example: angular/angular](https://gonzassh.github.io/dora-dashboard/?demo=angular)
+· [This dashboard, measured by itself](https://gonzassh.github.io/dora-dashboard/?repo=GonzaSSH/dora-dashboard)
 
-Type a repository like `grafana/grafana` and get the five
+Type a repository like `angular/angular` and get the five
 [DORA](https://dora.dev/guides/dora-metrics/) software delivery metrics, each with a
 short plain-language explanation. It runs entirely in your browser:
 no sign-up, no server, nothing stored.
@@ -21,17 +22,30 @@ how fast a change reaches users, how often a release breaks, how fast you recove
 how much work is unplanned fixing.
 
 AI assistants make writing code much faster, but code written isn't value delivered.
-More, faster changes can mean bigger batches, more failed releases and more rework if
-testing and release practices don't keep up. DORA's
-[2024 research](https://dora.dev/research/2024/dora-report/) found that teams using more
-AI saw slightly *lower* delivery throughput and stability. DORA metrics measure the
-outcome, not the typing, so they're how you tell whether AI is actually helping a team ship.
+
+**DORA's 2025 research changes the picture from 2024.** The
+[2025 DORA report](https://dora.dev/research/2025/dora-report/) (*State of AI-assisted
+Software Development*) found that
+["higher AI adoption is associated with an increase in both software delivery throughput and software delivery instability"](https://dora.dev/insights/balancing-ai-tensions/).
+That is a change from the [2024 report](https://dora.dev/research/2024/dora-report/), where
+more AI went with *lower* throughput as well as lower stability.
+
+DORA's conclusion: "AI's primary role in software development is that of an amplifier. It
+magnifies the strengths of high-performing organizations and the dysfunctions of
+struggling ones."
+
+So AI now helps teams ship faster, but not necessarily more safely. That trade-off is
+exactly what DORA metrics measure: throughput (frequency, lead time) next to stability
+(failures, recovery, rework). They measure the outcome, not the typing, so they're how
+you tell whether AI is actually helping a team ship.
 
 ## How to use it
 
 1. Open the [live demo](https://gonzassh.github.io/dora-dashboard/).
 2. In **Repository**, type the project's GitHub name as `owner/name`, for example
-   `grafana/grafana`. You can also paste its GitHub address.
+   `angular/angular`. You can also paste its GitHub address. Or click one of the
+   **Saved examples**: they load instantly and use none of your GitHub allowance (the page
+   says when a result is saved, and **Analyse** fetches live data).
 3. Choose the **From** and **To** dates. The default is the last 90 days.
 4. Click **Analyse**. A small project takes a few seconds; a very busy one up to about 30.
 5. Read the five tiles. Open **How this was worked out** under any tile, or the list of
@@ -47,7 +61,7 @@ outcome, not the typing, so they're how you tell whether AI is actually helping 
 | **Change lead time** | How long does a change wait before users get it? | strong: under a day · weak: over a month |
 | **Change failure rate** *(proxy)* | How often does a release go wrong? | no rating: higher when quick patches or reverts follow releases |
 | **Failed deployment recovery time** *(proxy)* | When a release goes wrong, how fast is it fixed? | no rating: shorter when fixes ship soon after a failed release |
-| **Rework rate** *(proxy)* | How much of the shipping is unplanned fixing? | no rating: higher when more releases are patches or fixes for failures |
+| **Rework rate** *(proxy)* | How much of the shipping is unplanned fixing? | no rating: higher when more releases are urgent fixes for failed releases |
 
 Only the two directly measured metrics get a "strong / weak" rough guide. The three
 proxies are estimates, so the app shows the number and what moves it, not a verdict.
@@ -62,6 +76,7 @@ Compare a team with its own past, not with other teams.
 | "GitHub's hourly limit is used up" | GitHub allows 60 requests per hour without a token. Wait until the time shown, or add a token (below). |
 | "Couldn't reach GitHub" | Check your internet connection. Some company networks block GitHub's API. |
 | A yellow note saying a **sample** was used | The project is so busy that, without a token, only the newest releases were examined in detail. Add a token for the full picture. |
+| "Only N releases in this period" | Too few releases for the numbers to mean much. They are still shown; pick a longer period for a better picture. |
 
 **Adding a token (optional).** On GitHub open *Settings → Developer settings → Personal
 access tokens → Fine-grained tokens → Generate new token*, choose "Public repositories"
@@ -80,22 +95,40 @@ Full definitions are in [PLAN.md](PLAN.md#2-the-five-metrics-exact-formulas). In
   the same line (so 11.6.5 is compared with 11.6.4, not with 12.1.0).
 - **Change failure rate** = failed releases ÷ all releases. A release counts as **failed**
   if a quick patch followed (1.2.0 → 1.2.1 within 48 hours) or a later release reverts
-  one of its commits. The revert must name what it undoes, either a commit or a pull
-  request that is looked up. Reverts that can't be traced to a release fail nothing, and
-  the page lists them.
+  one of its commits.
+  - **How a revert is traced:** by the commit or pull request it names. When that doesn't
+    work, for example because the fix was copied to a maintenance branch under a new commit
+    ID, it's traced by the original commit's title.
+  - **A revert inside the same release** as the change fails nothing, because users never got
+    the change.
+  - **Reverts that can't be traced** fail nothing, and are listed under one collapsed note.
 - **Recovery time** = time from a failed release to the first good release after it (median).
-- **Rework rate** = rework releases ÷ all releases. A release is **rework** if it fixed a
-  failed release, or it's a patch release (1.4.0 → 1.4.1), whatever its commits say.
+- **Rework rate** = releases that fixed a detected failed release ÷ all releases. If a fix
+  itself fails and needs another fix, both fix releases count.
+  - **With public data this is usually close to the change failure rate.** Both come from
+    the same detected failures, so read them together, not as two independent signals.
+  - **That is DORA's own view.** Its [history of the metrics](https://dora.dev/insights/dora-metrics-history/)
+    says change failure rate "acted as a proxy for the amount of rework a team must
+    perform", and rework rate was added in 2024 to test that.
+  - **Why not count every patch release?** That was tried first, and on five real projects
+    (angular, vite, vitest, nuxt, grafana) it gave **75–96% rework**, because libraries ship
+    planned patch releases all the time. It is still available under **Settings** as a
+    broad, non-default reading.
 
 ### Honest limitations
 
 - **Three of the five metrics are proxies.** Public repositories don't publish incidents
   or outages, so failures are inferred from release patterns. A real outage that was
   fixed in a normal release is invisible; a planned quick patch is counted as a failure.
-- **Rework counts every patch release.** A project that ships planned patch releases on a
-  schedule will look like it does more unplanned fixing than it does.
-- **Reverts must name what they undo.** A revert written by hand without the commit or
-  pull request it reverts can't be traced, so it fails nothing (the page lists it).
+- **Rework and failure rate move together.** With public data both come from the same
+  detected failures (see above), so a low rework rate mostly means few *detected* failures.
+- **Failures are only detected through quick patches and reverts.** grafana/grafana is the
+  example: it ships about two releases a week, yet over the last 90 days the app detects
+  0% failures, because grafana fixes problems in normal releases rather than quick patches
+  or reverts. A real outage fixed that way is invisible to these proxies.
+- **Reverts are traced by commit ID or title.** A revert that names neither a commit nor
+  a pull request, and whose title matches no released commit, can't be traced; it fails
+  nothing and the page lists it.
 - **A release is not always a deployment.** Libraries publish releases that users adopt
   later; services may deploy many times between releases.
 - **Busy projects are sampled without a token.** To stay under GitHub's 60 requests per
@@ -112,16 +145,31 @@ Full definitions are in [PLAN.md](PLAN.md#2-the-five-metrics-exact-formulas). In
   normal releases, two failures with recoveries and a rework release. The expected value
   of every metric was worked out **by hand before any metric code was written**:
   [sandbox/EXPECTED.md](sandbox/EXPECTED.md).
-- **Unit tests** (Vitest, 65 tests) check that every metric equals EXPECTED.md exactly,
+- **Unit tests** (Vitest, 88 tests) check that every metric equals EXPECTED.md exactly,
   plus the edge cases of each rule, every error case and that the token is never leaked.
   They run offline against recorded GitHub responses.
-- **End-to-end tests** (Playwright, desktop and phone sizes) drive the real page: the full
-  flow, changing settings, the token never being stored, and each error message.
+- **End-to-end tests** (Playwright, 22 scenarios on desktop and phone sizes) drive the real page:
+  - the full flow, and changing settings;
+  - the token never being stored;
+  - each error message;
+  - saved demo results making zero GitHub requests.
 - **Live checks** run against the real GitHub API: the real sandbox must match
   EXPECTED.md, and `grafana/grafana` must finish within the request budget.
+- **Saved demo results** are checked too: the sandbox snapshot must equal EXPECTED.md and
+  be exactly what the current code produces.
 - **CI** ([workflow](.github/workflows/ci.yml)) runs all of the above on every push,
   then deploys to GitHub Pages and checks the deployed site shows the expected numbers.
 - An **independent AI review** checked the code against the plan and the expected values. It found 7 gaps (e.g. backport releases on older version lines being missed, and the wrong message when GitHub's limit ran out mid-run); each got a regression test and a fix.
+
+## This dashboard, measured by itself
+
+The dashboard's own releases (v1.0.0, v1.1.0) are GitHub Releases, so it can measure itself:
+[open it here](https://gonzassh.github.io/dora-dashboard/?repo=GonzaSSH/dora-dashboard).
+
+Honestly, two releases are far too few for meaningful numbers, and the page says so
+("Only 2 releases in this period"). The first release has no earlier version to compare
+with, so lead time comes from v1.1.0 alone. It becomes meaningful after a few months of
+releases.
 
 ## Built with Claude Code
 
@@ -137,7 +185,12 @@ the *what* and the *quality bar*, and delegating the *how*.
   - **The 48-hour quick-patch window:** kept.
   - **The revert rule:** made strict. A revert only fails the release that shipped the
     reverted commit, including reverts made with GitHub's Revert button.
-  - **The rework rule:** changed to count every patch release.
+  - **The rework rule:** I first chose "every patch release". On real data it gave
+    75–96% rework on five projects, so I changed it to releases that fixed a detected
+    failure, kept the broad reading as a non-default setting, and asked for a sandbox case
+    where one failure needs two fixes.
+  - **Copied commits:** I had reverts matched by title when a fix was copied to another
+    branch under a new commit ID (found while checking angular's numbers).
   - **The ratings:** limited to the two directly measured metrics. The three proxies are
     estimates and get no verdict.
 - The quality bar: a test repository with hand-worked answers written before any code,

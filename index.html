@@ -100,15 +100,22 @@
           </fieldset>
           <fieldset>
             <legend>What counts as rework</legend>
-            <p class="muted">A release that fixed a failed release, or any patch release (for example 1.4.0 → 1.4.1).
-              Fixed rule, decided by the project owner.</p>
+            <label>
+              <span>Rule</span>
+              <select id="reworkRule" data-testid="rework-rule">
+                <option value="fixes">A release that fixed a failed release (default)</option>
+                <option value="patches">Also every patch release, e.g. 1.4.0 → 1.4.1 (broad reading: runs very high for libraries)</option>
+              </select>
+            </label>
           </fieldset>
           <button type="button" id="reset" class="link">Reset to defaults</button>
         </details>
 
         <div class="actions">
           <button type="button" id="go" class="primary" data-testid="analyse">Analyse</button>
-          <button type="button" id="demo" class="link" data-testid="demo">Try it on the test repository</button>
+          <span class="muted">Saved examples:</span>
+          <button type="button" id="demo" class="link" data-testid="demo">the test repository</button>
+          <button type="button" id="demo-angular" class="link" data-testid="demo-angular">angular/angular</button>
         </div>
       </div>
 

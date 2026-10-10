@@ -1,0 +1,91 @@
+// Saved results ("snapshots") for the demo links, so they load with zero GitHub requests.
+// Written by scripts/snapshots.ts, served from public/snapshots/<id>.json.
+import type { RunResult } from './run';
+import type { Settings, TimeWindow } from './types';
+
+export interface Snapshot {
+  id: string;
+  repo: string;
+  window: TimeWindow;
+  savedAt: Date;
+  settings: Settings;
+  result: RunResult;
+}
+
+export const DEMOS = [
+  { id: 'sandbox', repo: 'GonzaSSH/dora-sandbox', label: 'the test repository', window: { start: '2026-01-01', end: '2026-03-31' } },
+  { id: 'angular', repo: 'angular/angular', label: 'angular/angular', window: null },
+] as const;
+export type DemoId = (typeof DEMOS)[number]['id'];
+
+/** Keeps what the page shows; drops full commit messages and the raw deployment list to stay small. */
+export function toJson(s: Snapshot): unknown {
+  const r = s.result;
+  return {
+    id: s.id,
+    repo: s.repo,
+    window: { start: s.window.start.toISOString(), end: s.window.end.toISOString() },
+    savedAt: s.savedAt.toISOString(),
+    settings: s.settings,
+    result: {
+      collected: { ...r.collected, deployments: [] },
+      analysed: r.analysed.map((d) => ({
+        ...d,
+        time: d.time.toISOString(),
+        changes: d.changes?.map((c) => ({
+          sha: c.sha.slice(0, 12),
+          message: c.message.split('\n')[0] ?? '',
+          authoredAt: c.authoredAt.toISOString(),
+          parents: c.parents,
+        })) ?? null,
+      })),
+      metrics: r.metrics,
+      requestsUsed: r.requestsUsed,
+      rateLimit: null,
+    },
+  };
+}
+
+interface SnapshotJson {
+  id: string;
+  repo: string;
+  window: { start: string; end: string };
+  savedAt: string;
+  settings: Settings;
+  result: {
+    collected: RunResult['collected'];
+    analysed: (Omit<RunResult['analysed'][number], 'time' | 'changes'> & {
+      time: string;
+      changes: { sha: string; message: string; authoredAt: string; parents: number }[] | null;
+    })[];
+    metrics: RunResult['metrics'];
+    requestsUsed: number;
+  };
+}
+
+export function fromJson(raw: unknown): Snapshot {
+  const j = raw as SnapshotJson;
+  if (!j || typeof j.id !== 'string' || !j.result?.metrics) throw new Error('Not a snapshot');
+  return {
+    id: j.id,
+    repo: j.repo,
+    window: { start: new Date(j.window.start), end: new Date(j.window.end) },
+    savedAt: new Date(j.savedAt),
+    settings: j.settings,
+    result: {
+      collected: j.result.collected,
+      analysed: j.result.analysed.map((d) => ({
+        ...d,
+        time: new Date(d.time),
+        changes: d.changes?.map((c) => ({ ...c, authoredAt: new Date(c.authoredAt) })) ?? null,
+      })),
+      metrics: j.result.metrics,
+      requestsUsed: j.result.requestsUsed,
+      rateLimit: null,
+    },
+  };
+}
+
+export function isDemoId(id: string | null): id is DemoId {
+  return DEMOS.some((d) => d.id === id);
+}

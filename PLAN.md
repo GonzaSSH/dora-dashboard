@@ -86,7 +86,8 @@ ever), its changes are unknown and D is left out of lead time.
 - **Deployment:** kept as stable versions only.
 - **48-hour quick-patch window:** kept.
 - **Revert rule:** made strict, and extended to pull-request reverts.
-- **Rework rule:** changed to every patch release.
+- **Rework rule:** changed to fixes of failed releases. "Every patch release" gave 75–96%
+  on five real projects, so it is kept only as a non-default setting.
 - **Ratings:** limited to the two directly measured metrics.
 
 Let `W` = deployments in the window, `n = |W|`, and `days` = window length in days.
@@ -108,10 +109,16 @@ Let `W` = deployments in the window, `n = |W|`, and `days` = window length in da
      - `This reverts commit <id>` names a commit;
      - `Reverts owner/repo#<n>` names a pull request, whose merge commit is looked up
        (`GET /pulls/<n>`, within the request budget).
-     D is failed if the target commit is one of D's changes; E is D's **remediation**.
-     If the target can't be identified (no id or PR, PR not found, PR in another repo,
-     budget used up) or isn't in any known release's changes, the revert fails **no**
-     release and is reported as "N reverts could not be matched to a release".
+     D is the earlier release whose changes contain the target commit; E is D's **remediation**.
+     **Title fallback:** whenever the revert can't be located by id (no id, id in no earlier
+     release, PR look-up failed or not made), its quoted title `Revert "<title>"` (without a
+     trailing `(#n)`) is matched against commit first lines. This catches commits copied
+     between version branches under a new id. If several earlier releases match, the one on
+     the revert's own version line wins, else the most recent.
+     **Same release:** if the target (by id or title) is in E itself, the change never
+     shipped without its revert: no failure, not unmatched.
+     Otherwise the revert fails **no** release and is counted in one collapsed note,
+     "N reverts could not be matched to a release".
    If D has a remediation from both signals, the earliest one counts.
 
 4. **Failed deployment recovery time (proxy)** = median over failed `D ∈ W` of
@@ -121,10 +128,15 @@ Let `W` = deployments in the window, `n = |W|`, and `days` = window length in da
    failure has a recovery; a failure with no fix yet is simply not detected.)
 
 5. **Rework rate (proxy)** = `rework(W) / n`, where D is **rework** (an
-   unplanned deployment made to fix something) if:
-   - D is the remediation of some failed deployment, **or**
-   - D is a patch release: same major.minor as its predecessor, higher patch
-     (v1.1: whatever its commit messages say, so it doesn't depend on commit style).
+   unplanned deployment made to fix something) if D is the remediation of some failed
+   deployment. In a chain (a fix that itself fails and needs another fix) every fix
+   release counts.
+   - With public data this is usually close to the change failure rate: DORA
+     [describes](https://dora.dev/insights/dora-metrics-history/) change failure rate as
+     "a proxy for the amount of rework a team must perform".
+   - Non-default setting `reworkRule: 'patches'`: also every patch release (same
+     major.minor as its predecessor, higher patch). On five real projects this gave
+     75–96%, so it is labelled as a broad reading.
 
 Details settled during the build:
 - Remediations are looked for among deployments **inside the window** only.

@@ -76,7 +76,10 @@ function ratingChip(key: MetricKey, raw: number | null): HTMLElement | null {
     h('span', { 'aria-hidden': 'true', class: 'chip-icon' }, l.icon), l.text);
 }
 
-export function renderResults(el: HTMLElement, r: RunResult, window: TimeWindow): void {
+/** Fewer deployments than this and the numbers say little (shown as a note, never hidden). */
+export const LOW_DATA_DEPLOYMENTS = 5;
+
+export function renderResults(el: HTMLElement, r: RunResult, window: TimeWindow, savedAt?: Date): void {
   const lastDay = new Date(window.end.getTime() - 86_400_000);
   const t = tiles(r);
   const rl = r.rateLimit;
@@ -85,20 +88,32 @@ export function renderResults(el: HTMLElement, r: RunResult, window: TimeWindow)
     h('h2', {}, 'Results for ', h('a', { href: r.collected.repo.htmlUrl, target: '_blank', rel: 'noopener', 'data-testid': 'repo-link' }, r.collected.repo.fullName)),
     h('p', { class: 'muted' },
       `${utcDay(window.start)} to ${utcDay(lastDay)} · deployments = ${r.collected.source === 'releases' ? 'GitHub Releases' : 'version tags'} · `,
-      h('span', { 'data-testid': 'requests-used' }, `${r.requestsUsed} GitHub requests used`),
-      rl ? ` · ${rl.remaining} of ${rl.limit} left this hour` : ''),
+      savedAt
+        ? h('span', { 'data-testid': 'requests-used' }, 'saved result: no GitHub requests used now')
+        : h('span', { 'data-testid': 'requests-used' }, `${r.requestsUsed} GitHub requests used`),
+      rl && !savedAt ? ` · ${rl.remaining} of ${rl.limit} left this hour` : ''),
+    savedAt
+      ? h('p', { class: 'snapshot-note', 'data-testid': 'snapshot-note' },
+        `Saved result from ${savedAt.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })}. Click Analyse for live data.`)
+      : null,
   );
 
-  const allNotices = [...r.collected.notices];
+  // Unmatched reverts: one collapsed line, expandable to see which (v1.1).
   const unmatched = r.analysed.flatMap((d) => d.unmatchedReverts.map((m) => `${d.name}: ${m}`));
-  if (unmatched.length > 0) {
-    allNotices.push(
-      `${unmatched.length} ${unmatched.length === 1 ? 'revert' : 'reverts'} could not be matched to a release, ` +
-        `so ${unmatched.length === 1 ? 'it fails' : 'they fail'} no release (${unmatched.join('; ')}).`,
-    );
-  }
-  const notices = allNotices.length
-    ? h('ul', { class: 'notices', 'data-testid': 'notices' }, ...allNotices.map((n) => h('li', {}, n)))
+  const unmatchedItem = unmatched.length
+    ? h('li', {},
+      h('details', { 'data-testid': 'unmatched-reverts' },
+        h('summary', {}, `${unmatched.length} ${unmatched.length === 1 ? 'revert' : 'reverts'} could not be matched to a release`),
+        h('p', { class: 'muted' }, 'Their target was not found in any release in this period, so they fail no release.'),
+        h('ul', {}, ...unmatched.map((u) => h('li', {}, u)))))
+    : null;
+  const n = r.metrics.deploymentFrequency.count;
+  const lowData = n < LOW_DATA_DEPLOYMENTS
+    ? h('li', { 'data-testid': 'low-data' },
+      `Only ${n} ${n === 1 ? 'release' : 'releases'} in this period: too few for these numbers to mean much. They are shown as they are, not hidden.`)
+    : null;
+  const notices = r.collected.notices.length || unmatchedItem || lowData
+    ? h('ul', { class: 'notices', 'data-testid': 'notices' }, lowData, ...r.collected.notices.map((m) => h('li', {}, m)), unmatchedItem)
     : null;
 
   const { changesFetched, changesNeeded } = r.collected;

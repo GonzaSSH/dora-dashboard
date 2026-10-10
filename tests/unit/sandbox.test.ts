@@ -6,7 +6,7 @@ import { runAnalysis } from '../../src/run';
 import { DEFAULT_SETTINGS } from '../../src/config';
 import { formatDuration, formatPercent, formatPerWeek } from '../../src/format';
 import { fixtureFetch, sandboxResponses } from '../helpers/fixtures';
-import { EXPECTED as E, SANDBOX_REPO, SANDBOX_WINDOW as WINDOW } from '../expected';
+import { EXPECTED as E, EXPECTED_BROAD_REWORK, SANDBOX_REPO, SANDBOX_REQUESTS, SANDBOX_WINDOW as WINDOW } from '../expected';
 
 async function run() {
   return runAnalysis({
@@ -18,11 +18,11 @@ async function run() {
 }
 
 describe('sandbox matches EXPECTED.md', () => {
-  it('step 1: uses tags and finds the 8 deployments in the window', async () => {
+  it('step 1: uses tags and finds the 10 deployments in the window', async () => {
     const r = await run();
     expect(r.collected.source).toBe('tags');
     expect(r.analysed.map((d) => d.name)).toEqual([
-      'v1.0.0', 'v1.1.0', 'v1.2.0', 'v1.2.1', 'v1.3.0', 'v1.4.0', 'v1.4.1', 'v1.5.0',
+      'v1.0.0', 'v1.1.0', 'v1.2.0', 'v1.2.1', 'v1.3.0', 'v1.4.0', 'v1.4.1', 'v1.5.0', 'v1.5.1', 'v1.5.2',
     ]);
   });
 
@@ -38,6 +38,8 @@ describe('sandbox matches EXPECTED.md', () => {
       'v1.4.0': ['v1.3.0', [26, 4]],
       'v1.4.1': ['v1.4.0', [96, 24]],
       'v1.5.0': ['v1.4.1', [192, 24]],
+      'v1.5.1': ['v1.5.0', [2]],
+      'v1.5.2': ['v1.5.1', [2]],
     });
   });
 
@@ -53,8 +55,10 @@ describe('sandbox matches EXPECTED.md', () => {
       'v1.2.1': { failed: false, remediation: null, rework: true },
       'v1.3.0': { failed: true, remediation: 'v1.4.0', rework: false },
       'v1.4.0': { failed: false, remediation: null, rework: true },
-      'v1.4.1': { failed: false, remediation: null, rework: true },
-      'v1.5.0': { failed: false, remediation: null, rework: false },
+      'v1.4.1': { failed: false, remediation: null, rework: false },
+      'v1.5.0': { failed: true, remediation: 'v1.5.1', rework: false },
+      'v1.5.1': { failed: true, remediation: 'v1.5.2', rework: true },
+      'v1.5.2': { failed: false, remediation: null, rework: true },
     });
     expect(r.analysed.find((d) => d.name === 'v1.2.0')?.failureReason).toMatch(/quick patch/i);
     expect(r.analysed.find((d) => d.name === 'v1.3.0')?.failureReason).toMatch(/revert/i);
@@ -84,10 +88,24 @@ describe('sandbox matches EXPECTED.md', () => {
     expect(formatPercent(m.reworkRate.rate!)).toBe(E.reworkRate.shown);
   });
 
-  it('fits comfortably inside the 60/hour unauthenticated limit', async () => {
+  it('fits comfortably inside the 60/hour unauthenticated limit (EXPECTED.md: 25 requests)', async () => {
     const r = await run();
-    expect(r.requestsUsed).toBeLessThanOrEqual(25);
-    expect(r.collected.changesFetched).toBe(8);
-    expect(r.collected.changesNeeded).toBe(8);
+    expect(r.requestsUsed).toBe(SANDBOX_REQUESTS);
+    expect(r.collected.changesFetched).toBe(10);
+    expect(r.collected.changesNeeded).toBe(10);
+  });
+
+  it('one failure needing two fix releases: both fixes are rework, recovery runs to the second', async () => {
+    const r = await run();
+    const v150 = r.analysed.find((d) => d.name === 'v1.5.0')!;
+    expect(v150.recoveryHours).toBe(44);
+    expect(r.analysed.find((d) => d.name === 'v1.5.1')!.recoveryHours).toBe(22);
+  });
+
+  it('non-default setting "every patch release is rework" gives 50%', async () => {
+    const r = await runAnalysis({ repo: SANDBOX_REPO, settings: { ...DEFAULT_SETTINGS, reworkRule: 'patches' }, window: WINDOW, fetchFn: fixtureFetch(sandboxResponses) });
+    expect(r.metrics.reworkRate.rate).toBe(EXPECTED_BROAD_REWORK.rate);
+    expect(r.metrics.reworkRate.rework).toBe(EXPECTED_BROAD_REWORK.rework);
+    expect(formatPercent(r.metrics.reworkRate.rate!)).toBe(EXPECTED_BROAD_REWORK.shown);
   });
 });

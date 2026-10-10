@@ -8,6 +8,7 @@ export const DEFAULT_SETTINGS: Settings = {
   quickPatchHours: 48,
   useRevert: true,
   revertPattern: '^Revert',
+  reworkRule: 'fixes',
 };
 
 export const DEFAULT_WINDOW_DAYS = 90;

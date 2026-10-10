@@ -1,0 +1,36 @@
+# Refreshes the saved demo results (public/snapshots/*.json) against the real GitHub API.
+# Output: the "snapshots" artifact, and the same files committed to the claude/snapshots-latest
+# branch (never main), so a Claude Code session can fetch them. Commit them in a pull request
+# (see CLAUDE.md). Start it from the Actions tab (Refresh snapshots -> Run workflow).
+name: Refresh snapshots
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/refresh-snapshots]
+permissions:
+  contents: write
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run snapshots
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: snapshots
+          path: public/snapshots
+      - name: Publish to the claude/snapshots-latest branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B claude/snapshots-latest
+          git add public/snapshots
+          git commit -m "Refreshed snapshots from $GITHUB_SHA" || echo "No changes"
+          git push --force origin claude/snapshots-latest
