@@ -5,6 +5,8 @@ import { DEFAULT_SETTINGS } from '../config';
 import { formatDuration, formatPercent, formatPerWeek } from '../format';
 import { isRated, rate, type MetricKey, type Rating } from '../ratings';
 import { EXPLANATIONS } from './explanations';
+import { comparisonLine, sentenceFor } from '../context/sentences';
+import { doraContext, DORA_2025, NO_BENCHMARK, SERVICES_NOTE } from '../context/dora2025';
 import { h } from './dom';
 
 const RATING_LABEL: Record<Rating, { icon: string; text: string }> = {
@@ -81,8 +83,34 @@ function ratingChip(key: MetricKey, raw: number | null): HTMLElement | null {
 /** Fewer deployments than this and the numbers say little (shown as a note, never hidden). */
 export const LOW_DATA_DEPLOYMENTS = 5;
 
+/** Plain sentence, comparison with the previous period, and DORA context or why there is none (v1.3). */
+function contextEls(key: MetricKey, r: RunResult): HTMLElement[] {
+  const m = r.metrics;
+  const trend = r.previous
+    ? comparisonLine(key, m, r.previous)
+    : 'Not compared: this saved result was made before comparisons were added.';
+  const raw = key === 'deploymentFrequency' ? (m.deploymentFrequency.count ? m.deploymentFrequency.perWeek : null) : key === 'leadTime' ? m.leadTime.medianHours : null;
+  const dora = doraContext(key, raw);
+  const src = DORA_2025.source;
+  return [
+    h('p', { class: 'sentence', 'data-testid': `sentence-${key}` }, sentenceFor(key, m)),
+    h('p', { class: 'trend', 'data-testid': `trend-${key}` }, trend),
+    isRated(key)
+      ? dora
+        ? h('p', { class: 'dora', 'data-testid': `dora-${key}` },
+          `${dora} `,
+          h('span', { class: 'muted' },
+            'Source: ', h('a', { href: src.url, target: '_blank', rel: 'noopener' }, `DORA, ${src.title}`), `, page ${src.page} (`,
+            h('a', { href: src.licenceUrl, target: '_blank', rel: 'noopener' }, src.licence), `). ${SERVICES_NOTE}`))
+        : null
+      : h('p', { class: 'dora muted', 'data-testid': `no-benchmark-${key}` }, NO_BENCHMARK),
+  ].filter((x) => x !== null) as HTMLElement[];
+}
+
 export interface ViewOptions {
   savedAt?: Date;
+  /** The saved result was made with a GitHub token, so it may use more requests than a visitor without one (v1.3). */
+  savedWithToken?: boolean;
   /** The settings the result was computed with (shown under "Definitions used"). */
   settings: Settings;
   corrections: Corrections;
@@ -110,7 +138,8 @@ export function renderResults(el: HTMLElement, r: RunResult, window: TimeWindow,
       rl && !savedAt ? ` · ${rl.remaining} of ${rl.limit} left this hour` : ''),
     savedAt
       ? h('p', { class: 'snapshot-note', 'data-testid': 'snapshot-note' },
-        `Saved result from ${savedAt.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })}. Click Analyse for live data.`)
+        `Saved result from ${savedAt.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })}` +
+        `${o.savedWithToken ? ', saved with a GitHub token' : ''}. Click Analyse for live data.`)
       : null,
   );
 
@@ -161,6 +190,7 @@ export function renderResults(el: HTMLElement, r: RunResult, window: TimeWindow,
       h('p', { class: 'question' }, e.question),
       valueEl(key, t[key].value),
       ratingChip(key, t[key].raw),
+      ...contextEls(key, r),
       h('p', { class: 'sub' }, t[key].sub),
       e.drivers ? h('p', { class: 'drivers', 'data-testid': `drivers-${key}` }, e.drivers) : null,
       sampleNote,

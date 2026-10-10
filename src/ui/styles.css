@@ -142,6 +142,10 @@ td:last-child { min-width: 280px; }
 input.masked { -webkit-text-security: disc; text-security: disc; }
 .sample { margin: 0; font-size: 0.8rem; color: var(--ink-2); border-left: 3px solid var(--warning); padding-left: 6px; }
 .drivers { margin: 0; font-size: 0.85rem; color: var(--ink-2); }
+.sentence { margin: 0; font-size: 0.95rem; color: var(--ink); }
+.trend { margin: 0; font-size: 0.85rem; color: var(--ink-2); }
+.dora { margin: 0; font-size: 0.85rem; padding-top: 6px; border-top: 1px solid var(--line); }
+.dora .muted { display: block; margin-top: 2px; font-size: 0.8rem; }
 .corrections { margin: 8px 0; padding: 8px 12px; border-left: 4px solid var(--accent); background: var(--surface); border-radius: 6px; }
 .corrections button { margin-left: 4px; }
 .corrected-badge { margin-left: 0; }

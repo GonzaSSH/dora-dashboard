@@ -16,7 +16,8 @@ test('every tile has its plain-language sentence and comparison; DORA context on
   await expect(page.getByTestId('dora-deploymentFrequency')).toContainText(EXPECTED_DORA.deploymentFrequency);
   await expect(page.getByTestId('dora-leadTime')).toContainText(EXPECTED_DORA.leadTime);
   await expect(page.getByTestId('dora-leadTime')).toContainText('DORA surveys mostly teams running services. Libraries release on a different rhythm.');
-  await expect(page.getByTestId('dora-leadTime').getByRole('link')).toHaveAttribute('href', /2025_state_of_ai_assisted_software_development\.pdf/);
+  await expect(page.getByTestId('dora-leadTime').getByRole('link', { name: /State of AI-assisted/ })).toHaveAttribute('href', /2025_state_of_ai_assisted_software_development\.pdf/);
+  await expect(page.getByTestId('dora-leadTime').getByRole('link', { name: 'CC BY-NC-SA 4.0' })).toHaveAttribute('href', /creativecommons\.org\/licenses\/by-nc-sa\/4\.0/);
   for (const key of ['changeFailureRate', 'recoveryTime', 'reworkRate'] as const) {
     await expect(page.getByTestId(`no-benchmark-${key}`)).toContainText('No DORA benchmark');
   }

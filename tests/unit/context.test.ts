@@ -95,14 +95,14 @@ describe('plain-language sentences', () => {
     expect(sentenceFor('leadTime', base({}))).toBe('Not enough data: no changes could be measured in this period.');
     expect(sentenceFor('changeFailureRate', base({}))).toBe('Not enough data: no releases in this period.');
     expect(sentenceFor('changeFailureRate', base({ changeFailureRate: { rate: 0, failed: 0, total: 12, unmatchedReverts: 0 } }))).toBe('None of the 12 releases needed an urgent fix.');
-    expect(sentenceFor('changeFailureRate', base({ changeFailureRate: { rate: 1 / 28, failed: 1, total: 28, unmatchedReverts: 0 } }))).toBe('1 of 28 releases needed an urgent fix.');
+    expect(sentenceFor('changeFailureRate', base({ changeFailureRate: { rate: 1 / 28, failed: 1, total: 28, unmatchedReverts: 0 } }))).toBe('About 1 in 28 releases needed an urgent fix.');
     expect(sentenceFor('changeFailureRate', base({ changeFailureRate: { rate: 2 / 28, failed: 2, total: 28, unmatchedReverts: 0 } }))).toBe('About 1 in 14 releases needed an urgent fix.');
     expect(sentenceFor('changeFailureRate', base({ changeFailureRate: { rate: 1, failed: 3, total: 3, unmatchedReverts: 0 } }))).toBe('Every release needed an urgent fix.');
     expect(sentenceFor('recoveryTime', base({ changeFailureRate: { rate: 0, failed: 0, total: 9, unmatchedReverts: 0 } }))).toBe('No release needed an urgent fix, so there was nothing to recover from.');
     expect(sentenceFor('recoveryTime', base({ changeFailureRate: { rate: 0.1, failed: 1, total: 10, unmatchedReverts: 0 }, recoveryTime: { medianHours: null, count: 0, unrecovered: 1 } }))).toBe('None of the failed releases was fixed within this period.');
     expect(sentenceFor('recoveryTime', base({ changeFailureRate: { rate: 0.1, failed: 1, total: 10, unmatchedReverts: 0 }, recoveryTime: { medianHours: 20, count: 1, unrecovered: 0 } }))).toBe('The one failed release was fixed after about 20 hours.');
     expect(sentenceFor('reworkRate', base({ reworkRate: { rate: 0, rework: 0, total: 5 } }))).toBe('None of the 5 releases was an urgent fix for an earlier release.');
-    expect(sentenceFor('reworkRate', base({ reworkRate: { rate: 0.2, rework: 1, total: 5 } }))).toBe('1 of 5 releases was an urgent fix for an earlier release.');
+    expect(sentenceFor('reworkRate', base({ reworkRate: { rate: 0.2, rework: 1, total: 5 } }))).toBe('About 1 in 5 releases was an urgent fix for an earlier release.');
     expect(sentenceFor('reworkRate', base({ reworkRate: { rate: 2 / 28, rework: 2, total: 28 } }))).toBe('About 1 in 14 releases was an urgent fix for an earlier release.');
   });
 

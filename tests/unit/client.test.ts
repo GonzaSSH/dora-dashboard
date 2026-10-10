@@ -50,8 +50,23 @@ describe('GitHubClient errors', () => {
     let calls = 0;
     const c = new GitHubClient({ budget: 1, fetchFn: async () => { calls++; return toResponse(sandboxResponses['/repos/gonzassh/dora-sandbox']!); } });
     await c.get('/repos/gonzassh/dora-sandbox');
-    expect((await errorOf(c.get('/repos/gonzassh/dora-sandbox'))).kind).toBe('budget');
+    expect((await errorOf(c.get('/repos/gonzassh/dora-sandbox/releases'))).kind).toBe('budget');
     expect(calls).toBe(1);
+  });
+  it('answers a repeated request from memory, without calling GitHub or counting it (v1.3)', async () => {
+    let calls = 0;
+    const c = new GitHubClient({ budget: 1, fetchFn: async () => { calls++; return toResponse(sandboxResponses['/repos/gonzassh/dora-sandbox']!); } });
+    const first = await c.get('/repos/gonzassh/dora-sandbox');
+    expect(await c.get('/repos/gonzassh/dora-sandbox')).toBe(first);
+    expect(calls).toBe(1);
+    expect(c.requestsUsed).toBe(1);
+  });
+  it('does not remember failed requests', async () => {
+    let calls = 0;
+    const c = new GitHubClient({ budget: 5, fetchFn: async () => { calls++; return toResponse(errorFixtures.notFound); } });
+    await errorOf(c.get('/repos/a/b'));
+    await errorOf(c.get('/repos/a/b'));
+    expect(calls).toBe(2);
   });
   it('never spends more than GitHub says is left', async () => {
     // Like real GitHub, each response reports one fewer request left: 1, then 0.
