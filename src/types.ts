@@ -35,4 +35,9 @@ export interface Settings {
   quickPatchHours: number;
   useRevert: boolean;
   revertPattern: string;
+  /**
+   * 'fixes' (default): releases that fixed a detected failure.
+   * 'patches': also every patch release, a broad reading that runs very high for libraries.
+   */
+  reworkRule: 'fixes' | 'patches';
 }

@@ -63,13 +63,21 @@ describe('revert failure rule', () => {
     expect(r[0]!.remediation).toBe('v1.1.0');
     expect(r[1]!.rework).toBe(true);
   });
-  it('does not blame anything when the revert names no target (v1.1 rule)', () => {
+  it('a revert naming no commit falls back to its quoted title (final v1.1 rule)', () => {
     const r = analyse(
       [dep('v1.0.0', '05T00:00', [featX('04T00:00')]), dep('v1.1.0', '09T00:00', [c('Revert "feat: x"', '08T00:00')])],
       WINDOW, DEFAULT_SETTINGS,
     );
+    expect(r[0]!.remediation).toBe('v1.1.0');
+    expect(r[1]!.unmatchedReverts).toEqual([]);
+  });
+  it('does not blame anything when neither an id nor the title can be traced', () => {
+    const r = analyse(
+      [dep('v1.0.0', '05T00:00', [featX('04T00:00')]), dep('v1.1.0', '09T00:00', [c('Revert "feat: other"', '08T00:00')])],
+      WINDOW, DEFAULT_SETTINGS,
+    );
     expect(r[0]!.failed).toBe(false);
-    expect(r[1]!.unmatchedReverts).toEqual(['Revert "feat: x"']);
+    expect(r[1]!.unmatchedReverts).toEqual(['Revert "feat: other"']);
   });
   it('can be switched off', () => {
     const r = analyse(

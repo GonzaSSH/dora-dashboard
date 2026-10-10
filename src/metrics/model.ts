@@ -1,7 +1,7 @@
 // Applies the proxy rules from PLAN.md §2 to a list of deployments.
 import type { Change, Deployment, Settings, TimeWindow } from '../types';
 import { compareVersions, parseVersion } from './version';
-import { parseRevert, sameCommit } from './revert';
+import { parseRevert, quotedTitle, sameCommit } from './revert';
 
 const HOUR = 3_600_000;
 
@@ -85,19 +85,29 @@ export function analyse(all: Deployment[], window: TimeWindow, settings: Setting
     }
   }
 
-  // Revert (v1.1): a revert names its target commit (directly, or via a pull request's merge
-  // commit looked up by the collector). The release that shipped that commit is failed.
-  // Reverts whose target can't be identified or found in a release fail nothing and are listed.
+  // Revert (v1.1, PLAN.md §2): a revert fails the release that shipped what it reverts.
+  // 1. By commit id (named directly, or a pull request's merge commit looked up by the collector).
+  // 2. Otherwise by the quoted title, which also catches commits copied between version
+  //    branches under a new id. Among several earlier releases, the revert's own line wins.
+  // A revert of a change in its own release fails nothing. Anything else is unmatched.
   const unmatched = new Map<Deployment, string[]>();
   if (settings.useRevert) {
     for (const e of deps) {
       for (const change of e.changes ?? []) {
         const target = parseRevert(change.message, revertRe);
         if (!target) continue;
+        const others = (e.changes ?? []).filter((x) => x !== change);
+        const earlier = deps.filter((d) => d !== e && d.time < e.time);
         const sha = target.kind === 'commit' ? target.sha : target.kind === 'pull' ? change.revertTarget ?? null : null;
-        const shipped = sha
-          ? deps.find((d) => d !== e && d.time < e.time && d.changes?.some((x) => sameCommit(x.sha, sha)))
-          : undefined;
+
+        if (sha && others.some((x) => sameCommit(x.sha, sha))) continue; // reverted before release
+        let shipped = sha ? pickRelease(earlier.filter((d) => d.changes?.some((x) => sameCommit(x.sha, sha))), e) : null;
+        if (!shipped) {
+          const title = quotedTitle(change.message);
+          const hasTitle = (x: Change) => (x.message.split('\n')[0] ?? '') === title;
+          if (title && others.some(hasTitle)) continue; // a copy reverted in its own release
+          if (title) shipped = pickRelease(earlier.filter((d) => d.changes?.some(hasTitle)), e);
+        }
         if (shipped) {
           addCandidate(shipped, { by: e, reason: `Revert: ${e.name} contains ‘${firstLine(change.message)}’` });
         } else {
@@ -124,13 +134,14 @@ export function analyse(all: Deployment[], window: TimeWindow, settings: Setting
       recoveryHours = (cur.time.getTime() - d.time.getTime()) / HOUR;
     }
 
-    // Rework (v1.1): it fixed a failed release, or it is a patch release (whatever its commits say).
+    // Rework (v1.1): a release that fixed a detected failure. The broad, non-default setting
+    // also counts every patch release, whatever its commits say.
     const reasons: string[] = [];
     if (remediates.length > 0) reasons.push(`Fixes failed deployment ${remediates.join(', ')}`);
     const p = pred.get(d);
     const v = parseVersion(d.name);
     const pv = p ? parseVersion(p.name) : null;
-    if (v && pv && v.major === pv.major && v.minor === pv.minor && v.patch > pv.patch) {
+    if (settings.reworkRule === 'patches' && v && pv && v.major === pv.major && v.minor === pv.minor && v.patch > pv.patch) {
       reasons.push(`Patch release (${p!.name} → ${d.name})`);
     }
 
@@ -155,6 +166,17 @@ export function analyse(all: Deployment[], window: TimeWindow, settings: Setting
       unmatchedReverts: unmatched.get(d) ?? [],
     };
   });
+}
+
+/** The release on the revert's own version line, else the most recent one. */
+function pickRelease(candidates: Deployment[], revert: Deployment): Deployment | null {
+  if (candidates.length === 0) return null;
+  const line = (n: string) => {
+    const v = parseVersion(n);
+    return v ? `${v.major}.${v.minor}` : null;
+  };
+  const byRecency = [...candidates].sort((a, b) => b.time.getTime() - a.time.getTime());
+  return byRecency.find((d) => line(d.name) !== null && line(d.name) === line(revert.name)) ?? byRecency[0]!;
 }
 
 function firstLine(s: string): string {
