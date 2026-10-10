@@ -54,11 +54,21 @@ describe('GitHubClient errors', () => {
     expect(calls).toBe(1);
   });
   it('never spends more than GitHub says is left', async () => {
-    const r = { ...sandboxResponses['/repos/gonzassh/dora-sandbox']!, headers: { 'x-ratelimit-remaining': '1', 'x-ratelimit-limit': '60', 'x-ratelimit-reset': '1791748800' } };
-    const c = new GitHubClient({ budget: 50, fetchFn: respondWith(r) });
+    // Like real GitHub, each response reports one fewer request left: 1, then 0.
+    let left = 2;
+    let calls = 0;
+    const c = new GitHubClient({
+      budget: 50,
+      fetchFn: async () => {
+        calls++;
+        left--;
+        return toResponse({ status: 200, headers: { 'x-ratelimit-remaining': String(left), 'x-ratelimit-limit': '60', 'x-ratelimit-reset': '1791748800' }, body: {} });
+      },
+    });
     await c.get('/x');
     await c.get('/y');
     expect((await errorOf(c.get('/z'))).kind).toBe('budget');
+    expect(calls).toBe(2);
   });
 });
 

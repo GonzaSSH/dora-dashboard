@@ -52,7 +52,9 @@ describe('error cases', () => {
   });
   it('every error kind has a plain-language message', () => {
     for (const kind of ['not-found', 'private', 'no-deployments', 'rate-limit', 'network', 'bad-token', 'forbidden', 'server', 'budget', 'invalid-input'] as const) {
-      const m = messageFor(new GitHubError(kind, 'x', { resetAt: new Date('2026-10-10T18:00:00Z') }));
+      // invalid-input shows its own message to the user, so give it a realistic one.
+      const text = kind === 'invalid-input' ? 'Enter a repository as owner/name.' : 'x';
+      const m = messageFor(new GitHubError(kind, text, { resetAt: new Date('2026-10-10T18:00:00Z') }));
       expect(m.title.length).toBeGreaterThan(5);
       expect(m.detail.length).toBeGreaterThan(10);
     }
