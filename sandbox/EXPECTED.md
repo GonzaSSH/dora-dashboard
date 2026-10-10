@@ -7,6 +7,9 @@ file, never the other way round.
 **History of this file**
 - **v1.0:** written before any metric code existed.
   - Sandbox results: 8 deployments, 0.62/week, 3.0 days, 25%, 34 hours, 37.5%.
+- **v1.3:** the sandbox gained six releases before the window (v0.7.0, v0.8.0–v0.8.4) so the
+  previous 90 days can be compared; current-period values are unchanged (see "Context on the
+  tiles" below).
 - **v1.1:** redone by hand after the delivery lead reviewed every definition:
   - a revert only fails the release that shipped the reverted change;
   - rework counts only releases that fixed a failed release.
@@ -34,6 +37,12 @@ All times below are UTC.
 
 | Tag | Tag date | Matches pattern? | In window? | Deployment in window? |
 |---|---|---|---|---|
+| v0.7.0 | 2025-09-15 12:00 | yes | no (before) | no (v1.3: baseline of the previous period) |
+| v0.8.0 | 2025-10-13 12:00 | yes | no (before) | no (v1.3: previous period) |
+| v0.8.1 | 2025-10-14 08:00 | yes | no (before) | no (v1.3: previous period) |
+| v0.8.2 | 2025-11-03 12:00 | yes | no (before) | no (v1.3: previous period) |
+| v0.8.3 | 2025-11-17 12:00 | yes | no (before) | no (v1.3: previous period) |
+| v0.8.4 | 2025-12-01 12:00 | yes | no (before) | no (v1.3: previous period) |
 | v0.9.0 | 2025-12-15 12:00 | yes | no (before) | no, but it's the predecessor of v1.0.0 |
 | v1.0.0 | 2026-01-05 12:00 | yes | yes | **yes** |
 | v1.1.0 | 2026-01-19 12:00 | yes | yes | **yes** |
@@ -174,11 +183,89 @@ v1.5.2 → `5 / 10 = 0.5` (**50%**).
 | Failed deployment recovery time | 33 h (median of 4) | 33 hours |
 | Rework rate | 4/10 = 0.4 (broad setting: 5/10 = 0.5) | 40% (broad: 50%) |
 
-**Requests (no token):** repository 1 + releases 1 + tag list 1 + 12 tag dates (lines 2.0: 1,
-1.5: 3, 1.4: 2, 1.3: 1, 1.2: 2, 1.1: 1, 1.0: 1, 0.9: 1) + 10 comparisons = **25**.
+**Requests (no token), current period only:** repository 1 + releases 1 + tag list 1 + 14 tag
+dates + 10 comparisons = **27**. Tag dates are read newest version line first (lines 2.0: 1,
+1.5: 3, 1.4: 2, 1.3: 1, 1.2: 2, 1.1: 1, 1.0: 1), then lines entirely before the window until
+three in a row are found: 0.9 (v0.9.0), 0.8 (its newest, v0.8.4) and 0.7 (v0.7.0) = 3 more.
+(v1.2 had 25: the v1.3 sandbox added the 0.8 and 0.7 lines.)
 
 **Display rule:** durations under 48 hours are shown in hours. 48 hours or
 more are shown in days with one decimal place.
+
+## Context on the tiles (v1.3)
+
+### Plain-language sentences
+
+Rules (PLAN.md §2c): durations in words are "less than an hour" under 1 h, hours under 48 h,
+days (rounded) under 14 days, weeks (rounded) under 60 days, else months (rounded, 30 days).
+"About 1 in k" is used only when `k = round(n / f)` is at least 2 and `1/k` is within 10% of
+`f/n`; otherwise the exact "f of n".
+
+| Tile | Working | Sentence |
+|---|---|---|
+| Deployment frequency | 90 days ÷ 10 releases = 9 days | "A new release about every 9 days." |
+| Change lead time | 49 h ≥ 48 h → days: round(49 / 24) = 2 | "A finished change waits about 2 days before users get it." |
+| Change failure rate | 4 of 10: k = round(2.5) = 3, 1/3 = 0.33 is 17% off 0.4 → exact | "4 of 10 releases needed an urgent fix." |
+| Recovery time | 33 h < 48 h → hours | "When a release went wrong, the fix usually reached users within about 33 hours." |
+| Rework rate | 4 of 10 → exact (as above) | "4 of 10 releases were urgent fixes for earlier releases." |
+
+### The previous 90 days
+
+Window: 2025-10-03 00:00 UTC up to (not including) 2026-01-01 00:00 UTC (90 days, ending where
+the current window starts). Same rules and settings.
+
+| Release | Date | Predecessor | Changes (written) | Lead time (h) |
+|---|---|---|---|---|
+| v0.8.0 | 10-13 12:00 | v0.7.0 | feat: add name option (10-08 12:00); docs: add examples (10-12 12:00) | **120**, **24** |
+| v0.8.1 | 10-14 08:00 | v0.8.0 | fix: crash on empty name (10-14 06:00) | **2** |
+| v0.8.2 | 11-03 12:00 | v0.8.1 | fix: trim whitespace in names (10-30 12:00) | **96** (4 days) |
+| v0.8.3 | 11-17 12:00 | v0.8.2 | perf: faster greeting (11-14 12:00) | **72** (3 days) |
+| v0.8.4 | 12-01 12:00 | v0.8.3 | chore: update dependencies (11-27 12:00) | **96** (4 days) |
+| v0.9.0 | 12-15 12:00 | v0.8.4 | feat: add greeting (12-10 10:00) | **122** (5 days + 2 h) |
+
+- **n = 6** → `6 × 7 / 90 = 42/90 = 0.4666…` per week (**0.47 per week**).
+- **Lead time:** sorted `2, 24, 72, 96, 96, 120, 122`; 7 values, median = 4th = **96 h** ("4.0 days").
+- **Failures:** v0.8.1 is the next patch of v0.8.0, 20 h later (≤ 48 h) → **v0.8.0 failed**,
+  remediation v0.8.1. Other patches: v0.8.1 → v0.8.2 is 20 days, v0.8.2 → v0.8.3 14 days,
+  v0.8.3 → v0.8.4 14 days, all over 48 h. No reverts. **Failure rate 1/6 = 16.7%.**
+- **Recovery:** v0.8.0 (10-13 12:00) → v0.8.1 (10-14 08:00) = **20 h**.
+- **Rework:** v0.8.1 (fixed v0.8.0) → **1/6 = 16.7%**.
+
+### Comparison lines
+
+Direction is decided on the shown values; equal shown values say "about the same".
+
+| Tile | Current vs previous | Line |
+|---|---|---|
+| Deployment frequency | 0.78 vs 0.47 per week | "More often than the previous 90 days (0.78 vs 0.47 per week)." |
+| Change lead time | 49 h vs 96 h | "Faster than the previous 90 days (2.0 days vs 4.0 days)." |
+| Change failure rate | 40% vs 16.7% | "Higher than the previous 90 days (40% vs 16.7%)." |
+| Recovery time | 33 h vs 20 h | "Slower than the previous 90 days (33 hours vs 20 hours)." |
+| Rework rate | 40% vs 16.7% | "Higher than the previous 90 days (40% vs 16.7%)." |
+
+**Requests for the comparison (no token):** responses already fetched for the current period
+are reused, so the previous period adds only 4 tag dates (v0.8.3, v0.8.2, v0.8.1, v0.8.0;
+v0.8.4, v0.9.0 and v0.7.0 were already read) + 6 comparisons (v0.7.0…v0.8.0 to v0.8.4…v0.9.0)
+= **10**. Total **27 + 10 = 37**, within the 50-request budget.
+
+**When the previous period can't be compared:** with fewer than 5 releases in it, every tile
+says "Not compared: the previous 90 days had only N releases (at least 5 are needed)." If the
+request budget runs out before the previous period is fully measured, the tiles that need
+commit details (lead time, failure rate, recovery, rework) say the comparison needs a token;
+deployment frequency needs only release dates and is still compared when those were read.
+
+### DORA 2025 context (deployment frequency and lead time only)
+
+Source: *State of AI-assisted Software Development 2025* (DORA, Google LLC, v2025.2), page 20,
+Figures 11 and 12, "Top %" column; licensed CC BY-NC-SA 4.0.
+
+- **Deployment frequency:** 0.78 per week is at least weekly-to-monthly (≥ 7/30 = 0.233 per
+  week) but less than weekly (< 1 per week) → band "Between once per week and once per month",
+  Top % **76.1** → "About 76% of surveyed teams ship this often or more."
+- **Lead time:** 49 h is at least one day (24 h) and under one week (168 h) → band "Between one
+  day and one week", Top % **56.4** → "About 56% of surveyed teams have this lead time or
+  shorter."
+- The three proxy tiles show no DORA figure.
 
 ## Manual corrections (v1.2)
 

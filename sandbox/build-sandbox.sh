@@ -39,9 +39,26 @@ tag() { at "$1"; "${GIT[@]}" tag -a "$2" -m "Release $2"; }
 
 "${GIT[@]}" init -q -b main
 
-at "2025-12-01 10:00:00"
+at "2025-09-01 10:00:00"
 cp "$HERE/sandbox-readme.md" "$WORK/README.md"
 "${GIT[@]}" add -A && "${GIT[@]}" commit -q -m "Initial commit"
+commit "2025-09-10 10:00:00" src/hello.txt "feat: add hello"
+tag    "2025-09-15 12:00:00" v0.7.0
+
+# The previous 90 days (v1.3), so the dashboard can compare periods: six releases in
+# Oct-Dec 2025, including one quick-patch failure (v0.8.0 -> v0.8.1, 20 hours later).
+commit "2025-10-08 12:00:00" src/hello.txt  "feat: add name option"
+commit "2025-10-12 12:00:00" docs/usage.txt "docs: add examples"
+tag    "2025-10-13 12:00:00" v0.8.0
+commit "2025-10-14 06:00:00" src/hello.txt  "fix: crash on empty name"
+tag    "2025-10-14 08:00:00" v0.8.1
+commit "2025-10-30 12:00:00" src/hello.txt  "fix: trim whitespace in names"
+tag    "2025-11-03 12:00:00" v0.8.2
+commit "2025-11-14 12:00:00" src/hello.txt  "perf: faster greeting"
+tag    "2025-11-17 12:00:00" v0.8.3
+commit "2025-11-27 12:00:00" package.txt    "chore: update dependencies"
+tag    "2025-12-01 12:00:00" v0.8.4
+
 commit "2025-12-10 10:00:00" src/greeting.txt "feat: add greeting"
 tag    "2025-12-15 12:00:00" v0.9.0
 
