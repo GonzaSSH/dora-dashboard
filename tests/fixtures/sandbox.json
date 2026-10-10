@@ -1,0 +1,2857 @@
+{
+ "repo": "GonzaSSH/dora-sandbox",
+ "recordedAt": "2026-10-10T18:05:37.172Z",
+ "responses": {
+  "/repos/gonzassh/dora-sandbox": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "id": 1413504338,
+    "node_id": "R_kgDOVEBdUg",
+    "name": "dora-sandbox",
+    "full_name": "GonzaSSH/dora-sandbox",
+    "private": false,
+    "owner": {
+     "login": "GonzaSSH",
+     "id": 24204642,
+     "node_id": "MDQ6VXNlcjI0MjA0NjQy",
+     "avatar_url": "https://avatars.githubusercontent.com/u/24204642?v=4",
+     "gravatar_id": "",
+     "url": "https://api.github.com/users/GonzaSSH",
+     "html_url": "https://github.com/GonzaSSH",
+     "followers_url": "https://api.github.com/users/GonzaSSH/followers",
+     "following_url": "https://api.github.com/users/GonzaSSH/following{/other_user}",
+     "gists_url": "https://api.github.com/users/GonzaSSH/gists{/gist_id}",
+     "starred_url": "https://api.github.com/users/GonzaSSH/starred{/owner}{/repo}",
+     "subscriptions_url": "https://api.github.com/users/GonzaSSH/subscriptions",
+     "organizations_url": "https://api.github.com/users/GonzaSSH/orgs",
+     "repos_url": "https://api.github.com/users/GonzaSSH/repos",
+     "events_url": "https://api.github.com/users/GonzaSSH/events{/privacy}",
+     "received_events_url": "https://api.github.com/users/GonzaSSH/received_events",
+     "type": "User",
+     "user_view_type": "public",
+     "site_admin": false
+    },
+    "html_url": "https://github.com/GonzaSSH/dora-sandbox",
+    "description": null,
+    "fork": false,
+    "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox",
+    "forks_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/forks",
+    "keys_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/keys{/key_id}",
+    "collaborators_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/collaborators{/collaborator}",
+    "teams_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/teams",
+    "hooks_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/hooks",
+    "issue_events_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/issues/events{/number}",
+    "events_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/events",
+    "assignees_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/assignees{/user}",
+    "branches_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/branches{/branch}",
+    "tags_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/tags",
+    "blobs_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/blobs{/sha}",
+    "git_tags_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/tags{/sha}",
+    "git_refs_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/refs{/sha}",
+    "trees_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees{/sha}",
+    "statuses_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/statuses/{sha}",
+    "languages_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/languages",
+    "stargazers_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/stargazers",
+    "contributors_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/contributors",
+    "subscribers_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/subscribers",
+    "subscription_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/subscription",
+    "commits_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits{/sha}",
+    "git_commits_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits{/sha}",
+    "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/comments{/number}",
+    "issue_comment_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/issues/comments{/number}",
+    "contents_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/contents/{+path}",
+    "compare_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/compare/{base}...{head}",
+    "merges_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/merges",
+    "archive_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/{archive_format}{/ref}",
+    "downloads_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/downloads",
+    "issues_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/issues{/number}",
+    "pulls_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/pulls{/number}",
+    "milestones_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/milestones{/number}",
+    "notifications_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/notifications{?since,all,participating}",
+    "labels_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/labels{/name}",
+    "releases_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/releases{/id}",
+    "deployments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/deployments",
+    "created_at": "2026-10-10T17:59:28Z",
+    "updated_at": "2026-10-10T18:03:57Z",
+    "pushed_at": "2026-10-10T18:03:54Z",
+    "git_url": "git://github.com/GonzaSSH/dora-sandbox.git",
+    "ssh_url": "git@github.com:GonzaSSH/dora-sandbox.git",
+    "clone_url": "https://github.com/GonzaSSH/dora-sandbox.git",
+    "svn_url": "https://github.com/GonzaSSH/dora-sandbox",
+    "homepage": null,
+    "size": 0,
+    "stargazers_count": 0,
+    "watchers_count": 0,
+    "language": null,
+    "has_issues": true,
+    "has_projects": true,
+    "has_downloads": false,
+    "has_wiki": false,
+    "has_pages": false,
+    "has_discussions": false,
+    "forks_count": 0,
+    "mirror_url": null,
+    "archived": false,
+    "disabled": false,
+    "open_issues_count": 0,
+    "license": null,
+    "allow_forking": true,
+    "is_template": false,
+    "web_commit_signoff_required": false,
+    "has_pull_requests": true,
+    "pull_request_creation_policy": "all",
+    "topics": [],
+    "visibility": "public",
+    "forks": 0,
+    "open_issues": 0,
+    "watchers": 0,
+    "default_branch": "main",
+    "permissions": {
+     "admin": true,
+     "maintain": true,
+     "push": true,
+     "triage": true,
+     "pull": true
+    },
+    "allow_squash_merge": true,
+    "allow_merge_commit": true,
+    "allow_rebase_merge": true,
+    "allow_auto_merge": false,
+    "delete_branch_on_merge": false,
+    "allow_update_branch": false,
+    "use_squash_pr_title_as_default": false,
+    "squash_merge_commit_message": "COMMIT_MESSAGES",
+    "squash_merge_commit_title": "COMMIT_OR_PR_TITLE",
+    "merge_commit_message": "PR_TITLE",
+    "merge_commit_title": "MERGE_MESSAGE",
+    "security_and_analysis": {
+     "secret_scanning": {
+      "status": "disabled"
+     },
+     "secret_scanning_push_protection": {
+      "status": "disabled"
+     },
+     "dependabot_security_updates": {
+      "status": "disabled"
+     },
+     "secret_scanning_non_provider_patterns": {
+      "status": "disabled"
+     },
+     "secret_scanning_validity_checks": {
+      "status": "disabled"
+     }
+    },
+    "network_count": 0,
+    "subscribers_count": 0
+   }
+  },
+  "/repos/gonzassh/dora-sandbox/releases?per_page=100&page=1": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": []
+  },
+  "/repos/gonzassh/dora-sandbox/git/matching-refs/tags": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": [
+    {
+     "ref": "refs/tags/experiment",
+     "node_id": "REF_kwDOVEBdUrRyZWZzL3RhZ3MvZXhwZXJpbWVudA",
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/refs/tags/experiment",
+     "object": {
+      "sha": "781179109bda120630c1cdf3ad5c1d67e805fb28",
+      "type": "commit",
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/781179109bda120630c1cdf3ad5c1d67e805fb28"
+     }
+    },
+    {
+     "ref": "refs/tags/v0.9.0",
+     "node_id": "REF_kwDOVEBdUrByZWZzL3RhZ3MvdjAuOS4w",
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/refs/tags/v0.9.0",
+     "object": {
+      "sha": "202f3b2542a247ddfc066dd731bedcaee6f230f5",
+      "type": "tag",
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/tags/202f3b2542a247ddfc066dd731bedcaee6f230f5"
+     }
+    },
+    {
+     "ref": "refs/tags/v1.0.0",
+     "node_id": "REF_kwDOVEBdUrByZWZzL3RhZ3MvdjEuMC4w",
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/refs/tags/v1.0.0",
+     "object": {
+      "sha": "39489a4f1f5a4356cc432b90c59d2ca367f23933",
+      "type": "tag",
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/tags/39489a4f1f5a4356cc432b90c59d2ca367f23933"
+     }
+    },
+    {
+     "ref": "refs/tags/v1.1.0",
+     "node_id": "REF_kwDOVEBdUrByZWZzL3RhZ3MvdjEuMS4w",
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/refs/tags/v1.1.0",
+     "object": {
+      "sha": "b339c86fa47778232bcb385116d79e9935e61f90",
+      "type": "tag",
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/tags/b339c86fa47778232bcb385116d79e9935e61f90"
+     }
+    },
+    {
+     "ref": "refs/tags/v1.2.0",
+     "node_id": "REF_kwDOVEBdUrByZWZzL3RhZ3MvdjEuMi4w",
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/refs/tags/v1.2.0",
+     "object": {
+      "sha": "f4fe4a05349b310fa24da3888fa7df0e1c403511",
+      "type": "tag",
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/tags/f4fe4a05349b310fa24da3888fa7df0e1c403511"
+     }
+    },
+    {
+     "ref": "refs/tags/v1.2.1",
+     "node_id": "REF_kwDOVEBdUrByZWZzL3RhZ3MvdjEuMi4x",
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/refs/tags/v1.2.1",
+     "object": {
+      "sha": "a848f7980f666fbc4d833102f88c0e986e43a831",
+      "type": "tag",
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/tags/a848f7980f666fbc4d833102f88c0e986e43a831"
+     }
+    },
+    {
+     "ref": "refs/tags/v1.3.0",
+     "node_id": "REF_kwDOVEBdUrByZWZzL3RhZ3MvdjEuMy4w",
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/refs/tags/v1.3.0",
+     "object": {
+      "sha": "da51956a3a286a26e7de6a4c15481fa1d28b99a1",
+      "type": "tag",
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/tags/da51956a3a286a26e7de6a4c15481fa1d28b99a1"
+     }
+    },
+    {
+     "ref": "refs/tags/v1.4.0",
+     "node_id": "REF_kwDOVEBdUrByZWZzL3RhZ3MvdjEuNC4w",
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/refs/tags/v1.4.0",
+     "object": {
+      "sha": "e43c44f2f910a09aa873b9f22358334c58f16b6a",
+      "type": "tag",
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/tags/e43c44f2f910a09aa873b9f22358334c58f16b6a"
+     }
+    },
+    {
+     "ref": "refs/tags/v1.4.1",
+     "node_id": "REF_kwDOVEBdUrByZWZzL3RhZ3MvdjEuNC4x",
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/refs/tags/v1.4.1",
+     "object": {
+      "sha": "a2c3bfc9b98da273013615a623ca16580468d512",
+      "type": "tag",
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/tags/a2c3bfc9b98da273013615a623ca16580468d512"
+     }
+    },
+    {
+     "ref": "refs/tags/v1.5.0",
+     "node_id": "REF_kwDOVEBdUrByZWZzL3RhZ3MvdjEuNS4w",
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/refs/tags/v1.5.0",
+     "object": {
+      "sha": "2cc1ead930babc4dd251e2f288a102e361f0c5e4",
+      "type": "tag",
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/tags/2cc1ead930babc4dd251e2f288a102e361f0c5e4"
+     }
+    },
+    {
+     "ref": "refs/tags/v1.6.0-beta.1",
+     "node_id": "REF_kwDOVEBdUrdyZWZzL3RhZ3MvdjEuNi4wLWJldGEuMQ",
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/refs/tags/v1.6.0-beta.1",
+     "object": {
+      "sha": "ea25695afb0cba07708328b69637ae5ba925b7b1",
+      "type": "tag",
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/tags/ea25695afb0cba07708328b69637ae5ba925b7b1"
+     }
+    },
+    {
+     "ref": "refs/tags/v2.0.0",
+     "node_id": "REF_kwDOVEBdUrByZWZzL3RhZ3MvdjIuMC4w",
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/refs/tags/v2.0.0",
+     "object": {
+      "sha": "db5a593e6d24c044578301dc71eeba0690f17ab0",
+      "type": "tag",
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/tags/db5a593e6d24c044578301dc71eeba0690f17ab0"
+     }
+    }
+   ]
+  },
+  "/repos/gonzassh/dora-sandbox/git/commits/781179109bda120630c1cdf3ad5c1d67e805fb28": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "sha": "781179109bda120630c1cdf3ad5c1d67e805fb28",
+    "node_id": "C_kwDOVEBdUtoAKDc4MTE3OTEwOWJkYTEyMDYzMGMxY2RmM2FkNWMxZDY3ZTgwNWZiMjg",
+    "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/781179109bda120630c1cdf3ad5c1d67e805fb28",
+    "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/781179109bda120630c1cdf3ad5c1d67e805fb28",
+    "author": {
+     "name": "Sandbox Bot",
+     "email": "sandbox-bot@example.com",
+     "date": "2026-03-24T12:00:00Z"
+    },
+    "committer": {
+     "name": "Sandbox Bot",
+     "email": "sandbox-bot@example.com",
+     "date": "2026-03-24T12:00:00Z"
+    },
+    "tree": {
+     "sha": "8bcb930a8a995a3910f24250fd783d7879a7f05f",
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/8bcb930a8a995a3910f24250fd783d7879a7f05f"
+    },
+    "message": "feat: experimental plugin system",
+    "parents": [
+     {
+      "sha": "9c10f277428e63a54a06c80d2bda133eb68b6b37",
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/9c10f277428e63a54a06c80d2bda133eb68b6b37",
+      "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/9c10f277428e63a54a06c80d2bda133eb68b6b37"
+     }
+    ],
+    "verification": {
+     "verified": false,
+     "reason": "unsigned",
+     "signature": null,
+     "payload": null,
+     "verified_at": null
+    }
+   }
+  },
+  "/repos/gonzassh/dora-sandbox/git/tags/202f3b2542a247ddfc066dd731bedcaee6f230f5": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "node_id": "TA_kwDOVEBdUtoAKDIwMmYzYjI1NDJhMjQ3ZGRmYzA2NmRkNzMxYmVkY2FlZTZmMjMwZjU",
+    "sha": "202f3b2542a247ddfc066dd731bedcaee6f230f5",
+    "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/tags/202f3b2542a247ddfc066dd731bedcaee6f230f5",
+    "tagger": {
+     "name": "Sandbox Bot",
+     "email": "sandbox-bot@example.com",
+     "date": "2025-12-15T12:00:00Z"
+    },
+    "object": {
+     "sha": "7fb26207b00f537dca10050ef9c9656509a0b843",
+     "type": "commit",
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/7fb26207b00f537dca10050ef9c9656509a0b843"
+    },
+    "tag": "v0.9.0",
+    "message": "Release v0.9.0\n",
+    "verification": {
+     "verified": false,
+     "reason": "unsigned",
+     "signature": null,
+     "payload": null,
+     "verified_at": null
+    }
+   }
+  },
+  "/repos/gonzassh/dora-sandbox/git/tags/39489a4f1f5a4356cc432b90c59d2ca367f23933": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "node_id": "TA_kwDOVEBdUtoAKDM5NDg5YTRmMWY1YTQzNTZjYzQzMmI5MGM1OWQyY2EzNjdmMjM5MzM",
+    "sha": "39489a4f1f5a4356cc432b90c59d2ca367f23933",
+    "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/tags/39489a4f1f5a4356cc432b90c59d2ca367f23933",
+    "tagger": {
+     "name": "Sandbox Bot",
+     "email": "sandbox-bot@example.com",
+     "date": "2026-01-05T12:00:00Z"
+    },
+    "object": {
+     "sha": "7d8ba7e9d4a3e57a66de6f3cd223618598c07c73",
+     "type": "commit",
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/7d8ba7e9d4a3e57a66de6f3cd223618598c07c73"
+    },
+    "tag": "v1.0.0",
+    "message": "Release v1.0.0\n",
+    "verification": {
+     "verified": false,
+     "reason": "unsigned",
+     "signature": null,
+     "payload": null,
+     "verified_at": null
+    }
+   }
+  },
+  "/repos/gonzassh/dora-sandbox/git/tags/b339c86fa47778232bcb385116d79e9935e61f90": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "node_id": "TA_kwDOVEBdUtoAKGIzMzljODZmYTQ3Nzc4MjMyYmNiMzg1MTE2ZDc5ZTk5MzVlNjFmOTA",
+    "sha": "b339c86fa47778232bcb385116d79e9935e61f90",
+    "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/tags/b339c86fa47778232bcb385116d79e9935e61f90",
+    "tagger": {
+     "name": "Sandbox Bot",
+     "email": "sandbox-bot@example.com",
+     "date": "2026-01-19T12:00:00Z"
+    },
+    "object": {
+     "sha": "e838e4cdb5942d0face77e84dc4d679c44fbe18b",
+     "type": "commit",
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/e838e4cdb5942d0face77e84dc4d679c44fbe18b"
+    },
+    "tag": "v1.1.0",
+    "message": "Release v1.1.0\n",
+    "verification": {
+     "verified": false,
+     "reason": "unsigned",
+     "signature": null,
+     "payload": null,
+     "verified_at": null
+    }
+   }
+  },
+  "/repos/gonzassh/dora-sandbox/git/tags/f4fe4a05349b310fa24da3888fa7df0e1c403511": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "node_id": "TA_kwDOVEBdUtoAKGY0ZmU0YTA1MzQ5YjMxMGZhMjRkYTM4ODhmYTdkZjBlMWM0MDM1MTE",
+    "sha": "f4fe4a05349b310fa24da3888fa7df0e1c403511",
+    "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/tags/f4fe4a05349b310fa24da3888fa7df0e1c403511",
+    "tagger": {
+     "name": "Sandbox Bot",
+     "email": "sandbox-bot@example.com",
+     "date": "2026-02-02T12:00:00Z"
+    },
+    "object": {
+     "sha": "036e6820e4382441f0c22d803f0297325a5b1b26",
+     "type": "commit",
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/036e6820e4382441f0c22d803f0297325a5b1b26"
+    },
+    "tag": "v1.2.0",
+    "message": "Release v1.2.0\n",
+    "verification": {
+     "verified": false,
+     "reason": "unsigned",
+     "signature": null,
+     "payload": null,
+     "verified_at": null
+    }
+   }
+  },
+  "/repos/gonzassh/dora-sandbox/git/tags/a848f7980f666fbc4d833102f88c0e986e43a831": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "node_id": "TA_kwDOVEBdUtoAKGE4NDhmNzk4MGY2NjZmYmM0ZDgzMzEwMmY4OGMwZTk4NmU0M2E4MzE",
+    "sha": "a848f7980f666fbc4d833102f88c0e986e43a831",
+    "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/tags/a848f7980f666fbc4d833102f88c0e986e43a831",
+    "tagger": {
+     "name": "Sandbox Bot",
+     "email": "sandbox-bot@example.com",
+     "date": "2026-02-03T08:00:00Z"
+    },
+    "object": {
+     "sha": "4d8dfcf5cbf8ab5e25ff73a5be69250d971123ab",
+     "type": "commit",
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/4d8dfcf5cbf8ab5e25ff73a5be69250d971123ab"
+    },
+    "tag": "v1.2.1",
+    "message": "Release v1.2.1\n",
+    "verification": {
+     "verified": false,
+     "reason": "unsigned",
+     "signature": null,
+     "payload": null,
+     "verified_at": null
+    }
+   }
+  },
+  "/repos/gonzassh/dora-sandbox/git/tags/da51956a3a286a26e7de6a4c15481fa1d28b99a1": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "node_id": "TA_kwDOVEBdUtoAKGRhNTE5NTZhM2EyODZhMjZlN2RlNmE0YzE1NDgxZmExZDI4Yjk5YTE",
+    "sha": "da51956a3a286a26e7de6a4c15481fa1d28b99a1",
+    "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/tags/da51956a3a286a26e7de6a4c15481fa1d28b99a1",
+    "tagger": {
+     "name": "Sandbox Bot",
+     "email": "sandbox-bot@example.com",
+     "date": "2026-02-16T12:00:00Z"
+    },
+    "object": {
+     "sha": "59c40ad7467d0dd2012a4aa7d976ff1cd3986b20",
+     "type": "commit",
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/59c40ad7467d0dd2012a4aa7d976ff1cd3986b20"
+    },
+    "tag": "v1.3.0",
+    "message": "Release v1.3.0\n",
+    "verification": {
+     "verified": false,
+     "reason": "unsigned",
+     "signature": null,
+     "payload": null,
+     "verified_at": null
+    }
+   }
+  },
+  "/repos/gonzassh/dora-sandbox/git/tags/e43c44f2f910a09aa873b9f22358334c58f16b6a": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "node_id": "TA_kwDOVEBdUtoAKGU0M2M0NGYyZjkxMGEwOWFhODczYjlmMjIzNTgzMzRjNThmMTZiNmE",
+    "sha": "e43c44f2f910a09aa873b9f22358334c58f16b6a",
+    "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/tags/e43c44f2f910a09aa873b9f22358334c58f16b6a",
+    "tagger": {
+     "name": "Sandbox Bot",
+     "email": "sandbox-bot@example.com",
+     "date": "2026-02-18T12:00:00Z"
+    },
+    "object": {
+     "sha": "2246a3349813a8c435d5fbb56a7dfdf0e1027703",
+     "type": "commit",
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/2246a3349813a8c435d5fbb56a7dfdf0e1027703"
+    },
+    "tag": "v1.4.0",
+    "message": "Release v1.4.0\n",
+    "verification": {
+     "verified": false,
+     "reason": "unsigned",
+     "signature": null,
+     "payload": null,
+     "verified_at": null
+    }
+   }
+  },
+  "/repos/gonzassh/dora-sandbox/git/tags/a2c3bfc9b98da273013615a623ca16580468d512": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "node_id": "TA_kwDOVEBdUtoAKGEyYzNiZmM5Yjk4ZGEyNzMwMTM2MTVhNjIzY2ExNjU4MDQ2OGQ1MTI",
+    "sha": "a2c3bfc9b98da273013615a623ca16580468d512",
+    "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/tags/a2c3bfc9b98da273013615a623ca16580468d512",
+    "tagger": {
+     "name": "Sandbox Bot",
+     "email": "sandbox-bot@example.com",
+     "date": "2026-03-06T12:00:00Z"
+    },
+    "object": {
+     "sha": "c0e007fe5c1f786d90fdbadc19120dac2c0420f6",
+     "type": "commit",
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/c0e007fe5c1f786d90fdbadc19120dac2c0420f6"
+    },
+    "tag": "v1.4.1",
+    "message": "Release v1.4.1\n",
+    "verification": {
+     "verified": false,
+     "reason": "unsigned",
+     "signature": null,
+     "payload": null,
+     "verified_at": null
+    }
+   }
+  },
+  "/repos/gonzassh/dora-sandbox/git/tags/2cc1ead930babc4dd251e2f288a102e361f0c5e4": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "node_id": "TA_kwDOVEBdUtoAKDJjYzFlYWQ5MzBiYWJjNGRkMjUxZTJmMjg4YTEwMmUzNjFmMGM1ZTQ",
+    "sha": "2cc1ead930babc4dd251e2f288a102e361f0c5e4",
+    "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/tags/2cc1ead930babc4dd251e2f288a102e361f0c5e4",
+    "tagger": {
+     "name": "Sandbox Bot",
+     "email": "sandbox-bot@example.com",
+     "date": "2026-03-20T12:00:00Z"
+    },
+    "object": {
+     "sha": "9c10f277428e63a54a06c80d2bda133eb68b6b37",
+     "type": "commit",
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/9c10f277428e63a54a06c80d2bda133eb68b6b37"
+    },
+    "tag": "v1.5.0",
+    "message": "Release v1.5.0\n",
+    "verification": {
+     "verified": false,
+     "reason": "unsigned",
+     "signature": null,
+     "payload": null,
+     "verified_at": null
+    }
+   }
+  },
+  "/repos/gonzassh/dora-sandbox/git/tags/ea25695afb0cba07708328b69637ae5ba925b7b1": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "node_id": "TA_kwDOVEBdUtoAKGVhMjU2OTVhZmIwY2JhMDc3MDgzMjhiNjk2MzdhZTViYTkyNWI3YjE",
+    "sha": "ea25695afb0cba07708328b69637ae5ba925b7b1",
+    "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/tags/ea25695afb0cba07708328b69637ae5ba925b7b1",
+    "tagger": {
+     "name": "Sandbox Bot",
+     "email": "sandbox-bot@example.com",
+     "date": "2026-03-25T12:00:00Z"
+    },
+    "object": {
+     "sha": "781179109bda120630c1cdf3ad5c1d67e805fb28",
+     "type": "commit",
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/781179109bda120630c1cdf3ad5c1d67e805fb28"
+    },
+    "tag": "v1.6.0-beta.1",
+    "message": "Release v1.6.0-beta.1\n",
+    "verification": {
+     "verified": false,
+     "reason": "unsigned",
+     "signature": null,
+     "payload": null,
+     "verified_at": null
+    }
+   }
+  },
+  "/repos/gonzassh/dora-sandbox/git/tags/db5a593e6d24c044578301dc71eeba0690f17ab0": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "node_id": "TA_kwDOVEBdUtoAKGRiNWE1OTNlNmQyNGMwNDQ1NzgzMDFkYzcxZWViYTA2OTBmMTdhYjA",
+    "sha": "db5a593e6d24c044578301dc71eeba0690f17ab0",
+    "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/tags/db5a593e6d24c044578301dc71eeba0690f17ab0",
+    "tagger": {
+     "name": "Sandbox Bot",
+     "email": "sandbox-bot@example.com",
+     "date": "2026-04-06T12:00:00Z"
+    },
+    "object": {
+     "sha": "41aca170371d83a1b4b00f3b96a8f3f0ef35ebbf",
+     "type": "commit",
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/41aca170371d83a1b4b00f3b96a8f3f0ef35ebbf"
+    },
+    "tag": "v2.0.0",
+    "message": "Release v2.0.0\n",
+    "verification": {
+     "verified": false,
+     "reason": "unsigned",
+     "signature": null,
+     "payload": null,
+     "verified_at": null
+    }
+   }
+  },
+  "/repos/gonzassh/dora-sandbox/compare/v0.9.0...v1.0.0": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/compare/v0.9.0...v1.0.0",
+    "html_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v0.9.0...v1.0.0",
+    "permalink_url": "https://github.com/GonzaSSH/dora-sandbox/compare/GonzaSSH:7fb2620...GonzaSSH:7d8ba7e",
+    "diff_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v0.9.0...v1.0.0.diff",
+    "patch_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v0.9.0...v1.0.0.patch",
+    "base_commit": {
+     "sha": "7fb26207b00f537dca10050ef9c9656509a0b843",
+     "node_id": "C_kwDOVEBdUtoAKDdmYjI2MjA3YjAwZjUzN2RjYTEwMDUwZWY5Yzk2NTY1MDlhMGI4NDM",
+     "commit": {
+      "author": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2025-12-10T10:00:00Z"
+      },
+      "committer": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2025-12-10T10:00:00Z"
+      },
+      "message": "feat: add greeting",
+      "tree": {
+       "sha": "f2ea94b23d8cca0c34df9811024252149176ddb4",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/f2ea94b23d8cca0c34df9811024252149176ddb4"
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/7fb26207b00f537dca10050ef9c9656509a0b843",
+      "comment_count": 0,
+      "verification": {
+       "verified": false,
+       "reason": "unsigned",
+       "signature": null,
+       "payload": null,
+       "verified_at": null
+      }
+     },
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/7fb26207b00f537dca10050ef9c9656509a0b843",
+     "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/7fb26207b00f537dca10050ef9c9656509a0b843",
+     "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/7fb26207b00f537dca10050ef9c9656509a0b843/comments",
+     "author": null,
+     "committer": null,
+     "parents": [
+      {
+       "sha": "00889fc5de7419e8e757730d6fa553f3ff51493d",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/00889fc5de7419e8e757730d6fa553f3ff51493d",
+       "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/00889fc5de7419e8e757730d6fa553f3ff51493d"
+      }
+     ]
+    },
+    "merge_base_commit": {
+     "sha": "7fb26207b00f537dca10050ef9c9656509a0b843",
+     "node_id": "C_kwDOVEBdUtoAKDdmYjI2MjA3YjAwZjUzN2RjYTEwMDUwZWY5Yzk2NTY1MDlhMGI4NDM",
+     "commit": {
+      "author": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2025-12-10T10:00:00Z"
+      },
+      "committer": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2025-12-10T10:00:00Z"
+      },
+      "message": "feat: add greeting",
+      "tree": {
+       "sha": "f2ea94b23d8cca0c34df9811024252149176ddb4",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/f2ea94b23d8cca0c34df9811024252149176ddb4"
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/7fb26207b00f537dca10050ef9c9656509a0b843",
+      "comment_count": 0,
+      "verification": {
+       "verified": false,
+       "reason": "unsigned",
+       "signature": null,
+       "payload": null,
+       "verified_at": null
+      }
+     },
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/7fb26207b00f537dca10050ef9c9656509a0b843",
+     "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/7fb26207b00f537dca10050ef9c9656509a0b843",
+     "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/7fb26207b00f537dca10050ef9c9656509a0b843/comments",
+     "author": null,
+     "committer": null,
+     "parents": [
+      {
+       "sha": "00889fc5de7419e8e757730d6fa553f3ff51493d",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/00889fc5de7419e8e757730d6fa553f3ff51493d",
+       "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/00889fc5de7419e8e757730d6fa553f3ff51493d"
+      }
+     ]
+    },
+    "status": "ahead",
+    "ahead_by": 2,
+    "behind_by": 0,
+    "total_commits": 2,
+    "commits": [
+     {
+      "sha": "b2653f867fcae97e707b04da6cf1d65a38e469bf",
+      "node_id": "C_kwDOVEBdUtoAKGIyNjUzZjg2N2ZjYWU5N2U3MDdiMDRkYTZjZjFkNjVhMzhlNDY5YmY",
+      "commit": {
+       "author": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-01-02T09:00:00Z"
+       },
+       "committer": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-01-02T09:00:00Z"
+       },
+       "message": "feat: add farewell",
+       "tree": {
+        "sha": "ec2c3c040dbf54786638bda294ebcbdec47e4f67",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/ec2c3c040dbf54786638bda294ebcbdec47e4f67"
+       },
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/b2653f867fcae97e707b04da6cf1d65a38e469bf",
+       "comment_count": 0,
+       "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+       }
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/b2653f867fcae97e707b04da6cf1d65a38e469bf",
+      "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/b2653f867fcae97e707b04da6cf1d65a38e469bf",
+      "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/b2653f867fcae97e707b04da6cf1d65a38e469bf/comments",
+      "author": null,
+      "committer": null,
+      "parents": [
+       {
+        "sha": "7fb26207b00f537dca10050ef9c9656509a0b843",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/7fb26207b00f537dca10050ef9c9656509a0b843",
+        "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/7fb26207b00f537dca10050ef9c9656509a0b843"
+       }
+      ]
+     },
+     {
+      "sha": "7d8ba7e9d4a3e57a66de6f3cd223618598c07c73",
+      "node_id": "C_kwDOVEBdUtoAKDdkOGJhN2U5ZDRhM2U1N2E2NmRlNmYzY2QyMjM2MTg1OThjMDdjNzM",
+      "commit": {
+       "author": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-01-04T15:00:00Z"
+       },
+       "committer": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-01-04T15:00:00Z"
+       },
+       "message": "docs: describe usage",
+       "tree": {
+        "sha": "7b19208b85ca76a29d14d6e54f732b2884afc815",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/7b19208b85ca76a29d14d6e54f732b2884afc815"
+       },
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/7d8ba7e9d4a3e57a66de6f3cd223618598c07c73",
+       "comment_count": 0,
+       "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+       }
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/7d8ba7e9d4a3e57a66de6f3cd223618598c07c73",
+      "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/7d8ba7e9d4a3e57a66de6f3cd223618598c07c73",
+      "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/7d8ba7e9d4a3e57a66de6f3cd223618598c07c73/comments",
+      "author": null,
+      "committer": null,
+      "parents": [
+       {
+        "sha": "b2653f867fcae97e707b04da6cf1d65a38e469bf",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/b2653f867fcae97e707b04da6cf1d65a38e469bf",
+        "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/b2653f867fcae97e707b04da6cf1d65a38e469bf"
+       }
+      ]
+     }
+    ],
+    "files": [
+     {
+      "sha": "776144bc9ac2dae1eff270211a54c599f061a629",
+      "filename": "docs/usage.txt",
+      "status": "added",
+      "additions": 1,
+      "deletions": 0,
+      "changes": 1,
+      "blob_url": "https://github.com/GonzaSSH/dora-sandbox/blob/7d8ba7e9d4a3e57a66de6f3cd223618598c07c73/docs%2Fusage.txt",
+      "raw_url": "https://github.com/GonzaSSH/dora-sandbox/raw/7d8ba7e9d4a3e57a66de6f3cd223618598c07c73/docs%2Fusage.txt",
+      "contents_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/contents/docs%2Fusage.txt?ref=7d8ba7e9d4a3e57a66de6f3cd223618598c07c73",
+      "patch": "@@ -0,0 +1 @@\n+docs: describe usage"
+     },
+     {
+      "sha": "bc15b10790ececf40d1f0ff2610da8b85d2a5e05",
+      "filename": "src/farewell.txt",
+      "status": "added",
+      "additions": 1,
+      "deletions": 0,
+      "changes": 1,
+      "blob_url": "https://github.com/GonzaSSH/dora-sandbox/blob/7d8ba7e9d4a3e57a66de6f3cd223618598c07c73/src%2Ffarewell.txt",
+      "raw_url": "https://github.com/GonzaSSH/dora-sandbox/raw/7d8ba7e9d4a3e57a66de6f3cd223618598c07c73/src%2Ffarewell.txt",
+      "contents_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/contents/src%2Ffarewell.txt?ref=7d8ba7e9d4a3e57a66de6f3cd223618598c07c73",
+      "patch": "@@ -0,0 +1 @@\n+feat: add farewell"
+     }
+    ]
+   }
+  },
+  "/repos/gonzassh/dora-sandbox/compare/v1.0.0...v1.1.0": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/compare/v1.0.0...v1.1.0",
+    "html_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.0.0...v1.1.0",
+    "permalink_url": "https://github.com/GonzaSSH/dora-sandbox/compare/GonzaSSH:7d8ba7e...GonzaSSH:e838e4c",
+    "diff_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.0.0...v1.1.0.diff",
+    "patch_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.0.0...v1.1.0.patch",
+    "base_commit": {
+     "sha": "7d8ba7e9d4a3e57a66de6f3cd223618598c07c73",
+     "node_id": "C_kwDOVEBdUtoAKDdkOGJhN2U5ZDRhM2U1N2E2NmRlNmYzY2QyMjM2MTg1OThjMDdjNzM",
+     "commit": {
+      "author": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-01-04T15:00:00Z"
+      },
+      "committer": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-01-04T15:00:00Z"
+      },
+      "message": "docs: describe usage",
+      "tree": {
+       "sha": "7b19208b85ca76a29d14d6e54f732b2884afc815",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/7b19208b85ca76a29d14d6e54f732b2884afc815"
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/7d8ba7e9d4a3e57a66de6f3cd223618598c07c73",
+      "comment_count": 0,
+      "verification": {
+       "verified": false,
+       "reason": "unsigned",
+       "signature": null,
+       "payload": null,
+       "verified_at": null
+      }
+     },
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/7d8ba7e9d4a3e57a66de6f3cd223618598c07c73",
+     "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/7d8ba7e9d4a3e57a66de6f3cd223618598c07c73",
+     "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/7d8ba7e9d4a3e57a66de6f3cd223618598c07c73/comments",
+     "author": null,
+     "committer": null,
+     "parents": [
+      {
+       "sha": "b2653f867fcae97e707b04da6cf1d65a38e469bf",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/b2653f867fcae97e707b04da6cf1d65a38e469bf",
+       "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/b2653f867fcae97e707b04da6cf1d65a38e469bf"
+      }
+     ]
+    },
+    "merge_base_commit": {
+     "sha": "7d8ba7e9d4a3e57a66de6f3cd223618598c07c73",
+     "node_id": "C_kwDOVEBdUtoAKDdkOGJhN2U5ZDRhM2U1N2E2NmRlNmYzY2QyMjM2MTg1OThjMDdjNzM",
+     "commit": {
+      "author": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-01-04T15:00:00Z"
+      },
+      "committer": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-01-04T15:00:00Z"
+      },
+      "message": "docs: describe usage",
+      "tree": {
+       "sha": "7b19208b85ca76a29d14d6e54f732b2884afc815",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/7b19208b85ca76a29d14d6e54f732b2884afc815"
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/7d8ba7e9d4a3e57a66de6f3cd223618598c07c73",
+      "comment_count": 0,
+      "verification": {
+       "verified": false,
+       "reason": "unsigned",
+       "signature": null,
+       "payload": null,
+       "verified_at": null
+      }
+     },
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/7d8ba7e9d4a3e57a66de6f3cd223618598c07c73",
+     "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/7d8ba7e9d4a3e57a66de6f3cd223618598c07c73",
+     "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/7d8ba7e9d4a3e57a66de6f3cd223618598c07c73/comments",
+     "author": null,
+     "committer": null,
+     "parents": [
+      {
+       "sha": "b2653f867fcae97e707b04da6cf1d65a38e469bf",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/b2653f867fcae97e707b04da6cf1d65a38e469bf",
+       "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/b2653f867fcae97e707b04da6cf1d65a38e469bf"
+      }
+     ]
+    },
+    "status": "ahead",
+    "ahead_by": 3,
+    "behind_by": 0,
+    "total_commits": 3,
+    "commits": [
+     {
+      "sha": "5ccaaab1f383489a03dcbf028dcccc22a1303bce",
+      "node_id": "C_kwDOVEBdUtoAKDVjY2FhYWIxZjM4MzQ4OWEwM2RjYmYwMjhkY2NjYzIyYTEzMDNiY2U",
+      "commit": {
+       "author": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-01-12T10:00:00Z"
+       },
+       "committer": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-01-12T10:00:00Z"
+       },
+       "message": "feat: add counter",
+       "tree": {
+        "sha": "218b7f7ea5cc97c8c29f9483000af6f4807e70b6",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/218b7f7ea5cc97c8c29f9483000af6f4807e70b6"
+       },
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/5ccaaab1f383489a03dcbf028dcccc22a1303bce",
+       "comment_count": 0,
+       "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+       }
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/5ccaaab1f383489a03dcbf028dcccc22a1303bce",
+      "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/5ccaaab1f383489a03dcbf028dcccc22a1303bce",
+      "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/5ccaaab1f383489a03dcbf028dcccc22a1303bce/comments",
+      "author": null,
+      "committer": null,
+      "parents": [
+       {
+        "sha": "7d8ba7e9d4a3e57a66de6f3cd223618598c07c73",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/7d8ba7e9d4a3e57a66de6f3cd223618598c07c73",
+        "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/7d8ba7e9d4a3e57a66de6f3cd223618598c07c73"
+       }
+      ]
+     },
+     {
+      "sha": "bc181844411df56fad56fc3c9ec39e2d43c41730",
+      "node_id": "C_kwDOVEBdUtoAKGJjMTgxODQ0NDExZGY1NmZhZDU2ZmMzYzllYzM5ZTJkNDNjNDE3MzA",
+      "commit": {
+       "author": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-01-16T10:00:00Z"
+       },
+       "committer": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-01-16T10:00:00Z"
+       },
+       "message": "test: cover counter",
+       "tree": {
+        "sha": "2a761b8d23e22caea5bd52696b183392919bbb64",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/2a761b8d23e22caea5bd52696b183392919bbb64"
+       },
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/bc181844411df56fad56fc3c9ec39e2d43c41730",
+       "comment_count": 0,
+       "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+       }
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/bc181844411df56fad56fc3c9ec39e2d43c41730",
+      "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/bc181844411df56fad56fc3c9ec39e2d43c41730",
+      "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/bc181844411df56fad56fc3c9ec39e2d43c41730/comments",
+      "author": null,
+      "committer": null,
+      "parents": [
+       {
+        "sha": "5ccaaab1f383489a03dcbf028dcccc22a1303bce",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/5ccaaab1f383489a03dcbf028dcccc22a1303bce",
+        "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/5ccaaab1f383489a03dcbf028dcccc22a1303bce"
+       }
+      ]
+     },
+     {
+      "sha": "e838e4cdb5942d0face77e84dc4d679c44fbe18b",
+      "node_id": "C_kwDOVEBdUtoAKGU4MzhlNGNkYjU5NDJkMGZhY2U3N2U4NGRjNGQ2NzljNDRmYmUxOGI",
+      "commit": {
+       "author": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-01-18T18:00:00Z"
+       },
+       "committer": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-01-18T18:00:00Z"
+       },
+       "message": "refactor: tidy counter",
+       "tree": {
+        "sha": "64e731067671a568d68239d3f2426c3ec5cc8388",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/64e731067671a568d68239d3f2426c3ec5cc8388"
+       },
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/e838e4cdb5942d0face77e84dc4d679c44fbe18b",
+       "comment_count": 0,
+       "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+       }
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/e838e4cdb5942d0face77e84dc4d679c44fbe18b",
+      "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/e838e4cdb5942d0face77e84dc4d679c44fbe18b",
+      "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/e838e4cdb5942d0face77e84dc4d679c44fbe18b/comments",
+      "author": null,
+      "committer": null,
+      "parents": [
+       {
+        "sha": "bc181844411df56fad56fc3c9ec39e2d43c41730",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/bc181844411df56fad56fc3c9ec39e2d43c41730",
+        "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/bc181844411df56fad56fc3c9ec39e2d43c41730"
+       }
+      ]
+     }
+    ],
+    "files": [
+     {
+      "sha": "af2b407a67a81260c98d3f3358a397f8545d21b5",
+      "filename": "src/counter.txt",
+      "status": "added",
+      "additions": 2,
+      "deletions": 0,
+      "changes": 2,
+      "blob_url": "https://github.com/GonzaSSH/dora-sandbox/blob/e838e4cdb5942d0face77e84dc4d679c44fbe18b/src%2Fcounter.txt",
+      "raw_url": "https://github.com/GonzaSSH/dora-sandbox/raw/e838e4cdb5942d0face77e84dc4d679c44fbe18b/src%2Fcounter.txt",
+      "contents_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/contents/src%2Fcounter.txt?ref=e838e4cdb5942d0face77e84dc4d679c44fbe18b",
+      "patch": "@@ -0,0 +1,2 @@\n+feat: add counter\n+refactor: tidy counter"
+     },
+     {
+      "sha": "08a61a83c2cc38413451dcc39c12b8441e1b1bb1",
+      "filename": "test/counter.txt",
+      "status": "added",
+      "additions": 1,
+      "deletions": 0,
+      "changes": 1,
+      "blob_url": "https://github.com/GonzaSSH/dora-sandbox/blob/e838e4cdb5942d0face77e84dc4d679c44fbe18b/test%2Fcounter.txt",
+      "raw_url": "https://github.com/GonzaSSH/dora-sandbox/raw/e838e4cdb5942d0face77e84dc4d679c44fbe18b/test%2Fcounter.txt",
+      "contents_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/contents/test%2Fcounter.txt?ref=e838e4cdb5942d0face77e84dc4d679c44fbe18b",
+      "patch": "@@ -0,0 +1 @@\n+test: cover counter"
+     }
+    ]
+   }
+  },
+  "/repos/gonzassh/dora-sandbox/compare/v1.1.0...v1.2.0": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/compare/v1.1.0...v1.2.0",
+    "html_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.1.0...v1.2.0",
+    "permalink_url": "https://github.com/GonzaSSH/dora-sandbox/compare/GonzaSSH:e838e4c...GonzaSSH:036e682",
+    "diff_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.1.0...v1.2.0.diff",
+    "patch_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.1.0...v1.2.0.patch",
+    "base_commit": {
+     "sha": "e838e4cdb5942d0face77e84dc4d679c44fbe18b",
+     "node_id": "C_kwDOVEBdUtoAKGU4MzhlNGNkYjU5NDJkMGZhY2U3N2U4NGRjNGQ2NzljNDRmYmUxOGI",
+     "commit": {
+      "author": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-01-18T18:00:00Z"
+      },
+      "committer": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-01-18T18:00:00Z"
+      },
+      "message": "refactor: tidy counter",
+      "tree": {
+       "sha": "64e731067671a568d68239d3f2426c3ec5cc8388",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/64e731067671a568d68239d3f2426c3ec5cc8388"
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/e838e4cdb5942d0face77e84dc4d679c44fbe18b",
+      "comment_count": 0,
+      "verification": {
+       "verified": false,
+       "reason": "unsigned",
+       "signature": null,
+       "payload": null,
+       "verified_at": null
+      }
+     },
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/e838e4cdb5942d0face77e84dc4d679c44fbe18b",
+     "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/e838e4cdb5942d0face77e84dc4d679c44fbe18b",
+     "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/e838e4cdb5942d0face77e84dc4d679c44fbe18b/comments",
+     "author": null,
+     "committer": null,
+     "parents": [
+      {
+       "sha": "bc181844411df56fad56fc3c9ec39e2d43c41730",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/bc181844411df56fad56fc3c9ec39e2d43c41730",
+       "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/bc181844411df56fad56fc3c9ec39e2d43c41730"
+      }
+     ]
+    },
+    "merge_base_commit": {
+     "sha": "e838e4cdb5942d0face77e84dc4d679c44fbe18b",
+     "node_id": "C_kwDOVEBdUtoAKGU4MzhlNGNkYjU5NDJkMGZhY2U3N2U4NGRjNGQ2NzljNDRmYmUxOGI",
+     "commit": {
+      "author": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-01-18T18:00:00Z"
+      },
+      "committer": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-01-18T18:00:00Z"
+      },
+      "message": "refactor: tidy counter",
+      "tree": {
+       "sha": "64e731067671a568d68239d3f2426c3ec5cc8388",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/64e731067671a568d68239d3f2426c3ec5cc8388"
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/e838e4cdb5942d0face77e84dc4d679c44fbe18b",
+      "comment_count": 0,
+      "verification": {
+       "verified": false,
+       "reason": "unsigned",
+       "signature": null,
+       "payload": null,
+       "verified_at": null
+      }
+     },
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/e838e4cdb5942d0face77e84dc4d679c44fbe18b",
+     "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/e838e4cdb5942d0face77e84dc4d679c44fbe18b",
+     "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/e838e4cdb5942d0face77e84dc4d679c44fbe18b/comments",
+     "author": null,
+     "committer": null,
+     "parents": [
+      {
+       "sha": "bc181844411df56fad56fc3c9ec39e2d43c41730",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/bc181844411df56fad56fc3c9ec39e2d43c41730",
+       "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/bc181844411df56fad56fc3c9ec39e2d43c41730"
+      }
+     ]
+    },
+    "status": "ahead",
+    "ahead_by": 2,
+    "behind_by": 0,
+    "total_commits": 2,
+    "commits": [
+     {
+      "sha": "7985a0e1a3b0ed6ad71980fb90b6f391a0d52614",
+      "node_id": "C_kwDOVEBdUtoAKDc5ODVhMGUxYTNiMGVkNmFkNzE5ODBmYjkwYjZmMzkxYTBkNTI2MTQ",
+      "commit": {
+       "author": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-01-26T12:00:00Z"
+       },
+       "committer": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-01-26T12:00:00Z"
+       },
+       "message": "feat: add config file",
+       "tree": {
+        "sha": "00c2321dec246878b1ac91f358b2894713dab95f",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/00c2321dec246878b1ac91f358b2894713dab95f"
+       },
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/7985a0e1a3b0ed6ad71980fb90b6f391a0d52614",
+       "comment_count": 0,
+       "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+       }
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/7985a0e1a3b0ed6ad71980fb90b6f391a0d52614",
+      "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/7985a0e1a3b0ed6ad71980fb90b6f391a0d52614",
+      "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/7985a0e1a3b0ed6ad71980fb90b6f391a0d52614/comments",
+      "author": null,
+      "committer": null,
+      "parents": [
+       {
+        "sha": "e838e4cdb5942d0face77e84dc4d679c44fbe18b",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/e838e4cdb5942d0face77e84dc4d679c44fbe18b",
+        "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/e838e4cdb5942d0face77e84dc4d679c44fbe18b"
+       }
+      ]
+     },
+     {
+      "sha": "036e6820e4382441f0c22d803f0297325a5b1b26",
+      "node_id": "C_kwDOVEBdUtoAKDAzNmU2ODIwZTQzODI0NDFmMGMyMmQ4MDNmMDI5NzMyNWE1YjFiMjY",
+      "commit": {
+       "author": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-01-30T08:00:00Z"
+       },
+       "committer": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-01-30T08:00:00Z"
+       },
+       "message": "feat: read config from env",
+       "tree": {
+        "sha": "d9c7d7c4bacc866a334526adf2239fafbcee68dc",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/d9c7d7c4bacc866a334526adf2239fafbcee68dc"
+       },
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/036e6820e4382441f0c22d803f0297325a5b1b26",
+       "comment_count": 0,
+       "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+       }
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/036e6820e4382441f0c22d803f0297325a5b1b26",
+      "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/036e6820e4382441f0c22d803f0297325a5b1b26",
+      "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/036e6820e4382441f0c22d803f0297325a5b1b26/comments",
+      "author": null,
+      "committer": null,
+      "parents": [
+       {
+        "sha": "7985a0e1a3b0ed6ad71980fb90b6f391a0d52614",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/7985a0e1a3b0ed6ad71980fb90b6f391a0d52614",
+        "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/7985a0e1a3b0ed6ad71980fb90b6f391a0d52614"
+       }
+      ]
+     }
+    ],
+    "files": [
+     {
+      "sha": "d1f3750df7999ad09d2079a031ddb807eef1860a",
+      "filename": "src/config.txt",
+      "status": "added",
+      "additions": 2,
+      "deletions": 0,
+      "changes": 2,
+      "blob_url": "https://github.com/GonzaSSH/dora-sandbox/blob/036e6820e4382441f0c22d803f0297325a5b1b26/src%2Fconfig.txt",
+      "raw_url": "https://github.com/GonzaSSH/dora-sandbox/raw/036e6820e4382441f0c22d803f0297325a5b1b26/src%2Fconfig.txt",
+      "contents_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/contents/src%2Fconfig.txt?ref=036e6820e4382441f0c22d803f0297325a5b1b26",
+      "patch": "@@ -0,0 +1,2 @@\n+feat: add config file\n+feat: read config from env"
+     }
+    ]
+   }
+  },
+  "/repos/gonzassh/dora-sandbox/compare/v1.2.0...v1.2.1": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/compare/v1.2.0...v1.2.1",
+    "html_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.2.0...v1.2.1",
+    "permalink_url": "https://github.com/GonzaSSH/dora-sandbox/compare/GonzaSSH:036e682...GonzaSSH:4d8dfcf",
+    "diff_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.2.0...v1.2.1.diff",
+    "patch_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.2.0...v1.2.1.patch",
+    "base_commit": {
+     "sha": "036e6820e4382441f0c22d803f0297325a5b1b26",
+     "node_id": "C_kwDOVEBdUtoAKDAzNmU2ODIwZTQzODI0NDFmMGMyMmQ4MDNmMDI5NzMyNWE1YjFiMjY",
+     "commit": {
+      "author": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-01-30T08:00:00Z"
+      },
+      "committer": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-01-30T08:00:00Z"
+      },
+      "message": "feat: read config from env",
+      "tree": {
+       "sha": "d9c7d7c4bacc866a334526adf2239fafbcee68dc",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/d9c7d7c4bacc866a334526adf2239fafbcee68dc"
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/036e6820e4382441f0c22d803f0297325a5b1b26",
+      "comment_count": 0,
+      "verification": {
+       "verified": false,
+       "reason": "unsigned",
+       "signature": null,
+       "payload": null,
+       "verified_at": null
+      }
+     },
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/036e6820e4382441f0c22d803f0297325a5b1b26",
+     "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/036e6820e4382441f0c22d803f0297325a5b1b26",
+     "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/036e6820e4382441f0c22d803f0297325a5b1b26/comments",
+     "author": null,
+     "committer": null,
+     "parents": [
+      {
+       "sha": "7985a0e1a3b0ed6ad71980fb90b6f391a0d52614",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/7985a0e1a3b0ed6ad71980fb90b6f391a0d52614",
+       "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/7985a0e1a3b0ed6ad71980fb90b6f391a0d52614"
+      }
+     ]
+    },
+    "merge_base_commit": {
+     "sha": "036e6820e4382441f0c22d803f0297325a5b1b26",
+     "node_id": "C_kwDOVEBdUtoAKDAzNmU2ODIwZTQzODI0NDFmMGMyMmQ4MDNmMDI5NzMyNWE1YjFiMjY",
+     "commit": {
+      "author": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-01-30T08:00:00Z"
+      },
+      "committer": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-01-30T08:00:00Z"
+      },
+      "message": "feat: read config from env",
+      "tree": {
+       "sha": "d9c7d7c4bacc866a334526adf2239fafbcee68dc",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/d9c7d7c4bacc866a334526adf2239fafbcee68dc"
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/036e6820e4382441f0c22d803f0297325a5b1b26",
+      "comment_count": 0,
+      "verification": {
+       "verified": false,
+       "reason": "unsigned",
+       "signature": null,
+       "payload": null,
+       "verified_at": null
+      }
+     },
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/036e6820e4382441f0c22d803f0297325a5b1b26",
+     "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/036e6820e4382441f0c22d803f0297325a5b1b26",
+     "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/036e6820e4382441f0c22d803f0297325a5b1b26/comments",
+     "author": null,
+     "committer": null,
+     "parents": [
+      {
+       "sha": "7985a0e1a3b0ed6ad71980fb90b6f391a0d52614",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/7985a0e1a3b0ed6ad71980fb90b6f391a0d52614",
+       "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/7985a0e1a3b0ed6ad71980fb90b6f391a0d52614"
+      }
+     ]
+    },
+    "status": "ahead",
+    "ahead_by": 1,
+    "behind_by": 0,
+    "total_commits": 1,
+    "commits": [
+     {
+      "sha": "4d8dfcf5cbf8ab5e25ff73a5be69250d971123ab",
+      "node_id": "C_kwDOVEBdUtoAKDRkOGRmY2Y1Y2JmOGFiNWUyNWZmNzNhNWJlNjkyNTBkOTcxMTIzYWI",
+      "commit": {
+       "author": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-02-03T06:00:00Z"
+       },
+       "committer": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-02-03T06:00:00Z"
+       },
+       "message": "fix: crash when config file is missing",
+       "tree": {
+        "sha": "531225c8c4041edaa78a8d3fae8ef1c0dd1e851b",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/531225c8c4041edaa78a8d3fae8ef1c0dd1e851b"
+       },
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/4d8dfcf5cbf8ab5e25ff73a5be69250d971123ab",
+       "comment_count": 0,
+       "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+       }
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/4d8dfcf5cbf8ab5e25ff73a5be69250d971123ab",
+      "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/4d8dfcf5cbf8ab5e25ff73a5be69250d971123ab",
+      "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/4d8dfcf5cbf8ab5e25ff73a5be69250d971123ab/comments",
+      "author": null,
+      "committer": null,
+      "parents": [
+       {
+        "sha": "036e6820e4382441f0c22d803f0297325a5b1b26",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/036e6820e4382441f0c22d803f0297325a5b1b26",
+        "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/036e6820e4382441f0c22d803f0297325a5b1b26"
+       }
+      ]
+     }
+    ],
+    "files": [
+     {
+      "sha": "9b7a434363215098d026d76739ce0542e9e8ffd9",
+      "filename": "src/config.txt",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 0,
+      "changes": 1,
+      "blob_url": "https://github.com/GonzaSSH/dora-sandbox/blob/4d8dfcf5cbf8ab5e25ff73a5be69250d971123ab/src%2Fconfig.txt",
+      "raw_url": "https://github.com/GonzaSSH/dora-sandbox/raw/4d8dfcf5cbf8ab5e25ff73a5be69250d971123ab/src%2Fconfig.txt",
+      "contents_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/contents/src%2Fconfig.txt?ref=4d8dfcf5cbf8ab5e25ff73a5be69250d971123ab",
+      "patch": "@@ -1,2 +1,3 @@\n feat: add config file\n feat: read config from env\n+fix: crash when config file is missing"
+     }
+    ]
+   }
+  },
+  "/repos/gonzassh/dora-sandbox/compare/v1.2.1...v1.3.0": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/compare/v1.2.1...v1.3.0",
+    "html_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.2.1...v1.3.0",
+    "permalink_url": "https://github.com/GonzaSSH/dora-sandbox/compare/GonzaSSH:4d8dfcf...GonzaSSH:59c40ad",
+    "diff_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.2.1...v1.3.0.diff",
+    "patch_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.2.1...v1.3.0.patch",
+    "base_commit": {
+     "sha": "4d8dfcf5cbf8ab5e25ff73a5be69250d971123ab",
+     "node_id": "C_kwDOVEBdUtoAKDRkOGRmY2Y1Y2JmOGFiNWUyNWZmNzNhNWJlNjkyNTBkOTcxMTIzYWI",
+     "commit": {
+      "author": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-02-03T06:00:00Z"
+      },
+      "committer": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-02-03T06:00:00Z"
+      },
+      "message": "fix: crash when config file is missing",
+      "tree": {
+       "sha": "531225c8c4041edaa78a8d3fae8ef1c0dd1e851b",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/531225c8c4041edaa78a8d3fae8ef1c0dd1e851b"
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/4d8dfcf5cbf8ab5e25ff73a5be69250d971123ab",
+      "comment_count": 0,
+      "verification": {
+       "verified": false,
+       "reason": "unsigned",
+       "signature": null,
+       "payload": null,
+       "verified_at": null
+      }
+     },
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/4d8dfcf5cbf8ab5e25ff73a5be69250d971123ab",
+     "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/4d8dfcf5cbf8ab5e25ff73a5be69250d971123ab",
+     "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/4d8dfcf5cbf8ab5e25ff73a5be69250d971123ab/comments",
+     "author": null,
+     "committer": null,
+     "parents": [
+      {
+       "sha": "036e6820e4382441f0c22d803f0297325a5b1b26",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/036e6820e4382441f0c22d803f0297325a5b1b26",
+       "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/036e6820e4382441f0c22d803f0297325a5b1b26"
+      }
+     ]
+    },
+    "merge_base_commit": {
+     "sha": "4d8dfcf5cbf8ab5e25ff73a5be69250d971123ab",
+     "node_id": "C_kwDOVEBdUtoAKDRkOGRmY2Y1Y2JmOGFiNWUyNWZmNzNhNWJlNjkyNTBkOTcxMTIzYWI",
+     "commit": {
+      "author": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-02-03T06:00:00Z"
+      },
+      "committer": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-02-03T06:00:00Z"
+      },
+      "message": "fix: crash when config file is missing",
+      "tree": {
+       "sha": "531225c8c4041edaa78a8d3fae8ef1c0dd1e851b",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/531225c8c4041edaa78a8d3fae8ef1c0dd1e851b"
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/4d8dfcf5cbf8ab5e25ff73a5be69250d971123ab",
+      "comment_count": 0,
+      "verification": {
+       "verified": false,
+       "reason": "unsigned",
+       "signature": null,
+       "payload": null,
+       "verified_at": null
+      }
+     },
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/4d8dfcf5cbf8ab5e25ff73a5be69250d971123ab",
+     "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/4d8dfcf5cbf8ab5e25ff73a5be69250d971123ab",
+     "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/4d8dfcf5cbf8ab5e25ff73a5be69250d971123ab/comments",
+     "author": null,
+     "committer": null,
+     "parents": [
+      {
+       "sha": "036e6820e4382441f0c22d803f0297325a5b1b26",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/036e6820e4382441f0c22d803f0297325a5b1b26",
+       "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/036e6820e4382441f0c22d803f0297325a5b1b26"
+      }
+     ]
+    },
+    "status": "ahead",
+    "ahead_by": 2,
+    "behind_by": 0,
+    "total_commits": 2,
+    "commits": [
+     {
+      "sha": "6a7ec76384300f88604a9774fdc0fa8d6aa61775",
+      "node_id": "C_kwDOVEBdUtoAKDZhN2VjNzYzODQzMDBmODg2MDRhOTc3NGZkYzBmYThkNmFhNjE3NzU",
+      "commit": {
+       "author": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-02-09T12:00:00Z"
+       },
+       "committer": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-02-09T12:00:00Z"
+       },
+       "message": "feat: add colour output",
+       "tree": {
+        "sha": "0e2f551646a3999ea659341631ce643f3b1f4606",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/0e2f551646a3999ea659341631ce643f3b1f4606"
+       },
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/6a7ec76384300f88604a9774fdc0fa8d6aa61775",
+       "comment_count": 0,
+       "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+       }
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/6a7ec76384300f88604a9774fdc0fa8d6aa61775",
+      "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/6a7ec76384300f88604a9774fdc0fa8d6aa61775",
+      "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/6a7ec76384300f88604a9774fdc0fa8d6aa61775/comments",
+      "author": null,
+      "committer": null,
+      "parents": [
+       {
+        "sha": "4d8dfcf5cbf8ab5e25ff73a5be69250d971123ab",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/4d8dfcf5cbf8ab5e25ff73a5be69250d971123ab",
+        "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/4d8dfcf5cbf8ab5e25ff73a5be69250d971123ab"
+       }
+      ]
+     },
+     {
+      "sha": "59c40ad7467d0dd2012a4aa7d976ff1cd3986b20",
+      "node_id": "C_kwDOVEBdUtoAKDU5YzQwYWQ3NDY3ZDBkZDIwMTJhNGFhN2Q5NzZmZjFjZDM5ODZiMjA",
+      "commit": {
+       "author": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-02-13T12:00:00Z"
+       },
+       "committer": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-02-13T12:00:00Z"
+       },
+       "message": "feat: add progress bar",
+       "tree": {
+        "sha": "fb53d581b57704b95f48cddf151b8eeaad1a7b68",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/fb53d581b57704b95f48cddf151b8eeaad1a7b68"
+       },
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/59c40ad7467d0dd2012a4aa7d976ff1cd3986b20",
+       "comment_count": 0,
+       "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+       }
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/59c40ad7467d0dd2012a4aa7d976ff1cd3986b20",
+      "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/59c40ad7467d0dd2012a4aa7d976ff1cd3986b20",
+      "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/59c40ad7467d0dd2012a4aa7d976ff1cd3986b20/comments",
+      "author": null,
+      "committer": null,
+      "parents": [
+       {
+        "sha": "6a7ec76384300f88604a9774fdc0fa8d6aa61775",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/6a7ec76384300f88604a9774fdc0fa8d6aa61775",
+        "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/6a7ec76384300f88604a9774fdc0fa8d6aa61775"
+       }
+      ]
+     }
+    ],
+    "files": [
+     {
+      "sha": "aa70e38ac2eebf33008189f00d47a282e4be4fda",
+      "filename": "src/colour.txt",
+      "status": "added",
+      "additions": 1,
+      "deletions": 0,
+      "changes": 1,
+      "blob_url": "https://github.com/GonzaSSH/dora-sandbox/blob/59c40ad7467d0dd2012a4aa7d976ff1cd3986b20/src%2Fcolour.txt",
+      "raw_url": "https://github.com/GonzaSSH/dora-sandbox/raw/59c40ad7467d0dd2012a4aa7d976ff1cd3986b20/src%2Fcolour.txt",
+      "contents_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/contents/src%2Fcolour.txt?ref=59c40ad7467d0dd2012a4aa7d976ff1cd3986b20",
+      "patch": "@@ -0,0 +1 @@\n+feat: add colour output"
+     },
+     {
+      "sha": "68beb75cbf5737d1685297c3e78a8898b5ecddd8",
+      "filename": "src/progress.txt",
+      "status": "added",
+      "additions": 1,
+      "deletions": 0,
+      "changes": 1,
+      "blob_url": "https://github.com/GonzaSSH/dora-sandbox/blob/59c40ad7467d0dd2012a4aa7d976ff1cd3986b20/src%2Fprogress.txt",
+      "raw_url": "https://github.com/GonzaSSH/dora-sandbox/raw/59c40ad7467d0dd2012a4aa7d976ff1cd3986b20/src%2Fprogress.txt",
+      "contents_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/contents/src%2Fprogress.txt?ref=59c40ad7467d0dd2012a4aa7d976ff1cd3986b20",
+      "patch": "@@ -0,0 +1 @@\n+feat: add progress bar"
+     }
+    ]
+   }
+  },
+  "/repos/gonzassh/dora-sandbox/compare/v1.3.0...v1.4.0": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/compare/v1.3.0...v1.4.0",
+    "html_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.3.0...v1.4.0",
+    "permalink_url": "https://github.com/GonzaSSH/dora-sandbox/compare/GonzaSSH:59c40ad...GonzaSSH:2246a33",
+    "diff_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.3.0...v1.4.0.diff",
+    "patch_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.3.0...v1.4.0.patch",
+    "base_commit": {
+     "sha": "59c40ad7467d0dd2012a4aa7d976ff1cd3986b20",
+     "node_id": "C_kwDOVEBdUtoAKDU5YzQwYWQ3NDY3ZDBkZDIwMTJhNGFhN2Q5NzZmZjFjZDM5ODZiMjA",
+     "commit": {
+      "author": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-02-13T12:00:00Z"
+      },
+      "committer": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-02-13T12:00:00Z"
+      },
+      "message": "feat: add progress bar",
+      "tree": {
+       "sha": "fb53d581b57704b95f48cddf151b8eeaad1a7b68",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/fb53d581b57704b95f48cddf151b8eeaad1a7b68"
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/59c40ad7467d0dd2012a4aa7d976ff1cd3986b20",
+      "comment_count": 0,
+      "verification": {
+       "verified": false,
+       "reason": "unsigned",
+       "signature": null,
+       "payload": null,
+       "verified_at": null
+      }
+     },
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/59c40ad7467d0dd2012a4aa7d976ff1cd3986b20",
+     "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/59c40ad7467d0dd2012a4aa7d976ff1cd3986b20",
+     "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/59c40ad7467d0dd2012a4aa7d976ff1cd3986b20/comments",
+     "author": null,
+     "committer": null,
+     "parents": [
+      {
+       "sha": "6a7ec76384300f88604a9774fdc0fa8d6aa61775",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/6a7ec76384300f88604a9774fdc0fa8d6aa61775",
+       "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/6a7ec76384300f88604a9774fdc0fa8d6aa61775"
+      }
+     ]
+    },
+    "merge_base_commit": {
+     "sha": "59c40ad7467d0dd2012a4aa7d976ff1cd3986b20",
+     "node_id": "C_kwDOVEBdUtoAKDU5YzQwYWQ3NDY3ZDBkZDIwMTJhNGFhN2Q5NzZmZjFjZDM5ODZiMjA",
+     "commit": {
+      "author": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-02-13T12:00:00Z"
+      },
+      "committer": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-02-13T12:00:00Z"
+      },
+      "message": "feat: add progress bar",
+      "tree": {
+       "sha": "fb53d581b57704b95f48cddf151b8eeaad1a7b68",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/fb53d581b57704b95f48cddf151b8eeaad1a7b68"
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/59c40ad7467d0dd2012a4aa7d976ff1cd3986b20",
+      "comment_count": 0,
+      "verification": {
+       "verified": false,
+       "reason": "unsigned",
+       "signature": null,
+       "payload": null,
+       "verified_at": null
+      }
+     },
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/59c40ad7467d0dd2012a4aa7d976ff1cd3986b20",
+     "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/59c40ad7467d0dd2012a4aa7d976ff1cd3986b20",
+     "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/59c40ad7467d0dd2012a4aa7d976ff1cd3986b20/comments",
+     "author": null,
+     "committer": null,
+     "parents": [
+      {
+       "sha": "6a7ec76384300f88604a9774fdc0fa8d6aa61775",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/6a7ec76384300f88604a9774fdc0fa8d6aa61775",
+       "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/6a7ec76384300f88604a9774fdc0fa8d6aa61775"
+      }
+     ]
+    },
+    "status": "ahead",
+    "ahead_by": 2,
+    "behind_by": 0,
+    "total_commits": 2,
+    "commits": [
+     {
+      "sha": "fe1aef33dc207b9ad45d5f97ff669107c9475079",
+      "node_id": "C_kwDOVEBdUtoAKGZlMWFlZjMzZGMyMDdiOWFkNDVkNWY5N2ZmNjY5MTA3Yzk0NzUwNzk",
+      "commit": {
+       "author": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-02-17T10:00:00Z"
+       },
+       "committer": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-02-17T10:00:00Z"
+       },
+       "message": "Revert \"feat: add progress bar\"\n\nThis reverts commit 59c40ad7467d0dd2012a4aa7d976ff1cd3986b20.",
+       "tree": {
+        "sha": "0e2f551646a3999ea659341631ce643f3b1f4606",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/0e2f551646a3999ea659341631ce643f3b1f4606"
+       },
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/fe1aef33dc207b9ad45d5f97ff669107c9475079",
+       "comment_count": 0,
+       "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+       }
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/fe1aef33dc207b9ad45d5f97ff669107c9475079",
+      "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/fe1aef33dc207b9ad45d5f97ff669107c9475079",
+      "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/fe1aef33dc207b9ad45d5f97ff669107c9475079/comments",
+      "author": null,
+      "committer": null,
+      "parents": [
+       {
+        "sha": "59c40ad7467d0dd2012a4aa7d976ff1cd3986b20",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/59c40ad7467d0dd2012a4aa7d976ff1cd3986b20",
+        "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/59c40ad7467d0dd2012a4aa7d976ff1cd3986b20"
+       }
+      ]
+     },
+     {
+      "sha": "2246a3349813a8c435d5fbb56a7dfdf0e1027703",
+      "node_id": "C_kwDOVEBdUtoAKDIyNDZhMzM0OTgxM2E4YzQzNWQ1ZmJiNTZhN2RmZGYwZTEwMjc3MDM",
+      "commit": {
+       "author": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-02-18T08:00:00Z"
+       },
+       "committer": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-02-18T08:00:00Z"
+       },
+       "message": "feat: add quiet flag",
+       "tree": {
+        "sha": "69d3837b368e2b37cd5a3e1676434db3b62e319d",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/69d3837b368e2b37cd5a3e1676434db3b62e319d"
+       },
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/2246a3349813a8c435d5fbb56a7dfdf0e1027703",
+       "comment_count": 0,
+       "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+       }
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/2246a3349813a8c435d5fbb56a7dfdf0e1027703",
+      "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/2246a3349813a8c435d5fbb56a7dfdf0e1027703",
+      "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/2246a3349813a8c435d5fbb56a7dfdf0e1027703/comments",
+      "author": null,
+      "committer": null,
+      "parents": [
+       {
+        "sha": "fe1aef33dc207b9ad45d5f97ff669107c9475079",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/fe1aef33dc207b9ad45d5f97ff669107c9475079",
+        "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/fe1aef33dc207b9ad45d5f97ff669107c9475079"
+       }
+      ]
+     }
+    ],
+    "files": [
+     {
+      "sha": "68beb75cbf5737d1685297c3e78a8898b5ecddd8",
+      "filename": "src/progress.txt",
+      "status": "removed",
+      "additions": 0,
+      "deletions": 1,
+      "changes": 1,
+      "blob_url": "https://github.com/GonzaSSH/dora-sandbox/blob/59c40ad7467d0dd2012a4aa7d976ff1cd3986b20/src%2Fprogress.txt",
+      "raw_url": "https://github.com/GonzaSSH/dora-sandbox/raw/59c40ad7467d0dd2012a4aa7d976ff1cd3986b20/src%2Fprogress.txt",
+      "contents_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/contents/src%2Fprogress.txt?ref=59c40ad7467d0dd2012a4aa7d976ff1cd3986b20",
+      "patch": "@@ -1 +0,0 @@\n-feat: add progress bar"
+     },
+     {
+      "sha": "5dea68bb1e46495f8b460af926ae655ccd98a750",
+      "filename": "src/quiet.txt",
+      "status": "added",
+      "additions": 1,
+      "deletions": 0,
+      "changes": 1,
+      "blob_url": "https://github.com/GonzaSSH/dora-sandbox/blob/2246a3349813a8c435d5fbb56a7dfdf0e1027703/src%2Fquiet.txt",
+      "raw_url": "https://github.com/GonzaSSH/dora-sandbox/raw/2246a3349813a8c435d5fbb56a7dfdf0e1027703/src%2Fquiet.txt",
+      "contents_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/contents/src%2Fquiet.txt?ref=2246a3349813a8c435d5fbb56a7dfdf0e1027703",
+      "patch": "@@ -0,0 +1 @@\n+feat: add quiet flag"
+     }
+    ]
+   }
+  },
+  "/repos/gonzassh/dora-sandbox/compare/v1.4.0...v1.4.1": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/compare/v1.4.0...v1.4.1",
+    "html_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.4.0...v1.4.1",
+    "permalink_url": "https://github.com/GonzaSSH/dora-sandbox/compare/GonzaSSH:2246a33...GonzaSSH:c0e007f",
+    "diff_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.4.0...v1.4.1.diff",
+    "patch_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.4.0...v1.4.1.patch",
+    "base_commit": {
+     "sha": "2246a3349813a8c435d5fbb56a7dfdf0e1027703",
+     "node_id": "C_kwDOVEBdUtoAKDIyNDZhMzM0OTgxM2E4YzQzNWQ1ZmJiNTZhN2RmZGYwZTEwMjc3MDM",
+     "commit": {
+      "author": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-02-18T08:00:00Z"
+      },
+      "committer": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-02-18T08:00:00Z"
+      },
+      "message": "feat: add quiet flag",
+      "tree": {
+       "sha": "69d3837b368e2b37cd5a3e1676434db3b62e319d",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/69d3837b368e2b37cd5a3e1676434db3b62e319d"
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/2246a3349813a8c435d5fbb56a7dfdf0e1027703",
+      "comment_count": 0,
+      "verification": {
+       "verified": false,
+       "reason": "unsigned",
+       "signature": null,
+       "payload": null,
+       "verified_at": null
+      }
+     },
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/2246a3349813a8c435d5fbb56a7dfdf0e1027703",
+     "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/2246a3349813a8c435d5fbb56a7dfdf0e1027703",
+     "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/2246a3349813a8c435d5fbb56a7dfdf0e1027703/comments",
+     "author": null,
+     "committer": null,
+     "parents": [
+      {
+       "sha": "fe1aef33dc207b9ad45d5f97ff669107c9475079",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/fe1aef33dc207b9ad45d5f97ff669107c9475079",
+       "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/fe1aef33dc207b9ad45d5f97ff669107c9475079"
+      }
+     ]
+    },
+    "merge_base_commit": {
+     "sha": "2246a3349813a8c435d5fbb56a7dfdf0e1027703",
+     "node_id": "C_kwDOVEBdUtoAKDIyNDZhMzM0OTgxM2E4YzQzNWQ1ZmJiNTZhN2RmZGYwZTEwMjc3MDM",
+     "commit": {
+      "author": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-02-18T08:00:00Z"
+      },
+      "committer": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-02-18T08:00:00Z"
+      },
+      "message": "feat: add quiet flag",
+      "tree": {
+       "sha": "69d3837b368e2b37cd5a3e1676434db3b62e319d",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/69d3837b368e2b37cd5a3e1676434db3b62e319d"
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/2246a3349813a8c435d5fbb56a7dfdf0e1027703",
+      "comment_count": 0,
+      "verification": {
+       "verified": false,
+       "reason": "unsigned",
+       "signature": null,
+       "payload": null,
+       "verified_at": null
+      }
+     },
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/2246a3349813a8c435d5fbb56a7dfdf0e1027703",
+     "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/2246a3349813a8c435d5fbb56a7dfdf0e1027703",
+     "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/2246a3349813a8c435d5fbb56a7dfdf0e1027703/comments",
+     "author": null,
+     "committer": null,
+     "parents": [
+      {
+       "sha": "fe1aef33dc207b9ad45d5f97ff669107c9475079",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/fe1aef33dc207b9ad45d5f97ff669107c9475079",
+       "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/fe1aef33dc207b9ad45d5f97ff669107c9475079"
+      }
+     ]
+    },
+    "status": "ahead",
+    "ahead_by": 2,
+    "behind_by": 0,
+    "total_commits": 2,
+    "commits": [
+     {
+      "sha": "d9f12c6360f49aece44eccae8d407865e0963871",
+      "node_id": "C_kwDOVEBdUtoAKGQ5ZjEyYzYzNjBmNDlhZWNlNDRlY2NhZThkNDA3ODY1ZTA5NjM4NzE",
+      "commit": {
+       "author": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-03-02T12:00:00Z"
+       },
+       "committer": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-03-02T12:00:00Z"
+       },
+       "message": "fix: typo in help text",
+       "tree": {
+        "sha": "5aff2e55df0bdd5c7fd3dcc9730ca77ca2072c73",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/5aff2e55df0bdd5c7fd3dcc9730ca77ca2072c73"
+       },
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/d9f12c6360f49aece44eccae8d407865e0963871",
+       "comment_count": 0,
+       "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+       }
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/d9f12c6360f49aece44eccae8d407865e0963871",
+      "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/d9f12c6360f49aece44eccae8d407865e0963871",
+      "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/d9f12c6360f49aece44eccae8d407865e0963871/comments",
+      "author": null,
+      "committer": null,
+      "parents": [
+       {
+        "sha": "2246a3349813a8c435d5fbb56a7dfdf0e1027703",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/2246a3349813a8c435d5fbb56a7dfdf0e1027703",
+        "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/2246a3349813a8c435d5fbb56a7dfdf0e1027703"
+       }
+      ]
+     },
+     {
+      "sha": "c0e007fe5c1f786d90fdbadc19120dac2c0420f6",
+      "node_id": "C_kwDOVEBdUtoAKGMwZTAwN2ZlNWMxZjc4NmQ5MGZkYmFkYzE5MTIwZGFjMmMwNDIwZjY",
+      "commit": {
+       "author": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-03-05T12:00:00Z"
+       },
+       "committer": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-03-05T12:00:00Z"
+       },
+       "message": "fix(cli): handle empty input",
+       "tree": {
+        "sha": "54e76d6fb295a4dba8fab7f94eea23ce4748c1ee",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/54e76d6fb295a4dba8fab7f94eea23ce4748c1ee"
+       },
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/c0e007fe5c1f786d90fdbadc19120dac2c0420f6",
+       "comment_count": 0,
+       "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+       }
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/c0e007fe5c1f786d90fdbadc19120dac2c0420f6",
+      "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/c0e007fe5c1f786d90fdbadc19120dac2c0420f6",
+      "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/c0e007fe5c1f786d90fdbadc19120dac2c0420f6/comments",
+      "author": null,
+      "committer": null,
+      "parents": [
+       {
+        "sha": "d9f12c6360f49aece44eccae8d407865e0963871",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/d9f12c6360f49aece44eccae8d407865e0963871",
+        "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/d9f12c6360f49aece44eccae8d407865e0963871"
+       }
+      ]
+     }
+    ],
+    "files": [
+     {
+      "sha": "974d935f71b3cdbc83fe02e0e014f700068efd4f",
+      "filename": "docs/help.txt",
+      "status": "added",
+      "additions": 1,
+      "deletions": 0,
+      "changes": 1,
+      "blob_url": "https://github.com/GonzaSSH/dora-sandbox/blob/c0e007fe5c1f786d90fdbadc19120dac2c0420f6/docs%2Fhelp.txt",
+      "raw_url": "https://github.com/GonzaSSH/dora-sandbox/raw/c0e007fe5c1f786d90fdbadc19120dac2c0420f6/docs%2Fhelp.txt",
+      "contents_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/contents/docs%2Fhelp.txt?ref=c0e007fe5c1f786d90fdbadc19120dac2c0420f6",
+      "patch": "@@ -0,0 +1 @@\n+fix: typo in help text"
+     },
+     {
+      "sha": "d84babfe3fb818c8a4264f32369c5bc075ec2d36",
+      "filename": "src/cli.txt",
+      "status": "added",
+      "additions": 1,
+      "deletions": 0,
+      "changes": 1,
+      "blob_url": "https://github.com/GonzaSSH/dora-sandbox/blob/c0e007fe5c1f786d90fdbadc19120dac2c0420f6/src%2Fcli.txt",
+      "raw_url": "https://github.com/GonzaSSH/dora-sandbox/raw/c0e007fe5c1f786d90fdbadc19120dac2c0420f6/src%2Fcli.txt",
+      "contents_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/contents/src%2Fcli.txt?ref=c0e007fe5c1f786d90fdbadc19120dac2c0420f6",
+      "patch": "@@ -0,0 +1 @@\n+fix(cli): handle empty input"
+     }
+    ]
+   }
+  },
+  "/repos/gonzassh/dora-sandbox/compare/v1.4.1...v1.5.0": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/compare/v1.4.1...v1.5.0",
+    "html_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.4.1...v1.5.0",
+    "permalink_url": "https://github.com/GonzaSSH/dora-sandbox/compare/GonzaSSH:c0e007f...GonzaSSH:9c10f27",
+    "diff_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.4.1...v1.5.0.diff",
+    "patch_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.4.1...v1.5.0.patch",
+    "base_commit": {
+     "sha": "c0e007fe5c1f786d90fdbadc19120dac2c0420f6",
+     "node_id": "C_kwDOVEBdUtoAKGMwZTAwN2ZlNWMxZjc4NmQ5MGZkYmFkYzE5MTIwZGFjMmMwNDIwZjY",
+     "commit": {
+      "author": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-03-05T12:00:00Z"
+      },
+      "committer": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-03-05T12:00:00Z"
+      },
+      "message": "fix(cli): handle empty input",
+      "tree": {
+       "sha": "54e76d6fb295a4dba8fab7f94eea23ce4748c1ee",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/54e76d6fb295a4dba8fab7f94eea23ce4748c1ee"
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/c0e007fe5c1f786d90fdbadc19120dac2c0420f6",
+      "comment_count": 0,
+      "verification": {
+       "verified": false,
+       "reason": "unsigned",
+       "signature": null,
+       "payload": null,
+       "verified_at": null
+      }
+     },
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/c0e007fe5c1f786d90fdbadc19120dac2c0420f6",
+     "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/c0e007fe5c1f786d90fdbadc19120dac2c0420f6",
+     "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/c0e007fe5c1f786d90fdbadc19120dac2c0420f6/comments",
+     "author": null,
+     "committer": null,
+     "parents": [
+      {
+       "sha": "d9f12c6360f49aece44eccae8d407865e0963871",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/d9f12c6360f49aece44eccae8d407865e0963871",
+       "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/d9f12c6360f49aece44eccae8d407865e0963871"
+      }
+     ]
+    },
+    "merge_base_commit": {
+     "sha": "c0e007fe5c1f786d90fdbadc19120dac2c0420f6",
+     "node_id": "C_kwDOVEBdUtoAKGMwZTAwN2ZlNWMxZjc4NmQ5MGZkYmFkYzE5MTIwZGFjMmMwNDIwZjY",
+     "commit": {
+      "author": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-03-05T12:00:00Z"
+      },
+      "committer": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-03-05T12:00:00Z"
+      },
+      "message": "fix(cli): handle empty input",
+      "tree": {
+       "sha": "54e76d6fb295a4dba8fab7f94eea23ce4748c1ee",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/54e76d6fb295a4dba8fab7f94eea23ce4748c1ee"
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/c0e007fe5c1f786d90fdbadc19120dac2c0420f6",
+      "comment_count": 0,
+      "verification": {
+       "verified": false,
+       "reason": "unsigned",
+       "signature": null,
+       "payload": null,
+       "verified_at": null
+      }
+     },
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/c0e007fe5c1f786d90fdbadc19120dac2c0420f6",
+     "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/c0e007fe5c1f786d90fdbadc19120dac2c0420f6",
+     "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/c0e007fe5c1f786d90fdbadc19120dac2c0420f6/comments",
+     "author": null,
+     "committer": null,
+     "parents": [
+      {
+       "sha": "d9f12c6360f49aece44eccae8d407865e0963871",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/d9f12c6360f49aece44eccae8d407865e0963871",
+       "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/d9f12c6360f49aece44eccae8d407865e0963871"
+      }
+     ]
+    },
+    "status": "ahead",
+    "ahead_by": 2,
+    "behind_by": 0,
+    "total_commits": 2,
+    "commits": [
+     {
+      "sha": "b3271222caceebac79a75fe05d450ad084cec8d1",
+      "node_id": "C_kwDOVEBdUtoAKGIzMjcxMjIyY2FjZWViYWM3OWE3NWZlMDVkNDUwYWQwODRjZWM4ZDE",
+      "commit": {
+       "author": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-03-12T12:00:00Z"
+       },
+       "committer": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-03-12T12:00:00Z"
+       },
+       "message": "feat: add json output",
+       "tree": {
+        "sha": "676d5a35104b4501dbcb9989b53aceeaf15ee265",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/676d5a35104b4501dbcb9989b53aceeaf15ee265"
+       },
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/b3271222caceebac79a75fe05d450ad084cec8d1",
+       "comment_count": 0,
+       "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+       }
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/b3271222caceebac79a75fe05d450ad084cec8d1",
+      "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/b3271222caceebac79a75fe05d450ad084cec8d1",
+      "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/b3271222caceebac79a75fe05d450ad084cec8d1/comments",
+      "author": null,
+      "committer": null,
+      "parents": [
+       {
+        "sha": "c0e007fe5c1f786d90fdbadc19120dac2c0420f6",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/c0e007fe5c1f786d90fdbadc19120dac2c0420f6",
+        "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/c0e007fe5c1f786d90fdbadc19120dac2c0420f6"
+       }
+      ]
+     },
+     {
+      "sha": "9c10f277428e63a54a06c80d2bda133eb68b6b37",
+      "node_id": "C_kwDOVEBdUtoAKDljMTBmMjc3NDI4ZTYzYTU0YTA2YzgwZDJiZGExMzNlYjY4YjZiMzc",
+      "commit": {
+       "author": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-03-19T12:00:00Z"
+       },
+       "committer": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-03-19T12:00:00Z"
+       },
+       "message": "fix: json escaping",
+       "tree": {
+        "sha": "b2a207d88b388ba8f7e54a56d7bde0058a1819ef",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/b2a207d88b388ba8f7e54a56d7bde0058a1819ef"
+       },
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/9c10f277428e63a54a06c80d2bda133eb68b6b37",
+       "comment_count": 0,
+       "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+       }
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/9c10f277428e63a54a06c80d2bda133eb68b6b37",
+      "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/9c10f277428e63a54a06c80d2bda133eb68b6b37",
+      "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/9c10f277428e63a54a06c80d2bda133eb68b6b37/comments",
+      "author": null,
+      "committer": null,
+      "parents": [
+       {
+        "sha": "b3271222caceebac79a75fe05d450ad084cec8d1",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/b3271222caceebac79a75fe05d450ad084cec8d1",
+        "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/b3271222caceebac79a75fe05d450ad084cec8d1"
+       }
+      ]
+     }
+    ],
+    "files": [
+     {
+      "sha": "37327d1001bddc87564a303048e8a07b41396203",
+      "filename": "src/json.txt",
+      "status": "added",
+      "additions": 2,
+      "deletions": 0,
+      "changes": 2,
+      "blob_url": "https://github.com/GonzaSSH/dora-sandbox/blob/9c10f277428e63a54a06c80d2bda133eb68b6b37/src%2Fjson.txt",
+      "raw_url": "https://github.com/GonzaSSH/dora-sandbox/raw/9c10f277428e63a54a06c80d2bda133eb68b6b37/src%2Fjson.txt",
+      "contents_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/contents/src%2Fjson.txt?ref=9c10f277428e63a54a06c80d2bda133eb68b6b37",
+      "patch": "@@ -0,0 +1,2 @@\n+feat: add json output\n+fix: json escaping"
+     }
+    ]
+   }
+  },
+  "/repos/gonzassh/dora-sandbox/compare/v1.5.0...v1.6.0-beta.1": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/compare/v1.5.0...v1.6.0-beta.1",
+    "html_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.5.0...v1.6.0-beta.1",
+    "permalink_url": "https://github.com/GonzaSSH/dora-sandbox/compare/GonzaSSH:9c10f27...GonzaSSH:7811791",
+    "diff_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.5.0...v1.6.0-beta.1.diff",
+    "patch_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.5.0...v1.6.0-beta.1.patch",
+    "base_commit": {
+     "sha": "9c10f277428e63a54a06c80d2bda133eb68b6b37",
+     "node_id": "C_kwDOVEBdUtoAKDljMTBmMjc3NDI4ZTYzYTU0YTA2YzgwZDJiZGExMzNlYjY4YjZiMzc",
+     "commit": {
+      "author": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-03-19T12:00:00Z"
+      },
+      "committer": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-03-19T12:00:00Z"
+      },
+      "message": "fix: json escaping",
+      "tree": {
+       "sha": "b2a207d88b388ba8f7e54a56d7bde0058a1819ef",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/b2a207d88b388ba8f7e54a56d7bde0058a1819ef"
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/9c10f277428e63a54a06c80d2bda133eb68b6b37",
+      "comment_count": 0,
+      "verification": {
+       "verified": false,
+       "reason": "unsigned",
+       "signature": null,
+       "payload": null,
+       "verified_at": null
+      }
+     },
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/9c10f277428e63a54a06c80d2bda133eb68b6b37",
+     "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/9c10f277428e63a54a06c80d2bda133eb68b6b37",
+     "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/9c10f277428e63a54a06c80d2bda133eb68b6b37/comments",
+     "author": null,
+     "committer": null,
+     "parents": [
+      {
+       "sha": "b3271222caceebac79a75fe05d450ad084cec8d1",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/b3271222caceebac79a75fe05d450ad084cec8d1",
+       "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/b3271222caceebac79a75fe05d450ad084cec8d1"
+      }
+     ]
+    },
+    "merge_base_commit": {
+     "sha": "9c10f277428e63a54a06c80d2bda133eb68b6b37",
+     "node_id": "C_kwDOVEBdUtoAKDljMTBmMjc3NDI4ZTYzYTU0YTA2YzgwZDJiZGExMzNlYjY4YjZiMzc",
+     "commit": {
+      "author": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-03-19T12:00:00Z"
+      },
+      "committer": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-03-19T12:00:00Z"
+      },
+      "message": "fix: json escaping",
+      "tree": {
+       "sha": "b2a207d88b388ba8f7e54a56d7bde0058a1819ef",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/b2a207d88b388ba8f7e54a56d7bde0058a1819ef"
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/9c10f277428e63a54a06c80d2bda133eb68b6b37",
+      "comment_count": 0,
+      "verification": {
+       "verified": false,
+       "reason": "unsigned",
+       "signature": null,
+       "payload": null,
+       "verified_at": null
+      }
+     },
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/9c10f277428e63a54a06c80d2bda133eb68b6b37",
+     "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/9c10f277428e63a54a06c80d2bda133eb68b6b37",
+     "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/9c10f277428e63a54a06c80d2bda133eb68b6b37/comments",
+     "author": null,
+     "committer": null,
+     "parents": [
+      {
+       "sha": "b3271222caceebac79a75fe05d450ad084cec8d1",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/b3271222caceebac79a75fe05d450ad084cec8d1",
+       "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/b3271222caceebac79a75fe05d450ad084cec8d1"
+      }
+     ]
+    },
+    "status": "ahead",
+    "ahead_by": 1,
+    "behind_by": 0,
+    "total_commits": 1,
+    "commits": [
+     {
+      "sha": "781179109bda120630c1cdf3ad5c1d67e805fb28",
+      "node_id": "C_kwDOVEBdUtoAKDc4MTE3OTEwOWJkYTEyMDYzMGMxY2RmM2FkNWMxZDY3ZTgwNWZiMjg",
+      "commit": {
+       "author": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-03-24T12:00:00Z"
+       },
+       "committer": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-03-24T12:00:00Z"
+       },
+       "message": "feat: experimental plugin system",
+       "tree": {
+        "sha": "8bcb930a8a995a3910f24250fd783d7879a7f05f",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/8bcb930a8a995a3910f24250fd783d7879a7f05f"
+       },
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/781179109bda120630c1cdf3ad5c1d67e805fb28",
+       "comment_count": 0,
+       "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+       }
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/781179109bda120630c1cdf3ad5c1d67e805fb28",
+      "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/781179109bda120630c1cdf3ad5c1d67e805fb28",
+      "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/781179109bda120630c1cdf3ad5c1d67e805fb28/comments",
+      "author": null,
+      "committer": null,
+      "parents": [
+       {
+        "sha": "9c10f277428e63a54a06c80d2bda133eb68b6b37",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/9c10f277428e63a54a06c80d2bda133eb68b6b37",
+        "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/9c10f277428e63a54a06c80d2bda133eb68b6b37"
+       }
+      ]
+     }
+    ],
+    "files": [
+     {
+      "sha": "d7bf1b8e8f706c30973f0c1d4ce3ae2403547abd",
+      "filename": "src/plugins.txt",
+      "status": "added",
+      "additions": 1,
+      "deletions": 0,
+      "changes": 1,
+      "blob_url": "https://github.com/GonzaSSH/dora-sandbox/blob/781179109bda120630c1cdf3ad5c1d67e805fb28/src%2Fplugins.txt",
+      "raw_url": "https://github.com/GonzaSSH/dora-sandbox/raw/781179109bda120630c1cdf3ad5c1d67e805fb28/src%2Fplugins.txt",
+      "contents_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/contents/src%2Fplugins.txt?ref=781179109bda120630c1cdf3ad5c1d67e805fb28",
+      "patch": "@@ -0,0 +1 @@\n+feat: experimental plugin system"
+     }
+    ]
+   }
+  },
+  "/repos/gonzassh/dora-sandbox/compare/v1.6.0-beta.1...v2.0.0": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/compare/v1.6.0-beta.1...v2.0.0",
+    "html_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.6.0-beta.1...v2.0.0",
+    "permalink_url": "https://github.com/GonzaSSH/dora-sandbox/compare/GonzaSSH:7811791...GonzaSSH:41aca17",
+    "diff_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.6.0-beta.1...v2.0.0.diff",
+    "patch_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.6.0-beta.1...v2.0.0.patch",
+    "base_commit": {
+     "sha": "781179109bda120630c1cdf3ad5c1d67e805fb28",
+     "node_id": "C_kwDOVEBdUtoAKDc4MTE3OTEwOWJkYTEyMDYzMGMxY2RmM2FkNWMxZDY3ZTgwNWZiMjg",
+     "commit": {
+      "author": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-03-24T12:00:00Z"
+      },
+      "committer": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-03-24T12:00:00Z"
+      },
+      "message": "feat: experimental plugin system",
+      "tree": {
+       "sha": "8bcb930a8a995a3910f24250fd783d7879a7f05f",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/8bcb930a8a995a3910f24250fd783d7879a7f05f"
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/781179109bda120630c1cdf3ad5c1d67e805fb28",
+      "comment_count": 0,
+      "verification": {
+       "verified": false,
+       "reason": "unsigned",
+       "signature": null,
+       "payload": null,
+       "verified_at": null
+      }
+     },
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/781179109bda120630c1cdf3ad5c1d67e805fb28",
+     "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/781179109bda120630c1cdf3ad5c1d67e805fb28",
+     "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/781179109bda120630c1cdf3ad5c1d67e805fb28/comments",
+     "author": null,
+     "committer": null,
+     "parents": [
+      {
+       "sha": "9c10f277428e63a54a06c80d2bda133eb68b6b37",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/9c10f277428e63a54a06c80d2bda133eb68b6b37",
+       "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/9c10f277428e63a54a06c80d2bda133eb68b6b37"
+      }
+     ]
+    },
+    "merge_base_commit": {
+     "sha": "781179109bda120630c1cdf3ad5c1d67e805fb28",
+     "node_id": "C_kwDOVEBdUtoAKDc4MTE3OTEwOWJkYTEyMDYzMGMxY2RmM2FkNWMxZDY3ZTgwNWZiMjg",
+     "commit": {
+      "author": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-03-24T12:00:00Z"
+      },
+      "committer": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-03-24T12:00:00Z"
+      },
+      "message": "feat: experimental plugin system",
+      "tree": {
+       "sha": "8bcb930a8a995a3910f24250fd783d7879a7f05f",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/8bcb930a8a995a3910f24250fd783d7879a7f05f"
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/781179109bda120630c1cdf3ad5c1d67e805fb28",
+      "comment_count": 0,
+      "verification": {
+       "verified": false,
+       "reason": "unsigned",
+       "signature": null,
+       "payload": null,
+       "verified_at": null
+      }
+     },
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/781179109bda120630c1cdf3ad5c1d67e805fb28",
+     "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/781179109bda120630c1cdf3ad5c1d67e805fb28",
+     "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/781179109bda120630c1cdf3ad5c1d67e805fb28/comments",
+     "author": null,
+     "committer": null,
+     "parents": [
+      {
+       "sha": "9c10f277428e63a54a06c80d2bda133eb68b6b37",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/9c10f277428e63a54a06c80d2bda133eb68b6b37",
+       "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/9c10f277428e63a54a06c80d2bda133eb68b6b37"
+      }
+     ]
+    },
+    "status": "ahead",
+    "ahead_by": 1,
+    "behind_by": 0,
+    "total_commits": 1,
+    "commits": [
+     {
+      "sha": "41aca170371d83a1b4b00f3b96a8f3f0ef35ebbf",
+      "node_id": "C_kwDOVEBdUtoAKDQxYWNhMTcwMzcxZDgzYTFiNGIwMGYzYjk2YThmM2YwZWYzNWViYmY",
+      "commit": {
+       "author": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-04-02T12:00:00Z"
+       },
+       "committer": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-04-02T12:00:00Z"
+       },
+       "message": "feat!: drop node 18 support",
+       "tree": {
+        "sha": "9c8fe318f0e9d617d93689acf0327284a878c05d",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/9c8fe318f0e9d617d93689acf0327284a878c05d"
+       },
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/41aca170371d83a1b4b00f3b96a8f3f0ef35ebbf",
+       "comment_count": 0,
+       "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+       }
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/41aca170371d83a1b4b00f3b96a8f3f0ef35ebbf",
+      "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/41aca170371d83a1b4b00f3b96a8f3f0ef35ebbf",
+      "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/41aca170371d83a1b4b00f3b96a8f3f0ef35ebbf/comments",
+      "author": null,
+      "committer": null,
+      "parents": [
+       {
+        "sha": "781179109bda120630c1cdf3ad5c1d67e805fb28",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/781179109bda120630c1cdf3ad5c1d67e805fb28",
+        "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/781179109bda120630c1cdf3ad5c1d67e805fb28"
+       }
+      ]
+     }
+    ],
+    "files": [
+     {
+      "sha": "1eb2381ee81aab9c5c77a48a0b8260f90ccdd343",
+      "filename": "src/runtime.txt",
+      "status": "added",
+      "additions": 1,
+      "deletions": 0,
+      "changes": 1,
+      "blob_url": "https://github.com/GonzaSSH/dora-sandbox/blob/41aca170371d83a1b4b00f3b96a8f3f0ef35ebbf/src%2Fruntime.txt",
+      "raw_url": "https://github.com/GonzaSSH/dora-sandbox/raw/41aca170371d83a1b4b00f3b96a8f3f0ef35ebbf/src%2Fruntime.txt",
+      "contents_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/contents/src%2Fruntime.txt?ref=41aca170371d83a1b4b00f3b96a8f3f0ef35ebbf",
+      "patch": "@@ -0,0 +1 @@\n+feat!: drop node 18 support"
+     }
+    ]
+   }
+  },
+  "/repos/gonzassh/dora-sandbox/compare/v1.5.0...v2.0.0": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/compare/v1.5.0...v2.0.0",
+    "html_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.5.0...v2.0.0",
+    "permalink_url": "https://github.com/GonzaSSH/dora-sandbox/compare/GonzaSSH:9c10f27...GonzaSSH:41aca17",
+    "diff_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.5.0...v2.0.0.diff",
+    "patch_url": "https://github.com/GonzaSSH/dora-sandbox/compare/v1.5.0...v2.0.0.patch",
+    "base_commit": {
+     "sha": "9c10f277428e63a54a06c80d2bda133eb68b6b37",
+     "node_id": "C_kwDOVEBdUtoAKDljMTBmMjc3NDI4ZTYzYTU0YTA2YzgwZDJiZGExMzNlYjY4YjZiMzc",
+     "commit": {
+      "author": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-03-19T12:00:00Z"
+      },
+      "committer": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-03-19T12:00:00Z"
+      },
+      "message": "fix: json escaping",
+      "tree": {
+       "sha": "b2a207d88b388ba8f7e54a56d7bde0058a1819ef",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/b2a207d88b388ba8f7e54a56d7bde0058a1819ef"
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/9c10f277428e63a54a06c80d2bda133eb68b6b37",
+      "comment_count": 0,
+      "verification": {
+       "verified": false,
+       "reason": "unsigned",
+       "signature": null,
+       "payload": null,
+       "verified_at": null
+      }
+     },
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/9c10f277428e63a54a06c80d2bda133eb68b6b37",
+     "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/9c10f277428e63a54a06c80d2bda133eb68b6b37",
+     "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/9c10f277428e63a54a06c80d2bda133eb68b6b37/comments",
+     "author": null,
+     "committer": null,
+     "parents": [
+      {
+       "sha": "b3271222caceebac79a75fe05d450ad084cec8d1",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/b3271222caceebac79a75fe05d450ad084cec8d1",
+       "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/b3271222caceebac79a75fe05d450ad084cec8d1"
+      }
+     ]
+    },
+    "merge_base_commit": {
+     "sha": "9c10f277428e63a54a06c80d2bda133eb68b6b37",
+     "node_id": "C_kwDOVEBdUtoAKDljMTBmMjc3NDI4ZTYzYTU0YTA2YzgwZDJiZGExMzNlYjY4YjZiMzc",
+     "commit": {
+      "author": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-03-19T12:00:00Z"
+      },
+      "committer": {
+       "name": "Sandbox Bot",
+       "email": "sandbox-bot@example.com",
+       "date": "2026-03-19T12:00:00Z"
+      },
+      "message": "fix: json escaping",
+      "tree": {
+       "sha": "b2a207d88b388ba8f7e54a56d7bde0058a1819ef",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/b2a207d88b388ba8f7e54a56d7bde0058a1819ef"
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/9c10f277428e63a54a06c80d2bda133eb68b6b37",
+      "comment_count": 0,
+      "verification": {
+       "verified": false,
+       "reason": "unsigned",
+       "signature": null,
+       "payload": null,
+       "verified_at": null
+      }
+     },
+     "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/9c10f277428e63a54a06c80d2bda133eb68b6b37",
+     "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/9c10f277428e63a54a06c80d2bda133eb68b6b37",
+     "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/9c10f277428e63a54a06c80d2bda133eb68b6b37/comments",
+     "author": null,
+     "committer": null,
+     "parents": [
+      {
+       "sha": "b3271222caceebac79a75fe05d450ad084cec8d1",
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/b3271222caceebac79a75fe05d450ad084cec8d1",
+       "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/b3271222caceebac79a75fe05d450ad084cec8d1"
+      }
+     ]
+    },
+    "status": "ahead",
+    "ahead_by": 2,
+    "behind_by": 0,
+    "total_commits": 2,
+    "commits": [
+     {
+      "sha": "781179109bda120630c1cdf3ad5c1d67e805fb28",
+      "node_id": "C_kwDOVEBdUtoAKDc4MTE3OTEwOWJkYTEyMDYzMGMxY2RmM2FkNWMxZDY3ZTgwNWZiMjg",
+      "commit": {
+       "author": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-03-24T12:00:00Z"
+       },
+       "committer": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-03-24T12:00:00Z"
+       },
+       "message": "feat: experimental plugin system",
+       "tree": {
+        "sha": "8bcb930a8a995a3910f24250fd783d7879a7f05f",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/8bcb930a8a995a3910f24250fd783d7879a7f05f"
+       },
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/781179109bda120630c1cdf3ad5c1d67e805fb28",
+       "comment_count": 0,
+       "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+       }
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/781179109bda120630c1cdf3ad5c1d67e805fb28",
+      "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/781179109bda120630c1cdf3ad5c1d67e805fb28",
+      "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/781179109bda120630c1cdf3ad5c1d67e805fb28/comments",
+      "author": null,
+      "committer": null,
+      "parents": [
+       {
+        "sha": "9c10f277428e63a54a06c80d2bda133eb68b6b37",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/9c10f277428e63a54a06c80d2bda133eb68b6b37",
+        "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/9c10f277428e63a54a06c80d2bda133eb68b6b37"
+       }
+      ]
+     },
+     {
+      "sha": "41aca170371d83a1b4b00f3b96a8f3f0ef35ebbf",
+      "node_id": "C_kwDOVEBdUtoAKDQxYWNhMTcwMzcxZDgzYTFiNGIwMGYzYjk2YThmM2YwZWYzNWViYmY",
+      "commit": {
+       "author": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-04-02T12:00:00Z"
+       },
+       "committer": {
+        "name": "Sandbox Bot",
+        "email": "sandbox-bot@example.com",
+        "date": "2026-04-02T12:00:00Z"
+       },
+       "message": "feat!: drop node 18 support",
+       "tree": {
+        "sha": "9c8fe318f0e9d617d93689acf0327284a878c05d",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees/9c8fe318f0e9d617d93689acf0327284a878c05d"
+       },
+       "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits/41aca170371d83a1b4b00f3b96a8f3f0ef35ebbf",
+       "comment_count": 0,
+       "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+       }
+      },
+      "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/41aca170371d83a1b4b00f3b96a8f3f0ef35ebbf",
+      "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/41aca170371d83a1b4b00f3b96a8f3f0ef35ebbf",
+      "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/41aca170371d83a1b4b00f3b96a8f3f0ef35ebbf/comments",
+      "author": null,
+      "committer": null,
+      "parents": [
+       {
+        "sha": "781179109bda120630c1cdf3ad5c1d67e805fb28",
+        "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits/781179109bda120630c1cdf3ad5c1d67e805fb28",
+        "html_url": "https://github.com/GonzaSSH/dora-sandbox/commit/781179109bda120630c1cdf3ad5c1d67e805fb28"
+       }
+      ]
+     }
+    ],
+    "files": [
+     {
+      "sha": "d7bf1b8e8f706c30973f0c1d4ce3ae2403547abd",
+      "filename": "src/plugins.txt",
+      "status": "added",
+      "additions": 1,
+      "deletions": 0,
+      "changes": 1,
+      "blob_url": "https://github.com/GonzaSSH/dora-sandbox/blob/41aca170371d83a1b4b00f3b96a8f3f0ef35ebbf/src%2Fplugins.txt",
+      "raw_url": "https://github.com/GonzaSSH/dora-sandbox/raw/41aca170371d83a1b4b00f3b96a8f3f0ef35ebbf/src%2Fplugins.txt",
+      "contents_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/contents/src%2Fplugins.txt?ref=41aca170371d83a1b4b00f3b96a8f3f0ef35ebbf",
+      "patch": "@@ -0,0 +1 @@\n+feat: experimental plugin system"
+     },
+     {
+      "sha": "1eb2381ee81aab9c5c77a48a0b8260f90ccdd343",
+      "filename": "src/runtime.txt",
+      "status": "added",
+      "additions": 1,
+      "deletions": 0,
+      "changes": 1,
+      "blob_url": "https://github.com/GonzaSSH/dora-sandbox/blob/41aca170371d83a1b4b00f3b96a8f3f0ef35ebbf/src%2Fruntime.txt",
+      "raw_url": "https://github.com/GonzaSSH/dora-sandbox/raw/41aca170371d83a1b4b00f3b96a8f3f0ef35ebbf/src%2Fruntime.txt",
+      "contents_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/contents/src%2Fruntime.txt?ref=41aca170371d83a1b4b00f3b96a8f3f0ef35ebbf",
+      "patch": "@@ -0,0 +1 @@\n+feat!: drop node 18 support"
+     }
+    ]
+   }
+  }
+ }
+}

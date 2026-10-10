@@ -1,0 +1,349 @@
+{
+ "_note": "Hand-written in GitHub's documented response format (this environment cannot trigger these errors for real). The sandbox fixtures are real recordings.",
+ "notFound": {
+  "status": 404,
+  "headers": {
+   "content-type": "application/json; charset=utf-8",
+   "x-ratelimit-limit": "60",
+   "x-ratelimit-remaining": "57",
+   "x-ratelimit-reset": "1791748800"
+  },
+  "body": {
+   "message": "Not Found",
+   "documentation_url": "https://docs.github.com/rest/repos/repos#get-a-repository",
+   "status": "404"
+  }
+ },
+ "rateLimited": {
+  "status": 403,
+  "headers": {
+   "content-type": "application/json; charset=utf-8",
+   "x-ratelimit-limit": "60",
+   "x-ratelimit-remaining": "0",
+   "x-ratelimit-reset": "1791748800"
+  },
+  "body": {
+   "message": "API rate limit exceeded for 203.0.113.7. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)",
+   "documentation_url": "https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting"
+  }
+ },
+ "secondaryRateLimited": {
+  "status": 429,
+  "headers": {
+   "content-type": "application/json; charset=utf-8",
+   "retry-after": "60"
+  },
+  "body": {
+   "message": "You have exceeded a secondary rate limit. Please wait a few minutes before you try again.",
+   "documentation_url": "https://docs.github.com/rest/overview/rate-limits-for-the-rest-api"
+  }
+ },
+ "privateRepoWithToken": {
+  "status": 200,
+  "headers": {
+   "content-type": "application/json; charset=utf-8"
+  },
+  "body": {
+   "id": 1413504338,
+   "node_id": "R_kgDOVEBdUg",
+   "name": "secret",
+   "full_name": "example/secret",
+   "private": true,
+   "owner": {
+    "login": "GonzaSSH",
+    "id": 24204642,
+    "node_id": "MDQ6VXNlcjI0MjA0NjQy",
+    "avatar_url": "https://avatars.githubusercontent.com/u/24204642?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/GonzaSSH",
+    "html_url": "https://github.com/GonzaSSH",
+    "followers_url": "https://api.github.com/users/GonzaSSH/followers",
+    "following_url": "https://api.github.com/users/GonzaSSH/following{/other_user}",
+    "gists_url": "https://api.github.com/users/GonzaSSH/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/GonzaSSH/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/GonzaSSH/subscriptions",
+    "organizations_url": "https://api.github.com/users/GonzaSSH/orgs",
+    "repos_url": "https://api.github.com/users/GonzaSSH/repos",
+    "events_url": "https://api.github.com/users/GonzaSSH/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/GonzaSSH/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+   },
+   "html_url": "https://github.com/GonzaSSH/dora-sandbox",
+   "description": null,
+   "fork": false,
+   "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox",
+   "forks_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/forks",
+   "keys_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/keys{/key_id}",
+   "collaborators_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/collaborators{/collaborator}",
+   "teams_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/teams",
+   "hooks_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/hooks",
+   "issue_events_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/issues/events{/number}",
+   "events_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/events",
+   "assignees_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/assignees{/user}",
+   "branches_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/branches{/branch}",
+   "tags_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/tags",
+   "blobs_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/blobs{/sha}",
+   "git_tags_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/tags{/sha}",
+   "git_refs_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/refs{/sha}",
+   "trees_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees{/sha}",
+   "statuses_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/statuses/{sha}",
+   "languages_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/languages",
+   "stargazers_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/stargazers",
+   "contributors_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/contributors",
+   "subscribers_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/subscribers",
+   "subscription_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/subscription",
+   "commits_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits{/sha}",
+   "git_commits_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits{/sha}",
+   "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/comments{/number}",
+   "issue_comment_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/issues/comments{/number}",
+   "contents_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/contents/{+path}",
+   "compare_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/compare/{base}...{head}",
+   "merges_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/merges",
+   "archive_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/{archive_format}{/ref}",
+   "downloads_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/downloads",
+   "issues_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/issues{/number}",
+   "pulls_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/pulls{/number}",
+   "milestones_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/milestones{/number}",
+   "notifications_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/notifications{?since,all,participating}",
+   "labels_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/labels{/name}",
+   "releases_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/releases{/id}",
+   "deployments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/deployments",
+   "created_at": "2026-10-10T17:59:28Z",
+   "updated_at": "2026-10-10T18:03:57Z",
+   "pushed_at": "2026-10-10T18:03:54Z",
+   "git_url": "git://github.com/GonzaSSH/dora-sandbox.git",
+   "ssh_url": "git@github.com:GonzaSSH/dora-sandbox.git",
+   "clone_url": "https://github.com/GonzaSSH/dora-sandbox.git",
+   "svn_url": "https://github.com/GonzaSSH/dora-sandbox",
+   "homepage": null,
+   "size": 0,
+   "stargazers_count": 0,
+   "watchers_count": 0,
+   "language": null,
+   "has_issues": true,
+   "has_projects": true,
+   "has_downloads": false,
+   "has_wiki": false,
+   "has_pages": false,
+   "has_discussions": false,
+   "forks_count": 0,
+   "mirror_url": null,
+   "archived": false,
+   "disabled": false,
+   "open_issues_count": 0,
+   "license": null,
+   "allow_forking": true,
+   "is_template": false,
+   "web_commit_signoff_required": false,
+   "has_pull_requests": true,
+   "pull_request_creation_policy": "all",
+   "topics": [],
+   "visibility": "private",
+   "forks": 0,
+   "open_issues": 0,
+   "watchers": 0,
+   "default_branch": "main",
+   "permissions": {
+    "admin": true,
+    "maintain": true,
+    "push": true,
+    "triage": true,
+    "pull": true
+   },
+   "allow_squash_merge": true,
+   "allow_merge_commit": true,
+   "allow_rebase_merge": true,
+   "allow_auto_merge": false,
+   "delete_branch_on_merge": false,
+   "allow_update_branch": false,
+   "use_squash_pr_title_as_default": false,
+   "squash_merge_commit_message": "COMMIT_MESSAGES",
+   "squash_merge_commit_title": "COMMIT_OR_PR_TITLE",
+   "merge_commit_message": "PR_TITLE",
+   "merge_commit_title": "MERGE_MESSAGE",
+   "security_and_analysis": {
+    "secret_scanning": {
+     "status": "disabled"
+    },
+    "secret_scanning_push_protection": {
+     "status": "disabled"
+    },
+    "dependabot_security_updates": {
+     "status": "disabled"
+    },
+    "secret_scanning_non_provider_patterns": {
+     "status": "disabled"
+    },
+    "secret_scanning_validity_checks": {
+     "status": "disabled"
+    }
+   },
+   "network_count": 0,
+   "subscribers_count": 0
+  }
+ },
+ "emptyRepo": {
+  "/repos/example/empty-repo": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "id": 1413504338,
+    "node_id": "R_kgDOVEBdUg",
+    "name": "empty-repo",
+    "full_name": "example/empty-repo",
+    "private": false,
+    "owner": {
+     "login": "GonzaSSH",
+     "id": 24204642,
+     "node_id": "MDQ6VXNlcjI0MjA0NjQy",
+     "avatar_url": "https://avatars.githubusercontent.com/u/24204642?v=4",
+     "gravatar_id": "",
+     "url": "https://api.github.com/users/GonzaSSH",
+     "html_url": "https://github.com/GonzaSSH",
+     "followers_url": "https://api.github.com/users/GonzaSSH/followers",
+     "following_url": "https://api.github.com/users/GonzaSSH/following{/other_user}",
+     "gists_url": "https://api.github.com/users/GonzaSSH/gists{/gist_id}",
+     "starred_url": "https://api.github.com/users/GonzaSSH/starred{/owner}{/repo}",
+     "subscriptions_url": "https://api.github.com/users/GonzaSSH/subscriptions",
+     "organizations_url": "https://api.github.com/users/GonzaSSH/orgs",
+     "repos_url": "https://api.github.com/users/GonzaSSH/repos",
+     "events_url": "https://api.github.com/users/GonzaSSH/events{/privacy}",
+     "received_events_url": "https://api.github.com/users/GonzaSSH/received_events",
+     "type": "User",
+     "user_view_type": "public",
+     "site_admin": false
+    },
+    "html_url": "https://github.com/GonzaSSH/dora-sandbox",
+    "description": null,
+    "fork": false,
+    "url": "https://api.github.com/repos/GonzaSSH/dora-sandbox",
+    "forks_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/forks",
+    "keys_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/keys{/key_id}",
+    "collaborators_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/collaborators{/collaborator}",
+    "teams_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/teams",
+    "hooks_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/hooks",
+    "issue_events_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/issues/events{/number}",
+    "events_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/events",
+    "assignees_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/assignees{/user}",
+    "branches_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/branches{/branch}",
+    "tags_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/tags",
+    "blobs_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/blobs{/sha}",
+    "git_tags_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/tags{/sha}",
+    "git_refs_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/refs{/sha}",
+    "trees_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/trees{/sha}",
+    "statuses_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/statuses/{sha}",
+    "languages_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/languages",
+    "stargazers_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/stargazers",
+    "contributors_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/contributors",
+    "subscribers_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/subscribers",
+    "subscription_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/subscription",
+    "commits_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/commits{/sha}",
+    "git_commits_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/git/commits{/sha}",
+    "comments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/comments{/number}",
+    "issue_comment_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/issues/comments{/number}",
+    "contents_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/contents/{+path}",
+    "compare_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/compare/{base}...{head}",
+    "merges_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/merges",
+    "archive_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/{archive_format}{/ref}",
+    "downloads_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/downloads",
+    "issues_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/issues{/number}",
+    "pulls_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/pulls{/number}",
+    "milestones_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/milestones{/number}",
+    "notifications_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/notifications{?since,all,participating}",
+    "labels_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/labels{/name}",
+    "releases_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/releases{/id}",
+    "deployments_url": "https://api.github.com/repos/GonzaSSH/dora-sandbox/deployments",
+    "created_at": "2026-10-10T17:59:28Z",
+    "updated_at": "2026-10-10T18:03:57Z",
+    "pushed_at": "2026-10-10T18:03:54Z",
+    "git_url": "git://github.com/GonzaSSH/dora-sandbox.git",
+    "ssh_url": "git@github.com:GonzaSSH/dora-sandbox.git",
+    "clone_url": "https://github.com/GonzaSSH/dora-sandbox.git",
+    "svn_url": "https://github.com/GonzaSSH/dora-sandbox",
+    "homepage": null,
+    "size": 0,
+    "stargazers_count": 0,
+    "watchers_count": 0,
+    "language": null,
+    "has_issues": true,
+    "has_projects": true,
+    "has_downloads": false,
+    "has_wiki": false,
+    "has_pages": false,
+    "has_discussions": false,
+    "forks_count": 0,
+    "mirror_url": null,
+    "archived": false,
+    "disabled": false,
+    "open_issues_count": 0,
+    "license": null,
+    "allow_forking": true,
+    "is_template": false,
+    "web_commit_signoff_required": false,
+    "has_pull_requests": true,
+    "pull_request_creation_policy": "all",
+    "topics": [],
+    "visibility": "public",
+    "forks": 0,
+    "open_issues": 0,
+    "watchers": 0,
+    "default_branch": "main",
+    "permissions": {
+     "admin": true,
+     "maintain": true,
+     "push": true,
+     "triage": true,
+     "pull": true
+    },
+    "allow_squash_merge": true,
+    "allow_merge_commit": true,
+    "allow_rebase_merge": true,
+    "allow_auto_merge": false,
+    "delete_branch_on_merge": false,
+    "allow_update_branch": false,
+    "use_squash_pr_title_as_default": false,
+    "squash_merge_commit_message": "COMMIT_MESSAGES",
+    "squash_merge_commit_title": "COMMIT_OR_PR_TITLE",
+    "merge_commit_message": "PR_TITLE",
+    "merge_commit_title": "MERGE_MESSAGE",
+    "security_and_analysis": {
+     "secret_scanning": {
+      "status": "disabled"
+     },
+     "secret_scanning_push_protection": {
+      "status": "disabled"
+     },
+     "dependabot_security_updates": {
+      "status": "disabled"
+     },
+     "secret_scanning_non_provider_patterns": {
+      "status": "disabled"
+     },
+     "secret_scanning_validity_checks": {
+      "status": "disabled"
+     }
+    },
+    "network_count": 0,
+    "subscribers_count": 0
+   }
+  },
+  "/repos/example/empty-repo/releases?per_page=100&page=1": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": []
+  },
+  "/repos/example/empty-repo/git/matching-refs/tags": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": []
+  }
+ }
+}
