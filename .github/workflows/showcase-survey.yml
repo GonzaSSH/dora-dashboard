@@ -1,0 +1,27 @@
+# One-off: candidate showcase repositories under the final v1.1 rules (item 3).
+name: Showcase survey
+on:
+  push:
+    branches: [claude/showcase-survey]
+permissions:
+  contents: read
+jobs:
+  survey:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx tsx scripts/survey.ts angular/angular vitejs/vite
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - run: npx tsx scripts/diagnose-reverts.ts angular/angular
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Everything DORA's site says about rework
+        run: |
+          git clone -q --depth 1 https://github.com/dora-team/dora.dev site
+          grep -rn -i 'rework' site/hugo/content --include=*.md | grep -v '^Binary' | cut -c1-400 | head -60
