@@ -7,7 +7,8 @@ const smokeUrl = process.env.SMOKE_URL;
 
 export default defineConfig({
   testDir: 'e2e',
-  testMatch: smokeUrl ? 'smoke.spec.ts' : /^(?!smoke).*\.spec\.ts$/,
+  testMatch: smokeUrl ? '**/smoke.spec.ts' : '**/*.spec.ts',
+  testIgnore: smokeUrl ? undefined : '**/smoke.spec.ts',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: 0,
