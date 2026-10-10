@@ -1,5 +1,4 @@
 # One-off: read the DORA 2025 report from dora.dev (the Claude Code session can't reach it).
-# Prints the report's pages and passages about AI, throughput and (in)stability.
 name: Fetch DORA 2025 report
 on:
   push:
@@ -12,23 +11,39 @@ jobs:
     steps:
       - name: Install tools
         run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils >/dev/null
-      - name: Find the report on dora.dev
+      - name: Page text and links
         run: |
-          set -e
-          for u in https://dora.dev/research/2025/dora-report/ https://dora.dev/research/2025/ https://dora.dev/research/; do
-            echo "=== $u"; curl -sSL --max-time 30 "$u" -o page.html -w "HTTP %{http_code}\n" || true
-            grep -oE 'href="[^"]+"' page.html | sed 's/href=//; s/"//g' | grep -iE '2025|pdf|report' | sort -u | head -40
+          cat > totext.py <<'PY'
+          import sys, html, re
+          from html.parser import HTMLParser
+          class P(HTMLParser):
+              def __init__(s): super().__init__(); s.out=[]; s.links=[]; s.skip=0
+              def handle_starttag(s,t,a):
+                  if t in('script','style'): s.skip+=1
+                  for k,v in a:
+                      if k=='href' and v: s.links.append(v)
+              def handle_endtag(s,t):
+                  if t in('script','style'): s.skip-=1
+                  if t in('p','li','h1','h2','h3','h4','div','br'): s.out.append('\n')
+              def handle_data(s,d):
+                  if not s.skip: s.out.append(d)
+          p=P(); p.feed(open(sys.argv[1],encoding='utf-8',errors='ignore').read())
+          text=re.sub(r'\n\s*\n+','\n',''.join(p.out))
+          print(text[:12000]); print('=== LINKS'); print('\n'.join(sorted(set(p.links))))
+          PY
+          for u in https://dora.dev/research/2025/dora-report/ https://dora.dev/research/2025/; do
+            echo "################ $u"; curl -sSL --max-time 30 "$u" -o page.html; python3 totext.py page.html
           done
-      - name: Download the PDF and extract text
+      - name: Download any linked PDF and extract findings
         run: |
           set -e
-          PDF=$(curl -sSL https://dora.dev/research/2025/dora-report/ | grep -oE 'https?://[^"]+\.pdf' | head -1 || true)
-          [ -z "$PDF" ] && PDF=$(curl -sSL https://dora.dev/research/2025/ | grep -oE 'https?://[^"]+\.pdf' | head -1 || true)
-          echo "PDF: $PDF"
-          [ -n "$PDF" ] || { echo "No PDF link found"; exit 0; }
-          curl -sSL "$PDF" -o report.pdf && pdfinfo report.pdf | head -20
+          LINKS=$( (curl -sSL https://dora.dev/research/2025/dora-report/; curl -sSL https://dora.dev/research/2025/) | grep -oE 'href="[^"]+"' | sed 's/href=//; s/"//g' | sort -u)
+          PDF=$(echo "$LINKS" | grep -iE '\.pdf' | head -1 || true)
+          echo "PDF candidate: $PDF"
+          [ -n "$PDF" ] || exit 0
+          case "$PDF" in http*) ;; /*) PDF="https://dora.dev$PDF";; *) PDF="https://dora.dev/research/2025/dora-report/$PDF";; esac
+          curl -sSL "$PDF" -o report.pdf && pdfinfo report.pdf | head -8
           pdftotext -layout report.pdf report.txt
-          echo "=== Passages mentioning throughput or instability together with AI (page numbers by form feed)"
-          awk 'BEGIN{p=1} /\f/{p++} {print p": "$0}' report.txt | grep -iE 'throughput|instabilit|stability' | grep -iE 'AI|adoption' | head -80
-          echo "=== Key findings section (first 400 lines mentioning 'key finding')"
-          grep -n -i -A25 'key findings' report.txt | head -200
+          awk 'BEGIN{p=1} /\f/{p++} {print "p"p": "$0}' report.txt > numbered.txt
+          echo "=== throughput / instability lines"
+          grep -iE 'throughput|instabilit' numbered.txt | head -120
