@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Swarmia change failure rate docs
         run: |
-          for u in https://help.swarmia.com/metrics-and-definitions/dora-metrics/change-failure-rate https://help.swarmia.com/features/metrics/track-dora-metrics/automatic-change-failure-detection; do
+          for u in https://linearb.helpdocs.io/article/bqkxf4rjom-what-is-cfr; do
             echo "################ $u"
             curl -sSL --max-time 30 "$u" | python3 -c "
           import sys,re,html
@@ -19,5 +19,5 @@ jobs:
           t=re.sub(r'(?s)<(script|style)[^>]*>.*?</\1>','',t)
           t=html.unescape(re.sub(r'<[^>]+>','\n',t))
           lines=[l.strip() for l in t.split('\n') if l.strip()]
-          print('\n'.join(l for l in lines if re.search(r'(?i)manual|mark|fix|incident|revert|rollback|hotfix|failure',l))[:6000])"
+          print('\n'.join(l for l in lines if re.search(r'(?i)incident|deploy|failure|bug|defin|calculat',l))[:6000])"
           done
