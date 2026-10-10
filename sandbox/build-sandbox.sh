@@ -80,6 +80,13 @@ commit "2026-03-12 12:00:00" src/json.txt "feat: add json output"
 commit "2026-03-19 12:00:00" src/json.txt "fix: json escaping"
 tag    "2026-03-20 12:00:00" v1.5.0
 
+# One failure needing two fix releases (v1.1): v1.5.0 gets a quick patch v1.5.1, which
+# itself breaks and gets another quick patch v1.5.2 (each 22 hours later).
+commit "2026-03-21 08:00:00" src/json.txt "fix: json escaping for unicode"
+tag    "2026-03-21 10:00:00" v1.5.1
+commit "2026-03-22 06:00:00" src/json.txt "fix: restore json escaping for ascii"
+tag    "2026-03-22 08:00:00" v1.5.2
+
 # Excluded by the default version pattern: a pre-release and a lightweight tag.
 commit "2026-03-24 12:00:00" src/plugins.txt "feat: experimental plugin system"
 tag    "2026-03-25 12:00:00" v1.6.0-beta.1
