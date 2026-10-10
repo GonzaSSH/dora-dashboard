@@ -48,11 +48,11 @@ async function sandbox(): Promise<boolean> {
 }
 
 /** GitHub's own count of core API requests used this hour (this call itself is free). */
-async function usedByGitHub(withToken: boolean): Promise<{ used: number; remaining: number }> {
+async function usedByGitHub(withToken: boolean): Promise<{ used: number; remaining: number; reset: number }> {
   const headers: Record<string, string> = { Accept: 'application/vnd.github+json' };
   if (withToken && token) headers.Authorization = `Bearer ${token}`;
   const res = await fetch('https://api.github.com/rate_limit', { headers });
-  const body = (await res.json()) as { resources: { core: { used: number; remaining: number } } };
+  const body = (await res.json()) as { resources: { core: { used: number; remaining: number; reset: number } } };
   return body.resources.core;
 }
 
@@ -64,14 +64,20 @@ async function largeRun(repo: string, useToken: boolean): Promise<boolean> {
   const r = await runAnalysis({ repo, token: useToken ? token : undefined, settings: DEFAULT_SETTINGS, window, budget: BUDGET_WITHOUT_TOKEN });
   const secs = (Date.now() - started) / 1000;
   const after = await usedByGitHub(useToken);
-  // GitHub's counter is the independent check: it counts every request the app really made.
+  // GitHub's counter is the independent check, but only when it is ours alone (token run) and the
+  // hourly window did not roll over mid-run. Without a token it is shared by every machine on the
+  // CI runner's IP address, so it is shown for information only.
+  const sameWindow = before.reset === after.reset;
   const counted = after.used - before.used;
+  const githubCheck = useToken && sameWindow;
   console.log(`\nLive large-repo check (${useToken ? 'with token, capped at the anonymous budget' : 'NO token'}): ${repo}, last ${DEFAULT_WINDOW_DAYS} days, source=${r.collected.source}`);
   console.table(show(r));
-  console.log(`Finished in ${secs.toFixed(1)}s. App counted ${r.requestsUsed} requests; GitHub counted ${counted} (cap ${BUDGET_WITHOUT_TOKEN}, anonymous limit 60/hour).`);
+  const note = githubCheck ? '' : sameWindow ? ' [shared IP counter, information only]' : ' [hourly window reset during the run, not comparable]';
+  console.log(`Finished in ${secs.toFixed(1)}s. App counted ${r.requestsUsed} requests; GitHub counted ${counted}${note} (cap ${BUDGET_WITHOUT_TOKEN}, anonymous limit 60/hour).`);
   console.log(`Change details fetched for ${r.collected.changesFetched} of ${r.collected.changesNeeded} deployments.`);
   for (const n of r.collected.notices) console.log(`Notice: ${n}`);
-  return counted <= BUDGET_WITHOUT_TOKEN && counted > 0 && secs < 120 && r.metrics.deploymentFrequency.count > 0;
+  const withinBudget = githubCheck ? counted > 0 && counted <= BUDGET_WITHOUT_TOKEN : r.requestsUsed <= BUDGET_WITHOUT_TOKEN;
+  return withinBudget && secs < 120 && r.metrics.deploymentFrequency.count > 0;
 }
 
 async function large(repo: string): Promise<boolean> {
