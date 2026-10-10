@@ -109,7 +109,7 @@ Full definitions are in [PLAN.md](PLAN.md#2-the-five-metrics-exact-formulas). In
   normal releases, two failures with recoveries and a rework release. The expected value
   of every metric was worked out **by hand before any metric code was written**:
   [sandbox/EXPECTED.md](sandbox/EXPECTED.md).
-- **Unit tests** (Vitest, 59 tests) check that every metric equals EXPECTED.md exactly,
+- **Unit tests** (Vitest, 65 tests) check that every metric equals EXPECTED.md exactly,
   plus the edge cases of each rule, every error case and that the token is never leaked.
   They run offline against recorded GitHub responses.
 - **End-to-end tests** (Playwright, desktop and phone sizes) drive the real page: the full
@@ -118,7 +118,7 @@ Full definitions are in [PLAN.md](PLAN.md#2-the-five-metrics-exact-formulas). In
   EXPECTED.md, and `grafana/grafana` must finish within the request budget.
 - **CI** ([workflow](.github/workflows/ci.yml)) runs all of the above on every push,
   then deploys to GitHub Pages and checks the deployed site shows the expected numbers.
-- An **independent AI review** checked the code against the plan and the expected values.
+- An **independent AI review** checked the code against the plan and the expected values. It found 7 gaps (e.g. backport releases on older version lines being missed, and the wrong message when GitHub's limit ran out mid-run); each got a regression test and a fix.
 
 ## Built with Claude Code
 
