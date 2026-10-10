@@ -142,3 +142,11 @@ td:last-child { min-width: 280px; }
 input.masked { -webkit-text-security: disc; text-security: disc; }
 .sample { margin: 0; font-size: 0.8rem; color: var(--ink-2); border-left: 3px solid var(--warning); padding-left: 6px; }
 .drivers { margin: 0; font-size: 0.85rem; color: var(--ink-2); }
+.corrections { margin: 8px 0; padding: 8px 12px; border-left: 4px solid var(--accent); background: var(--surface); border-radius: 6px; }
+.corrections button { margin-left: 4px; }
+.corrected-badge { margin-left: 0; }
+tr.corrected td { background: var(--badge-bg); }
+.correction { display: flex; flex-wrap: wrap; gap: 6px; }
+td select { font-size: 0.85rem; padding: 4px 6px; }
+.definitions { font-size: 0.85rem; color: var(--ink-2); margin: 0 0 16px; }
+.definitions .changed { font-weight: 600; color: var(--ink); background: var(--badge-bg); border-radius: 4px; padding: 0 4px; }

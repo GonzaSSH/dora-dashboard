@@ -160,6 +160,26 @@ not with other teams:
 The three proxy metrics get **no rating**. Each shows its number, its plain-language
 explanation, the "Proxy" label, and one sentence on what makes it higher or lower.
 
+## 2b. Manual corrections and shareable definitions (v1.2)
+
+- **Corrections.** In the deployments list a person can mark any release *failed* (choosing
+  the release that fixed it: the next one by default, any later one, or "not fixed in this
+  period") or *not failed*.
+  - The corrections override the automatic flags. Remediations, rework and recovery chains
+    are then recalculated with the same rules as §2, and nothing is fetched again.
+  - A failure not fixed in the period counts in the change failure rate but has no recovery
+    time; the tile says how many such failures there are.
+  - Corrected releases are labelled "manually corrected", with an "N releases corrected by
+    hand" line and a **Reset corrections** button. Corrections for releases outside the
+    period, or a fix that isn't a later release, are ignored with a note.
+- **Page address only.** Corrections are kept in the page address
+  (`failed=v1.4.1`, `failed=v1.4.1:v1.5.2`, `failed=v1.5.2:none`, `notfailed=v1.2.0`), together
+  with every setting that differs from the default (`source`, `pattern`, `prerelease=keep`,
+  `quickpatch=off`, `hours`, `revert=off`, `revertpattern`, `rework=patches`). Nothing is stored
+  anywhere else; a shared link reproduces the same numbers. Saved demos keep default settings.
+- **Definitions used.** A line under the tiles lists the active rules; ones that differ from
+  the defaults are marked "(changed)".
+
 ## 3. GitHub API usage and rate limits
 
 - **Without a token:** 60 requests per hour. The app keeps a **request budget**

@@ -180,6 +180,65 @@ v1.5.2 → `5 / 10 = 0.5` (**50%**).
 **Display rule:** durations under 48 hours are shown in hours. 48 hours or
 more are shown in days with one decimal place.
 
+## Manual corrections (v1.2)
+
+A person can overrule the automatic detection for any release in the deployments list
+(PLAN.md §2b). Same sandbox, same window and settings as above, with two corrections:
+
+- **v1.4.1 marked as failed**, fixed by the next release (the default): **v1.5.0**.
+- **v1.2.0 marked as not failed** (say its quick patch v1.2.1 was planned).
+
+Rules: a release marked failed gets the chosen fix as its remediation; a release marked not
+failed has no remediation. Everything else stays automatic. Recovery and rework are then
+recalculated from the corrected list, exactly as in Step 3–4.
+
+| Deployment | Automatic | Corrected | Fixes (after correction) | Rework? |
+|---|---|---|---|---|
+| v1.2.0 | failed (quick patch v1.2.1) | **not failed** (by hand) | — | no |
+| v1.2.1 | — | — | nothing any more (v1.2.0 is not failed) | **no** (was yes) |
+| v1.3.0 | failed (revert in v1.4.0) | failed | — | no |
+| v1.4.0 | — | — | v1.3.0 | yes |
+| v1.4.1 | not failed | **failed** (by hand), fixed by v1.5.0 | — | no |
+| v1.5.0 | failed (quick patch v1.5.1) | failed | **v1.4.1** | **yes** (was no) |
+| v1.5.1 | failed (quick patch v1.5.2) | failed | v1.5.0 | yes |
+| v1.5.2 | — | — | v1.5.1 | yes |
+
+**Change failure rate:** failed = v1.3.0, v1.4.1, v1.5.0, v1.5.1 → `4 / 10 = 0.4` (**40%**,
+unchanged: one failure added, one removed).
+
+**Recovery** (to the first release after it that isn't failed):
+
+| Failure | Chain | Recovery |
+|---|---|---|
+| v1.3.0 (02-16 12:00) | → v1.4.0 (02-18 12:00) | **48 h** |
+| v1.4.1 (03-06 12:00) | → v1.5.0 (failed) → v1.5.1 (failed) → v1.5.2 (03-22 08:00) | 16 days − 4 h = 384 − 4 = **380 h** |
+| v1.5.0 (03-20 12:00) | → v1.5.1 (failed) → v1.5.2 (03-22 08:00) | **44 h** |
+| v1.5.1 (03-21 10:00) | → v1.5.2 (03-22 08:00) | **22 h** |
+
+Sorted `[22, 44, 48, 380]`, median = `(44 + 48) / 2 = 46` hours (**"46 hours"**).
+
+**Rework:** v1.4.0, v1.5.0, v1.5.1, v1.5.2 → `4 / 10 = 0.4` (**40%**; different releases from
+the automatic result: v1.2.1 drops out, v1.5.0 comes in).
+
+**Unchanged:** deployment frequency 0.78 per week, lead time 49 h (2.0 days); corrections don't
+touch dates or commits.
+
+| Metric | Automatic | With the two corrections |
+|---|---|---|
+| Deployment frequency | 0.78 per week | 0.78 per week |
+| Change lead time | 2.0 days | 2.0 days |
+| Change failure rate | 40% | 40% |
+| Failed deployment recovery time | 33 hours | **46 hours** |
+| Rework rate | 40% | 40% (v1.4.0, v1.5.0, v1.5.1, v1.5.2) |
+
+**A failure that isn't fixed in the period.** If instead **v1.5.2** (the last release) is marked
+failed, there is no later release, so the default fix is "not fixed in this period":
+failed = v1.2.0, v1.3.0, v1.5.0, v1.5.1, v1.5.2 → `5 / 10 = 0.5` (**50%**). v1.5.1's chain now
+ends at a failed release with no fix, and so does v1.5.0's, so neither has a recovery time;
+recoveries are v1.2.0 20 h and v1.3.0 48 h → median `(20 + 48) / 2 = 34` h (**"34 hours"**,
+from 2 of 5 failures, 3 not recovered in the period). Rework is unchanged at
+v1.2.1, v1.4.0, v1.5.1, v1.5.2 → **40%**.
+
 ## Fixture case: reverts that name a pull request
 
 GitHub's **Revert** button creates a commit like `Revert "feat: search (#10)" (#12)` whose
