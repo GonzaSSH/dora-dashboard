@@ -5,8 +5,8 @@ import { messageFor } from './messages';
 import { renderAbout, renderResults } from './ui/render';
 import { h } from './ui/dom';
 import type { Settings, TimeWindow } from './types';
+import { fromJson, isDemoId, type DemoId } from './snapshot';
 
-const SANDBOX = { repo: 'GonzaSSH/dora-sandbox', from: '2026-01-01', to: '2026-03-31' };
 const DAY = 86_400_000;
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -73,6 +73,28 @@ function showError(err: unknown): void {
 }
 
 let running = false;
+/** Loads a saved demo result: zero GitHub requests (v1.1 item 2). */
+async function loadDemo(id: DemoId): Promise<void> {
+  if (running) return;
+  errorEl.hidden = true;
+  try {
+    const res = await fetch(`snapshots/${id}.json`);
+    if (!res.ok) throw new Error(String(res.status));
+    const snap = fromJson(await res.json());
+    repoIn.value = snap.repo;
+    fromIn.value = snap.window.start.toISOString().slice(0, 10);
+    toIn.value = new Date(snap.window.end.getTime() - DAY).toISOString().slice(0, 10);
+    writeSettings(snap.settings);
+    renderResults(resultsEl, snap.result, snap.window, snap.savedAt);
+    resultsEl.hidden = false;
+    statusEl.textContent = '';
+    history.replaceState(null, '', `?demo=${id}`);
+  } catch {
+    errorEl.replaceChildren(h('h2', {}, "Couldn't load the saved example"), h('p', {}, 'Type a repository and click Analyse to run a live analysis instead.'));
+    errorEl.hidden = false;
+  }
+}
+
 async function analyse(): Promise<void> {
   if (running) return;
   running = true;
@@ -114,12 +136,8 @@ form.addEventListener('keydown', (e) => {
     void analyse();
   }
 });
-$<HTMLButtonElement>('demo').addEventListener('click', () => {
-  repoIn.value = SANDBOX.repo;
-  fromIn.value = SANDBOX.from;
-  toIn.value = SANDBOX.to;
-  void analyse();
-});
+$<HTMLButtonElement>('demo').addEventListener('click', () => void loadDemo('sandbox'));
+$<HTMLButtonElement>('demo-angular').addEventListener('click', () => void loadDemo('angular'));
 $<HTMLButtonElement>('reset').addEventListener('click', () => writeSettings(DEFAULT_SETTINGS));
 
 writeSettings(DEFAULT_SETTINGS);
@@ -130,7 +148,10 @@ const params = new URLSearchParams(location.search);
 const isDay = (s: string | null): s is string => !!s && /^\d{4}-\d{2}-\d{2}$/.test(s);
 if (isDay(params.get('from'))) fromIn.value = params.get('from')!;
 if (isDay(params.get('to'))) toIn.value = params.get('to')!;
-if (params.get('repo')) {
+const demo = params.get('demo');
+if (isDemoId(demo)) {
+  void loadDemo(demo);
+} else if (params.get('repo')) {
   repoIn.value = params.get('repo')!;
   void analyse();
 }

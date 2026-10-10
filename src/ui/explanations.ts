@@ -53,8 +53,8 @@ export const EXPLANATIONS: Record<MetricKey, Explanation> = {
     title: 'Rework rate',
     question: 'How much of the shipping is unplanned fixing?',
     meaning: 'The share of releases made to fix problems rather than deliver new value. High rework means time spent going back over earlier work.',
-    drivers: 'It goes up when more releases are urgent fixes for failed releases, and down when releases rarely need fixing. With public data it will usually be close to the change failure rate: DORA itself describes change failure rate as a proxy for rework, so read the two together, not as independent signals.',
+    drivers: 'It goes up when more releases are urgent fixes for failed releases. With public data it is usually close to the change failure rate.',
     how: 'Releases that fixed a failed release ÷ all releases. If a fix itself fails and needs another fix, both fix releases count.',
-    proxy: 'A release counts as rework if it fixed a detected failed release. A broader, non-default setting also counts every patch release; it runs very high for libraries (75–96% on five large projects).',
+    proxy: 'A release counts as rework if it fixed a detected failed release, so with public data it will usually be close to the change failure rate: read the two together, not as independent signals. DORA itself describes change failure rate as a proxy for rework. A broader, non-default setting also counts every patch release; it runs very high for libraries (75–96% on five large projects).',
   },
 };

@@ -95,6 +95,7 @@ button.primary:disabled { opacity: 0.6; cursor: progress; }
 button.link { background: none; border: 0; color: var(--accent); padding: 0; text-decoration: underline; }
 
 .status { min-height: 1.5em; color: var(--ink-2); }
+.snapshot-note { margin: 4px 0 0; padding: 6px 10px; border-radius: 6px; background: var(--badge-bg); color: var(--badge-ink); font-size: 0.9rem; display: inline-block; }
 .error { background: var(--error-bg); border-color: var(--critical); }
 .error h2 { color: var(--ink); }
 

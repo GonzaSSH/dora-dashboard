@@ -39,8 +39,7 @@ test('typing a repo and dates shows the five metrics from EXPECTED.md', async ({
   expect(page.url()).toContain('repo=GonzaSSH%2Fdora-sandbox');
 });
 
-test('the demo button runs the sandbox', async ({ page }) => {
-  await serveGitHub(page);
+test('the demo button shows the sandbox (saved result)', async ({ page }) => {
   await page.goto('./');
   await page.getByTestId('demo').click();
   await expect(page.getByTestId('value-changeFailureRate')).toHaveText(EXPECTED.changeFailureRate.shown);
@@ -57,7 +56,10 @@ test('changing the failure settings changes the result', async ({ page }) => {
   await page.goto('./');
   await page.getByTestId('settings').locator('summary').click();
   await page.getByTestId('use-revert').uncheck();
-  await page.getByTestId('demo').click();
+  await page.getByTestId('repo-input').fill('GonzaSSH/dora-sandbox');
+  await page.getByTestId('from-input').fill('2026-01-01');
+  await page.getByTestId('to-input').fill('2026-03-31');
+  await page.getByTestId('analyse').click();
   // Worked by hand from EXPECTED.md: without the revert rule v1.3.0 is no longer failed.
   // Failures: v1.2.0, v1.5.0, v1.5.1 = 3 of 10 = 30%. Recoveries 20, 44, 22 h → median 22 h.
   await expect(page.getByTestId('value-changeFailureRate')).toHaveText('30%');
@@ -69,7 +71,10 @@ test('the token is sent only to GitHub and never stored', async ({ page }) => {
   const gh = await serveGitHub(page);
   await page.goto('./');
   await page.getByTestId('token-input').fill(TOKEN);
-  await page.getByTestId('demo').click();
+  await page.getByTestId('repo-input').fill('GonzaSSH/dora-sandbox');
+  await page.getByTestId('from-input').fill('2026-01-01');
+  await page.getByTestId('to-input').fill('2026-03-31');
+  await page.getByTestId('analyse').click();
   await expect(page.getByTestId('results')).toBeVisible();
 
   expect(gh.seen.length).toBeGreaterThan(0);
