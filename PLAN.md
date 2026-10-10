@@ -82,6 +82,13 @@ ever), its changes are unknown and D is left out of lead time.
 
 ## 2. The five metrics: exact formulas
 
+**v1.1: every definition below was reviewed by the delivery lead**, one question at a time:
+- **Deployment:** kept as stable versions only.
+- **48-hour quick-patch window:** kept.
+- **Revert rule:** made strict, and extended to pull-request reverts.
+- **Rework rule:** changed to every patch release.
+- **Ratings:** limited to the two directly measured metrics.
+
 Let `W` = deployments in the window, `n = |W|`, and `days` = window length in days.
 
 1. **Deployment frequency** = `n / (days / 7)` deployments per week.
@@ -96,8 +103,15 @@ Let `W` = deployments in the window, `n = |W|`, and `days` = window length in da
    either signal fires (each can be switched on or off in the UI):
    - **Quick patch:** another deployment E has the same major.minor,
      `patch(E) = patch(D) + 1`, and `0 < time(E) − time(D) ≤ H` hours (default `H = 48`). E is D's **remediation**.
-   - **Revert:** a deployment E whose predecessor is D contains a commit whose
-     message starts with `Revert` (pattern configurable). E is D's **remediation**.
+   - **Revert (strict, v1.1):** a deployment E contains a revert commit (first line matches
+     `^Revert`, configurable) that names its target:
+     - `This reverts commit <id>` names a commit;
+     - `Reverts owner/repo#<n>` names a pull request, whose merge commit is looked up
+       (`GET /pulls/<n>`, within the request budget).
+     D is failed if the target commit is one of D's changes; E is D's **remediation**.
+     If the target can't be identified (no id or PR, PR not found, PR in another repo,
+     budget used up) or isn't in any known release's changes, the revert fails **no**
+     release and is reported as "N reverts could not be matched to a release".
    If D has a remediation from both signals, the earliest one counts.
 
 4. **Failed deployment recovery time (proxy)** = median over failed `D ∈ W` of
@@ -109,30 +123,30 @@ Let `W` = deployments in the window, `n = |W|`, and `days` = window length in da
 5. **Rework rate (proxy)** = `rework(W) / n`, where D is **rework** (an
    unplanned deployment made to fix something) if:
    - D is the remediation of some failed deployment, **or**
-   - D is a patch bump (same major.minor as its predecessor) and **every**
-     change commit matches the fix pattern
-     `^(fix|hotfix|bugfix)(\(.+\))?!?:|^Revert` (configurable).
+   - D is a patch release: same major.minor as its predecessor, higher patch
+     (v1.1: whatever its commit messages say, so it doesn't depend on commit style).
 
 Details settled during the build:
 - Remediations are looked for among deployments **inside the window** only.
-- **Merge commits** (more than one parent) are left out of lead time and of the
-  "all fixes" check; their date is the merge, not when the change was written.
+- **Merge commits** (more than one parent) are left out of lead time; their date is
+  the merge, not when the change was written.
 - A negative lead time (commit dated after its release, i.e. a clock problem) counts as 0.
 
 Every proxy metric shows a **"Proxy"** badge and a one-line "how we guessed this".
 The UI also lists every deployment with its time, number of commits, and
 failed / remediation / rework flags, so people can check the numbers themselves.
 
-**Rough "good / bad" guide shown in the app** (based on DORA research, given as
-a rough guide, not a hard rule):
+**Rough guide shown in the app (v1.1).** Only the two directly measured metrics are
+rated, labelled "rough guide", with the advice to compare a team with its own past,
+not with other teams:
 
 | Metric | Strong | Weak |
 |---|---|---|
 | Deployment frequency | daily or more | less than monthly |
 | Change lead time | under 1 day | over 1 month |
-| Change failure rate | under 15% | over 30% |
-| Recovery time | under 1 day | over 1 week |
-| Rework rate | under 10% | over 25% |
+
+The three proxy metrics get **no rating**. Each shows its number, its plain-language
+explanation, the "Proxy" label, and one sentence on what makes it higher or lower.
 
 ## 3. GitHub API usage and rate limits
 

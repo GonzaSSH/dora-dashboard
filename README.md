@@ -8,7 +8,7 @@
 
 Type a repository like `grafana/grafana` and get the five
 [DORA](https://dora.dev/guides/dora-metrics/) software delivery metrics, each with a
-short explanation and a rough "strong / weak" guide. It runs entirely in your browser:
+short plain-language explanation. It runs entirely in your browser:
 no sign-up, no server, nothing stored.
 
 ![The dashboard showing the five metrics for the test repository](docs/screenshot.png)
@@ -41,16 +41,17 @@ outcome, not the typing, so they're how you tell whether AI is actually helping 
 
 ### What each metric means
 
-| Metric | The question it answers | Strong | Weak |
-|---|---|---|---|
-| **Deployment frequency** | How often does the team ship? | daily or more | less than once a month |
-| **Change lead time** | How long does a change wait before users get it? | under a day | over a month |
-| **Change failure rate** *(proxy)* | How often does a release go wrong? | under 15% | over 30% |
-| **Failed deployment recovery time** *(proxy)* | When a release goes wrong, how fast is it fixed? | under a day | over a week |
-| **Rework rate** *(proxy)* | How much of the shipping is unplanned fixing? | under 10% | over 25% |
+| Metric | The question it answers | Rough guide |
+|---|---|---|
+| **Deployment frequency** | How often does the team ship? | strong: daily or more · weak: less than once a month |
+| **Change lead time** | How long does a change wait before users get it? | strong: under a day · weak: over a month |
+| **Change failure rate** *(proxy)* | How often does a release go wrong? | no rating: higher when quick patches or reverts follow releases |
+| **Failed deployment recovery time** *(proxy)* | When a release goes wrong, how fast is it fixed? | no rating: shorter when fixes ship soon after a failed release |
+| **Rework rate** *(proxy)* | How much of the shipping is unplanned fixing? | no rating: higher when more releases are patches or fixes for failures |
 
-"Strong" and "weak" are a rough guide based on DORA research, not a hard rule. A team's
-trend over time says more than a comparison with other teams.
+Only the two directly measured metrics get a "strong / weak" rough guide. The three
+proxies are estimates, so the app shows the number and what moves it, not a verdict.
+Compare a team with its own past, not with other teams.
 
 ### If something goes wrong
 
@@ -78,21 +79,23 @@ Full definitions are in [PLAN.md](PLAN.md#2-the-five-metrics-exact-formulas). In
   was written. The median is shown. Each release is compared with the previous version on
   the same line (so 11.6.5 is compared with 11.6.4, not with 12.1.0).
 - **Change failure rate** = failed releases ÷ all releases. A release counts as **failed**
-  if a quick patch followed (1.2.0 → 1.2.1 within 48 hours) or the next release reverts
-  one of its changes.
+  if a quick patch followed (1.2.0 → 1.2.1 within 48 hours) or a later release reverts
+  one of its commits. The revert must name what it undoes, either a commit or a pull
+  request that is looked up. Reverts that can't be traced to a release fail nothing, and
+  the page lists them.
 - **Recovery time** = time from a failed release to the first good release after it (median).
 - **Rework rate** = rework releases ÷ all releases. A release is **rework** if it fixed a
-  failed release, or it's a patch release whose commit messages are all fixes
-  (`fix:`, `hotfix:`, `bugfix:`, `Revert …`).
+  failed release, or it's a patch release (1.4.0 → 1.4.1), whatever its commits say.
 
 ### Honest limitations
 
 - **Three of the five metrics are proxies.** Public repositories don't publish incidents
   or outages, so failures are inferred from release patterns. A real outage that was
   fixed in a normal release is invisible; a planned quick patch is counted as a failure.
-- **The rework rule relies on commit-message conventions.** Projects that don't start fix
-  commits with `fix:` (grafana writes "Alerting: Fix …") will show near 0% rework. The
-  pattern is editable under **Settings**.
+- **Rework counts every patch release.** A project that ships planned patch releases on a
+  schedule will look like it does more unplanned fixing than it does.
+- **Reverts must name what they undo.** A revert written by hand without the commit or
+  pull request it reverts can't be traced, so it fails nothing (the page lists it).
 - **A release is not always a deployment.** Libraries publish releases that users adopt
   later; services may deploy many times between releases.
 - **Busy projects are sampled without a token.** To stay under GitHub's 60 requests per
@@ -128,6 +131,15 @@ the *what* and the *quality bar*, and delegating the *how*.
 
 **What I decided**
 - The goal, the audience and the five metrics, and what was out of scope for version 1.
+- **The metric definitions.** I reviewed each default against how I've run DORA in real
+  companies:
+  - **What counts as a deployment:** kept as stable versions only.
+  - **The 48-hour quick-patch window:** kept.
+  - **The revert rule:** made strict. A revert only fails the release that shipped the
+    reverted commit, including reverts made with GitHub's Revert button.
+  - **The rework rule:** changed to count every patch release.
+  - **The ratings:** limited to the two directly measured metrics. The three proxies are
+    estimates and get no verdict.
 - The quality bar: a test repository with hand-worked answers written before any code,
   tests that may never be weakened to pass, live checks against real projects, and an
   independent review.
@@ -139,7 +151,8 @@ the *what* and the *quality bar*, and delegating the *how*.
   turning on Pages).
 
 **What the AI did**
-- The plan: exact metric formulas, the proxy rules and the test-repository design.
+- The first draft of the formulas and proxy rules (which I then reviewed and changed),
+  and the test-repository design.
 - All the code, tests, CI pipeline and this README's first draft.
 - All testing and debugging, including finding and fixing its own test mistakes.
 
