@@ -34,11 +34,19 @@ jobs:
           for u in https://dora.dev/research/2025/dora-report/ https://dora.dev/research/2025/; do
             echo "################ $u"; curl -sSL --max-time 30 "$u" -o page.html; python3 totext.py page.html
           done
-      - name: Read the official infographic PDF from dora.dev
+      - name: OCR the official infographic PDF from dora.dev
         run: |
           set -e
+          sudo apt-get install -y -qq tesseract-ocr >/dev/null
           curl -sSL https://dora.dev/research/2025/2025-DORA-Report-Infographic.pdf -o info.pdf -w "HTTP %{http_code}\n"
-          pdfinfo info.pdf | head -10
-          pdftotext -layout info.pdf info.txt
-          echo "=== FULL TEXT"
-          cat info.txt
+          pdftoppm -r 200 -png info.pdf page
+          for f in page*.png; do echo "===== $f"; tesseract "$f" - 2>/dev/null; done
+      - name: Search DORA's own site source for 2025 throughput / instability findings
+        run: |
+          set -e
+          git clone -q --depth 1 https://github.com/dora-team/dora.dev site
+          echo "=== files mentioning 2025 and throughput/instability"
+          grep -rliE 'throughput|instabilit' site --include=*.md | xargs grep -liE '2025|AI-assisted' | head -20
+          for f in $(grep -rliE 'throughput|instabilit' site --include=*.md | xargs grep -liE '2025|AI-assisted' | head -8); do
+            echo "################ $f"; grep -n -iE -B2 -A2 'throughput|instabilit' "$f" | head -60
+          done
