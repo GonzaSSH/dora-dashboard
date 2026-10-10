@@ -12,7 +12,7 @@ through a built-in GitHub connector plus `git`, and network access is limited.
 | 1 | Create public repo `dora-sandbox` | **Me** (connector tool), fallback **you** | I have a "create repository" tool but haven't used it yet. If it fails, the steps are in §0.1. |
 | 2 | Push backdated commits and tags to `dora-sandbox` | **Me, after you approve one permission** | `git` can set any date. But this session can only push to repos attached to it. Attaching a repo with write access is blocked until you explicitly approve it. If it's still blocked, you start a new session with both repos selected (§0.1). |
 | 3 | Turn on GitHub Pages for `dora-dashboard` | **You** (one setting) | I have no tool for repo settings. Steps in §0.1. |
-| 4 | Create and run GitHub Actions workflows | **Me** (tested, see final report) | I push workflow files on my branch. They run on GitHub's servers. |
+| 4 | Create and run GitHub Actions workflows | **Me** (tested: pushed a placeholder workflow and GitHub started running it) | I push workflow files on my branch. They run on GitHub's servers, and I can read their results. |
 | 4b | Get changes into `main` (Pages deploys from `main`) | **You merge a pull request**, unless you let me push to `main` | I'm only allowed to push to `claude/funny-wright-eioqk2`. |
 
 Other limits, and how the plan works around them:
