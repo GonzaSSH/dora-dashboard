@@ -34,16 +34,11 @@ jobs:
           for u in https://dora.dev/research/2025/dora-report/ https://dora.dev/research/2025/; do
             echo "################ $u"; curl -sSL --max-time 30 "$u" -o page.html; python3 totext.py page.html
           done
-      - name: Download any linked PDF and extract findings
+      - name: Read the official infographic PDF from dora.dev
         run: |
           set -e
-          LINKS=$( (curl -sSL https://dora.dev/research/2025/dora-report/; curl -sSL https://dora.dev/research/2025/) | grep -oE 'href="[^"]+"' | sed 's/href=//; s/"//g' | sort -u)
-          PDF=$(echo "$LINKS" | grep -iE '\.pdf' | head -1 || true)
-          echo "PDF candidate: $PDF"
-          [ -n "$PDF" ] || exit 0
-          case "$PDF" in http*) ;; /*) PDF="https://dora.dev$PDF";; *) PDF="https://dora.dev/research/2025/dora-report/$PDF";; esac
-          curl -sSL "$PDF" -o report.pdf && pdfinfo report.pdf | head -8
-          pdftotext -layout report.pdf report.txt
-          awk 'BEGIN{p=1} /\f/{p++} {print "p"p": "$0}' report.txt > numbered.txt
-          echo "=== throughput / instability lines"
-          grep -iE 'throughput|instabilit' numbered.txt | head -120
+          curl -sSL https://dora.dev/research/2025/2025-DORA-Report-Infographic.pdf -o info.pdf -w "HTTP %{http_code}\n"
+          pdfinfo info.pdf | head -10
+          pdftotext -layout info.pdf info.txt
+          echo "=== FULL TEXT"
+          cat info.txt
