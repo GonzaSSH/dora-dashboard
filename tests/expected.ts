@@ -37,3 +37,21 @@ export const EXPECTED_COPIED_REVERTS = {
   reworkRate: 0.2,
   unmatched: ['Revert "feat: y"'],
 } as const;
+
+/** EXPECTED.md, "Manual corrections": v1.4.1 marked failed (fixed by v1.5.0), v1.2.0 not failed. */
+export const EXPECTED_CORRECTED = {
+  failed: ['v1.3.0', 'v1.4.1', 'v1.5.0', 'v1.5.1'],
+  rework: ['v1.4.0', 'v1.5.0', 'v1.5.1', 'v1.5.2'],
+  deploymentFrequency: { shown: '0.78 per week' },
+  leadTime: { shown: '2.0 days' },
+  changeFailureRate: { rate: 0.4, shown: '40%' },
+  recoveryTime: { medianHours: 46, count: 4, shown: '46 hours' },
+  reworkRate: { rate: 0.4, shown: '40%' },
+} as const;
+
+/** EXPECTED.md, "A failure that isn't fixed in the period": v1.5.2 marked failed. */
+export const EXPECTED_UNFIXED = {
+  changeFailureRate: { rate: 0.5, failed: 5 },
+  recoveryTime: { medianHours: 34, count: 2, unrecovered: 3 },
+  reworkRate: { rate: 0.4 },
+} as const;
