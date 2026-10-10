@@ -2,7 +2,7 @@
 import { expect, test } from '@playwright/test';
 import { SANDBOX_URL, serveGitHub } from './fixtures';
 import { prRevertResponses, sandboxResponses } from '../tests/helpers/fixtures';
-import { EXPECTED, SANDBOX_REQUESTS } from '../tests/expected';
+import { EXPECTED, SANDBOX_REQUESTS_WITH_COMPARISON } from '../tests/expected';
 
 test('typing a repo and dates shows the five metrics from EXPECTED.md', async ({ page }) => {
   const gh = await serveGitHub(page);
@@ -31,7 +31,7 @@ test('typing a repo and dates shows the five metrics from EXPECTED.md', async ({
     await expect(page.getByTestId(`drivers-${key}`)).toContainText(/goes up|gets shorter/);
   }
   await expect(page.getByTestId('notices')).toContainText('no GitHub Releases');
-  await expect(page.getByTestId('requests-used')).toHaveText(`${SANDBOX_REQUESTS} GitHub requests used`);
+  await expect(page.getByTestId('requests-used')).toHaveText(`${SANDBOX_REQUESTS_WITH_COMPARISON} GitHub requests used`);
   await expect(page.getByTestId('deployment-v1.2.0')).toContainText('Quick patch');
   await expect(page.getByTestId('deployment-v1.3.0')).toContainText('Revert');
   expect(gh.unrecorded).toEqual([]);
@@ -116,10 +116,10 @@ test('pressing Enter in the repository box runs the analysis', async ({ page }) 
 });
 
 test('when GitHub\'s limit runs low, the sampled metrics say so', async ({ page }) => {
-  // GitHub reports 17 requests left after the first call: 14 more list the deployments
-  // (EXPECTED.md: 15 listing requests), leaving 3 change comparisons out of 10.
+  // GitHub reports 19 requests left after the first call: 16 more list the deployments
+  // (EXPECTED.md v1.3: 17 listing requests), leaving 3 change comparisons out of 10.
   const repoKey = '/repos/gonzassh/dora-sandbox';
-  const low = { ...sandboxResponses, [repoKey]: { ...sandboxResponses[repoKey]!, headers: { ...sandboxResponses[repoKey]!.headers, 'x-ratelimit-limit': '60', 'x-ratelimit-remaining': '17', 'x-ratelimit-reset': '1791748800' } } };
+  const low = { ...sandboxResponses, [repoKey]: { ...sandboxResponses[repoKey]!, headers: { ...sandboxResponses[repoKey]!.headers, 'x-ratelimit-limit': '60', 'x-ratelimit-remaining': '19', 'x-ratelimit-reset': '1791748800' } } };
   await serveGitHub(page, low);
   await page.goto(`./${SANDBOX_URL}`);
   await expect(page.getByTestId('results')).toBeVisible();
