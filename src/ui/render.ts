@@ -89,16 +89,17 @@ export function renderResults(el: HTMLElement, r: RunResult, window: TimeWindow)
       rl ? ` · ${rl.remaining} of ${rl.limit} left this hour` : ''),
   );
 
-  const allNotices = [...r.collected.notices];
+  // Unmatched reverts: one collapsed line, expandable to see which (v1.1).
   const unmatched = r.analysed.flatMap((d) => d.unmatchedReverts.map((m) => `${d.name}: ${m}`));
-  if (unmatched.length > 0) {
-    allNotices.push(
-      `${unmatched.length} ${unmatched.length === 1 ? 'revert' : 'reverts'} could not be matched to a release, ` +
-        `so ${unmatched.length === 1 ? 'it fails' : 'they fail'} no release (${unmatched.join('; ')}).`,
-    );
-  }
-  const notices = allNotices.length
-    ? h('ul', { class: 'notices', 'data-testid': 'notices' }, ...allNotices.map((n) => h('li', {}, n)))
+  const unmatchedItem = unmatched.length
+    ? h('li', {},
+      h('details', { 'data-testid': 'unmatched-reverts' },
+        h('summary', {}, `${unmatched.length} ${unmatched.length === 1 ? 'revert' : 'reverts'} could not be matched to a release`),
+        h('p', { class: 'muted' }, 'Their target was not found in any release in this period, so they fail no release.'),
+        h('ul', {}, ...unmatched.map((u) => h('li', {}, u)))))
+    : null;
+  const notices = r.collected.notices.length || unmatchedItem
+    ? h('ul', { class: 'notices', 'data-testid': 'notices' }, ...r.collected.notices.map((n) => h('li', {}, n)), unmatchedItem)
     : null;
 
   const { changesFetched, changesNeeded } = r.collected;

@@ -20,6 +20,13 @@ export function parseRevert(message: string, revertRe: RegExp): RevertTarget | n
   return { kind: 'unknown' };
 }
 
+/** The original commit's first line quoted in `Revert "<title>"`, without a trailing "(#12)". */
+export function quotedTitle(message: string): string | null {
+  const first = message.split('\n')[0] ?? '';
+  const m = /^Revert "(.*)"(?:\s*\(#\d+\))?\s*$/i.exec(first);
+  return m ? m[1]! : null;
+}
+
 /** Commit ids match when one is a prefix of the other (git abbreviates ids). */
 export function sameCommit(a: string, b: string): boolean {
   const x = a.toLowerCase();
