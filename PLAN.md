@@ -9,9 +9,9 @@ through a built-in GitHub connector plus `git`, and network access is limited.
 
 | # | Task | Who | Notes |
 |---|------|-----|-------|
-| 1 | Create public repo `dora-sandbox` | **Me** (connector tool), fallback **you** | I have a "create repository" tool but haven't used it yet. If it fails, the steps are in §0.1. |
+| 1 | Create public repo `dora-sandbox` | **You** | Tried: GitHub refused (`403 Resource not accessible by integration`). Steps in §0.1 A. |
 | 2 | Push backdated commits and tags to `dora-sandbox` | **Me, after you approve one permission** | `git` can set any date. But this session can only push to repos attached to it. Attaching a repo with write access is blocked until you explicitly approve it. If it's still blocked, you start a new session with both repos selected (§0.1). |
-| 3 | Turn on GitHub Pages for `dora-dashboard` | **You** (one setting) | I have no tool for repo settings. Steps in §0.1. |
+| 3 | Make `dora-dashboard` public, then turn on GitHub Pages | **You** | Free accounts only get Pages on public repos. Tried changing visibility: refused ("Repository settings writes are not permitted"). Steps in §0.1 C. |
 | 4 | Create and run GitHub Actions workflows | **Me** (tested: pushed a placeholder workflow and GitHub started running it) | I push workflow files on my branch. They run on GitHub's servers, and I can read their results. |
 | 4b | Get changes into `main` (Pages deploys from `main`) | **You merge a pull request** (decided) | I'm only allowed to push to `claude/funny-wright-eioqk2`. |
 
@@ -27,7 +27,7 @@ Other limits, and how the plan works around them:
 
 ### 0.1 Manual steps (only the ones you need)
 
-**A. Create `dora-sandbox` (only if I report my attempt failed)**
+**A. Create `dora-sandbox`**
 1. Go to https://github.com/new
 2. Owner: `GonzaSSH`. Repository name: `dora-sandbox`
 3. Description: `Scripted fake history with known DORA answers, for testing dora-dashboard`
@@ -40,10 +40,13 @@ Other limits, and how the plan works around them:
 - If I still report it's blocked: go to https://claude.ai/code, start a new
   session, and select **both** `GonzaSSH/dora-dashboard` and `GonzaSSH/dora-sandbox`.
 
-**C. Turn on GitHub Pages**
-1. Go to https://github.com/GonzaSSH/dora-dashboard/settings/pages
-2. Under **Build and deployment → Source**, pick **GitHub Actions**
-3. That's all. There's no Save button; it saves right away.
+**C. Make the repo public, then turn on GitHub Pages**
+1. Go to https://github.com/GonzaSSH/dora-dashboard/settings, scroll to the
+   **Danger Zone** at the bottom, click **Change visibility → Change to public**,
+   and confirm by following the prompts (GitHub asks you to type the repo name).
+2. Go to https://github.com/GonzaSSH/dora-dashboard/settings/pages
+3. Under **Build and deployment → Source**, pick **GitHub Actions**
+4. That's all. There's no Save button; it saves right away.
 
 **D. Merge my pull requests into `main`** (unless you allow direct pushes)
 1. Open the pull request link I give you
