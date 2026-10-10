@@ -99,23 +99,29 @@ describe('recovery time', () => {
   });
 });
 
-// v1.1 (delivery lead's decision): every patch release is rework, whatever its commits say.
+// v1.1 (delivery lead's decision after the survey): rework = releases that fixed a detected
+// failure. "Every patch release" is kept as a non-default, broad setting.
+const BROAD = { ...DEFAULT_SETTINGS, reworkRule: 'patches' as const };
 describe('rework rule', () => {
-  it('counts every patch release, whatever its commit messages', () => {
+  it('by default, a planned patch release (no detected failure) is not rework', () => {
+    const r = analyse([dep('v1.0.0', '01T00:00'), dep('v1.0.1', '20T00:00', [c('fix: a', '19T00:00')])], WINDOW, DEFAULT_SETTINGS);
+    expect(r[1]!.rework).toBe(false);
+  });
+  it('the broad setting counts every patch release, whatever its commit messages', () => {
     const mixed = analyse(
       [dep('v1.0.0', '01T00:00'), dep('v1.0.1', '20T00:00', [c('fix: a', '19T00:00'), c('feat: b', '19T00:00')])],
-      WINDOW, DEFAULT_SETTINGS,
+      WINDOW, BROAD,
     );
     expect(mixed[1]!.rework).toBe(true);
     expect(mixed[1]!.reworkReason).toMatch(/patch release/i);
   });
-  it('does not count a minor bump of fixes as rework', () => {
+  it('does not count a minor bump of fixes as rework, even with the broad setting', () => {
     const r = analyse([dep('v1.0.0', '01T00:00'), dep('v1.1.0', '20T00:00', [c('fix: a', '19T00:00')])],
-      WINDOW, DEFAULT_SETTINGS);
+      WINDOW, BROAD);
     expect(r[1]!.rework).toBe(false);
   });
-  it('counts a patch release even when its changes are unknown (it depends only on the version)', () => {
-    const r = analyse([dep('v1.0.0', '01T00:00'), dep('v1.0.1', '20T00:00', null)], WINDOW, DEFAULT_SETTINGS);
+  it('the broad setting counts a patch release even when its changes are unknown', () => {
+    const r = analyse([dep('v1.0.0', '01T00:00'), dep('v1.0.1', '20T00:00', null)], WINDOW, BROAD);
     expect(r[1]!.rework).toBe(true);
   });
 });

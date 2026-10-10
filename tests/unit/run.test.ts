@@ -64,13 +64,13 @@ describe('error cases', () => {
 
 describe('sampling when the request budget runs out', () => {
   it('still answers, measures the newest deployments first and says so', async () => {
-    const r = await runAnalysis({ repo: 'GonzaSSH/dora-sandbox', settings: DEFAULT_SETTINGS, window: WINDOW, fetchFn: fixtureFetch(sandboxResponses), budget: 16 });
-    // 13 requests list the deployments, leaving 3 for change details.
-    expect(r.collected.changesNeeded).toBe(8);
+    // Sandbox v1.1: 15 requests list the 10 deployments (EXPECTED.md), leaving 3 of 18 for changes.
+    const r = await runAnalysis({ repo: 'GonzaSSH/dora-sandbox', settings: DEFAULT_SETTINGS, window: WINDOW, fetchFn: fixtureFetch(sandboxResponses), budget: 18 });
+    expect(r.collected.changesNeeded).toBe(10);
     expect(r.collected.changesFetched).toBe(3);
-    expect(r.analysed.filter((d) => d.changes !== null).map((d) => d.name)).toEqual(['v1.4.0', 'v1.4.1', 'v1.5.0']);
-    expect(r.collected.notices.join(' ')).toMatch(/3 of 8/);
-    expect(r.metrics.deploymentFrequency.count).toBe(8);
+    expect(r.analysed.filter((d) => d.changes !== null).map((d) => d.name)).toEqual(['v1.5.0', 'v1.5.1', 'v1.5.2']);
+    expect(r.collected.notices.join(' ')).toMatch(/3 of 10/);
+    expect(r.metrics.deploymentFrequency.count).toBe(10);
   });
 });
 
