@@ -25,6 +25,7 @@ Spec: PLAN.md. Expected sandbox values: sandbox/EXPECTED.md (mirrored in tests/e
 - Never weaken, skip or delete a test to make it pass. Never change EXPECTED.md (or tests/expected.ts) to match the code unless the hand arithmetic is shown to be wrong.
 - Changing sandbox/build-sandbox.sh means redoing EXPECTED.md by hand first, then re-recording fixtures.
 - Tokens: memory only. Never put a token in a URL, storage, log, error message, fixture, trace or commit. No `console` in src/ (lint enforces).
+- Shared links: every non-default setting and all manual corrections live in the page address (src/url-state.ts); never store them elsewhere, never put a token there.
 - Render GitHub data with textContent only (src/ui/dom.ts `h()`), never innerHTML.
 - Stay within 50 requests per analysis without a token (GitHub allows 60/hour).
 - The sandbox repo's main and tags are written by the workflow on its `claude/sandbox-builder` branch, not by direct pushes.

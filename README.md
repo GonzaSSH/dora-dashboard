@@ -50,8 +50,16 @@ you tell whether AI is actually helping a team ship.
 4. Click **Analyse**. A small project takes a few seconds; a very busy one up to about 30.
 5. Read the five tiles. Open **How this was worked out** under any tile, or the list of
    deployments below them, to see exactly what was counted.
-6. To share the result, copy the page address. It holds the repository and dates
-   (never your token).
+6. **Disagree with how a release was classified?** Open the list of deployments under the
+   tiles. For any release, choose **Mark as failed** or **Mark as not failed**; for a failure,
+   pick the release that fixed it (the next one by default). The numbers update straight away,
+   corrected releases are labelled "manually corrected", and **Reset corrections** undoes them.
+
+   ![A corrected view: two releases corrected by hand](docs/corrected-view.png)
+7. To share the result, copy the page address. It holds the repository, dates, any settings
+   you changed and your corrections, so the other person sees exactly the same numbers
+   (never your token). The line **Definitions used** under the tiles lists the rules behind
+   the numbers, and marks the ones you changed.
 
 ### What each metric means
 
@@ -129,6 +137,9 @@ Full definitions are in [PLAN.md](PLAN.md#2-the-five-metrics-exact-formulas). In
 - **Reverts are traced by commit ID or title.** A revert that names neither a commit nor
   a pull request, and whose title matches no released commit, can't be traced; it fails
   nothing and the page lists it.
+- **A repository is measured as one application.** DORA is meant to be measured per
+  application or service. A repository that holds several applications (a "monorepo") is
+  measured as if it were one, so its numbers mix the delivery of all of them.
 - **A release is not always a deployment.** Libraries publish releases that users adopt
   later; services may deploy many times between releases.
 - **Busy projects are sampled without a token.** To stay under GitHub's 60 requests per
@@ -138,6 +149,26 @@ Full definitions are in [PLAN.md](PLAN.md#2-the-five-metrics-exact-formulas). In
   partly counted (the page says so).
 - Lead time uses the commit's "written" date, which authors can set freely.
 
+## How this compares to commercial tools
+
+Commercial DORA tools connect to a company's **private** systems: deployment pipelines,
+incident tools and issue trackers. That gives them the real deployments and the real
+incidents. For example:
+
+- [LinearB](https://linearb.helpdocs.io/article/bqkxf4rjom-what-is-cfr) counts production
+  incidents from the issue tracker against deployments.
+- [Swarmia](https://help.swarmia.com/metrics-and-definitions/dora-metrics/change-failure-rate)
+  treats deployments that fix other deployments (reverts, rollbacks, hotfixes) as marking
+  the original as failed, and leaves "the exact definition of a change failure" up to the
+  team.
+- [Datadog](https://docs.datadoghq.com/dora_metrics/change_failure_detection/) detects
+  failures automatically, and also lets a person "manually update a deployment's status to
+  mark it as a change failure or mark a change failure as stable".
+
+This dashboard has none of that private access. It shows **what public data alone can tell
+you**, labels every estimate as a proxy, uses the same revert and hotfix signals, and, like
+those tools, **lets a human correct the detection** when they know better.
+
 ## How it was tested
 
 - **A test repository with known answers.** [GonzaSSH/dora-sandbox](https://github.com/GonzaSSH/dora-sandbox)
@@ -145,14 +176,16 @@ Full definitions are in [PLAN.md](PLAN.md#2-the-five-metrics-exact-formulas). In
   normal releases, two failures with recoveries and a rework release. The expected value
   of every metric was worked out **by hand before any metric code was written**:
   [sandbox/EXPECTED.md](sandbox/EXPECTED.md).
-- **Unit tests** (Vitest, 88 tests) check that every metric equals EXPECTED.md exactly,
+- **Unit tests** (Vitest, 100 tests) check that every metric equals EXPECTED.md exactly,
   plus the edge cases of each rule, every error case and that the token is never leaked.
   They run offline against recorded GitHub responses.
-- **End-to-end tests** (Playwright, 22 scenarios on desktop and phone sizes) drive the real page:
+- **End-to-end tests** (Playwright, 28 scenarios on desktop and phone sizes) drive the real page:
   - the full flow, and changing settings;
   - the token never being stored;
   - each error message;
-  - saved demo results making zero GitHub requests.
+  - saved demo results making zero GitHub requests;
+  - correcting releases by hand, and a shared link with changed settings and corrections
+    showing identical numbers in a fresh browser session.
 - **Live checks** run against the real GitHub API: the real sandbox must match
   EXPECTED.md, and `grafana/grafana` must finish within the request budget.
 - **Saved demo results** are checked too: the sandbox snapshot must equal EXPECTED.md and
