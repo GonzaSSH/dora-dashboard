@@ -48,8 +48,11 @@ you tell whether AI is actually helping a team ship.
    says when a result is saved, and **Analyse** fetches live data).
 3. Choose the **From** and **To** dates. The default is the last 90 days.
 4. Click **Analyse**. A small project takes a few seconds; a very busy one up to about 30.
-5. Read the five tiles. Open **How this was worked out** under any tile, or the list of
-   deployments below them, to see exactly what was counted.
+5. Read the five tiles. Each one says in a plain sentence what its number means, compares it
+   with the 90 days before (or the same length as your period), and, for deployment frequency
+   and lead time, shows how the result sits among the teams DORA surveyed. Open **How this was
+   worked out** under any tile, or the list of deployments below them, to see exactly what
+   was counted.
 6. **Disagree with how a release was classified?** Open the list of deployments under the
    tiles. For any release, choose **Mark as failed** or **Mark as not failed**; for a failure,
    pick the release that fixed it (the next one by default). The numbers update straight away,
@@ -63,17 +66,36 @@ you tell whether AI is actually helping a team ship.
 
 ### What each metric means
 
-| Metric | The question it answers | Rough guide |
-|---|---|---|
-| **Deployment frequency** | How often does the team ship? | strong: daily or more · weak: less than once a month |
-| **Change lead time** | How long does a change wait before users get it? | strong: under a day · weak: over a month |
-| **Change failure rate** *(proxy)* | How often does a release go wrong? | no rating: higher when quick patches or reverts follow releases |
-| **Failed deployment recovery time** *(proxy)* | When a release goes wrong, how fast is it fixed? | no rating: shorter when fixes ship soon after a failed release |
-| **Rework rate** *(proxy)* | How much of the shipping is unplanned fixing? | no rating: higher when more releases are urgent fixes for failed releases |
+| Metric | The question it answers | Rough guide | Example sentence on the tile (test repository) | DORA 2025 context |
+|---|---|---|---|---|
+| **Deployment frequency** | How often does the team ship? | strong: daily or more · weak: less than once a month | "A new release about every 9 days." | yes: "About 76% of surveyed teams ship this often or more." |
+| **Change lead time** | How long does a change wait before users get it? | strong: under a day · weak: over a month | "A finished change waits about 2 days before users get it." | yes: "About 56% of surveyed teams have this lead time or shorter." |
+| **Change failure rate** *(proxy)* | How often does a release go wrong? | no rating: higher when quick patches or reverts follow releases | "4 of 10 releases needed an urgent fix." | no (see below) |
+| **Failed deployment recovery time** *(proxy)* | When a release goes wrong, how fast is it fixed? | no rating: shorter when fixes ship soon after a failed release | "When a release went wrong, the fix usually reached users within about 33 hours." | no |
+| **Rework rate** *(proxy)* | How much of the shipping is unplanned fixing? | no rating: higher when more releases are urgent fixes for failed releases | "4 of 10 releases were urgent fixes for earlier releases." | no |
 
 Only the two directly measured metrics get a "strong / weak" rough guide. The three
 proxies are estimates, so the app shows the number and what moves it, not a verdict.
 Compare a team with its own past, not with other teams.
+
+**Context on every tile (v1.3).**
+- **A plain sentence** built from the number, with its own wording for zero, one and "not
+  enough data".
+- **A comparison with the previous period of the same length**, for example "Faster than the
+  previous 90 days (2.0 days vs 4.0 days)". If that period had fewer than 5 releases, the
+  tile says so instead. Without a token, the comparison shares the 50-request allowance with
+  the main analysis; when it doesn't fit, the tile says the comparison needs a token (the
+  main numbers are never cut short for it).
+- **DORA's 2025 survey figures, for deployment frequency and lead time only.** They come
+  from page 20 (Figures 11 and 12, "Top %") of DORA's
+  [State of AI-assisted Software Development 2025](https://services.google.com/fh/files/misc/2025_state_of_ai_assisted_software_development.pdf)
+  report (Google LLC), reproduced with attribution under its
+  [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) licence. Each one
+  carries the note "DORA surveys mostly teams running services. Libraries release on a
+  different rhythm."
+- **No benchmark on the three proxies.** DORA asks teams about their real incidents; here
+  failures are estimated from public release patterns, so the two numbers can't be compared
+  fairly. Each proxy tile says so in one line.
 
 ### If something goes wrong
 
@@ -226,6 +248,12 @@ the *what* and the *quality bar*, and delegating the *how*.
     branch under a new commit ID (found while checking angular's numbers).
   - **The ratings:** limited to the two directly measured metrics. The three proxies are
     estimates and get no verdict.
+- **Context on every tile, benchmarks only where measurement is direct.** Every tile gets a
+  plain sentence and a comparison with the previous period, so a non-technical reader can
+  tell what the number means and which way it is moving. Industry figures (DORA 2025, taken
+  from the report itself, linked, licence checked) appear only on deployment frequency and
+  lead time, the two numbers measured the same way DORA asks about them. Saved examples of
+  real projects are made with a token so the comparison is always complete, and say so.
 - The quality bar: a test repository with hand-worked answers written before any code,
   tests that may never be weakened to pass, live checks against real projects, and an
   independent review.

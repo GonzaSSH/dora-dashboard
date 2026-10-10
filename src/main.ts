@@ -1,6 +1,6 @@
 import './ui/styles.css';
 import { DEFAULT_SETTINGS, DEFAULT_WINDOW_DAYS } from './config';
-import { runAnalysis } from './run';
+import { runWithComparison } from './run';
 import { messageFor } from './messages';
 import { renderAbout, renderResults } from './ui/render';
 import { h } from './ui/dom';
@@ -84,6 +84,7 @@ interface Base {
   window: TimeWindow;
   settings: Settings;
   savedAt?: Date;
+  savedWithToken?: boolean;
   demo?: DemoId;
 }
 let base: Base | null = null;
@@ -97,6 +98,7 @@ function show(): void {
   const result: RunResult = { ...base.result, analysed: view.analysed, metrics: computeMetrics(view.analysed, base.window) };
   renderResults(resultsEl, result, base.window, {
     savedAt: base.savedAt,
+    savedWithToken: base.savedWithToken,
     settings: base.settings,
     corrections,
     corrected: view.corrected,
@@ -143,7 +145,7 @@ async function loadDemo(id: DemoId, keep: Corrections = NO_CORRECTIONS): Promise
     fromIn.value = snap.window.start.toISOString().slice(0, 10);
     toIn.value = new Date(snap.window.end.getTime() - DAY).toISOString().slice(0, 10);
     writeSettings(snap.settings);
-    base = { result: snap.result, window: snap.window, settings: snap.settings, savedAt: snap.savedAt, demo: id };
+    base = { result: snap.result, window: snap.window, settings: snap.settings, savedAt: snap.savedAt, savedWithToken: snap.savedWithToken, demo: id };
     corrections = keep;
     tableOpen = false;
     statusEl.textContent = '';
@@ -164,7 +166,7 @@ async function analyse(keep: Corrections = NO_CORRECTIONS): Promise<void> {
   const window = readWindow();
   const settings = readSettings();
   try {
-    const result = await runAnalysis({
+    const run = await runWithComparison({
       repo: repoIn.value,
       token: tokenIn.value,
       settings,
@@ -173,6 +175,8 @@ async function analyse(keep: Corrections = NO_CORRECTIONS): Promise<void> {
         statusEl.textContent = `Reading the repository from GitHub… (${n} requests)`;
       },
     });
+    // The previous period is measured with automatic detection; corrections apply to this period only.
+    const result: RunResult = { ...run.current, requestsUsed: run.requestsUsed };
     base = { result, window, settings };
     corrections = keep;
     tableOpen = false;

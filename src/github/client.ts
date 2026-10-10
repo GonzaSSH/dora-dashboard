@@ -52,6 +52,8 @@ export class GitHubClient {
   readonly #onRequest: ((used: number) => void) | undefined;
   requestsUsed = 0;
   rateLimit: RateLimit | null = null;
+  /** Successful responses by path, so a second pass (the previous period) doesn't ask twice. */
+  readonly #cache = new Map<string, unknown>();
 
   constructor(opts: ClientOptions = {}) {
     this.#token = opts.token?.trim() || undefined;
@@ -72,6 +74,7 @@ export class GitHubClient {
   }
 
   async get<T>(path: string): Promise<T> {
+    if (this.#cache.has(path)) return this.#cache.get(path) as T; // already read: free
     // GitHub's own hourly limit is reported as the rate limit; our self-imposed cap as the budget.
     if (this.rateLimit && this.rateLimit.remaining <= 0) {
       throw new GitHubError('rate-limit', 'GitHub rate limit reached', { resetAt: this.rateLimit.resetAt, withToken: this.hasToken });
@@ -100,7 +103,10 @@ export class GitHubClient {
     } catch {
       if (res.ok) throw new GitHubError('server', `GitHub sent an unreadable response (${res.status})`);
     }
-    if (res.ok) return body as T;
+    if (res.ok) {
+      this.#cache.set(path, body);
+      return body as T;
+    }
 
     const apiMessage = String((body as { message?: unknown } | null)?.message ?? '');
     const remaining = res.headers.get('x-ratelimit-remaining');

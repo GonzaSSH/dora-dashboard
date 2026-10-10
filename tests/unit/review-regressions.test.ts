@@ -98,8 +98,8 @@ describe('finding 2: running out of GitHub\'s hourly limit', () => {
   });
 
   it('while fetching change details falls back to a sample and says why', async () => {
-    // Sandbox v1.1: 15 requests list the deployments; GitHub then allows 3 more.
-    const r = await runAnalysis({ repo: SANDBOX_REPO, settings: DEFAULT_SETTINGS, window: W, fetchFn: limitedSandbox(18) });
+    // Sandbox v1.3: 17 requests list the deployments; GitHub then allows 3 more.
+    const r = await runAnalysis({ repo: SANDBOX_REPO, settings: DEFAULT_SETTINGS, window: W, fetchFn: limitedSandbox(20) });
     expect(r.collected.changesFetched).toBe(3);
     expect(r.collected.notices.join(' ')).toMatch(/hourly limit/i);
     expect(r.metrics.deploymentFrequency.count).toBe(10);

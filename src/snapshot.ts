@@ -1,6 +1,6 @@
 // Saved results ("snapshots") for the demo links, so they load with zero GitHub requests.
 // Written by scripts/snapshots.ts, served from public/snapshots/<id>.json.
-import type { RunResult } from './run';
+import type { PreviousPeriod, RunResult } from './run';
 import type { Settings, TimeWindow } from './types';
 
 export interface Snapshot {
@@ -10,6 +10,8 @@ export interface Snapshot {
   savedAt: Date;
   settings: Settings;
   result: RunResult;
+  /** Live demos are saved with a GitHub token (v1.3), so they may use more than 50 requests. */
+  savedWithToken?: boolean;
 }
 
 export const DEMOS = [
@@ -27,6 +29,7 @@ export function toJson(s: Snapshot): unknown {
     window: { start: s.window.start.toISOString(), end: s.window.end.toISOString() },
     savedAt: s.savedAt.toISOString(),
     settings: s.settings,
+    ...(s.savedWithToken ? { savedWithToken: true } : {}),
     result: {
       collected: { ...r.collected, deployments: [] },
       analysed: r.analysed.map((d) => ({
@@ -42,6 +45,9 @@ export function toJson(s: Snapshot): unknown {
       metrics: r.metrics,
       requestsUsed: r.requestsUsed,
       rateLimit: null,
+      ...(r.previous
+        ? { previous: { ...r.previous, window: { start: r.previous.window.start.toISOString(), end: r.previous.window.end.toISOString() } } }
+        : {}),
     },
   };
 }
@@ -52,6 +58,7 @@ interface SnapshotJson {
   window: { start: string; end: string };
   savedAt: string;
   settings: Settings;
+  savedWithToken?: boolean;
   result: {
     collected: RunResult['collected'];
     analysed: (Omit<RunResult['analysed'][number], 'time' | 'changes'> & {
@@ -60,6 +67,7 @@ interface SnapshotJson {
     })[];
     metrics: RunResult['metrics'];
     requestsUsed: number;
+    previous?: Omit<PreviousPeriod, 'window'> & { window: { start: string; end: string } };
   };
 }
 
@@ -72,6 +80,7 @@ export function fromJson(raw: unknown): Snapshot {
     window: { start: new Date(j.window.start), end: new Date(j.window.end) },
     savedAt: new Date(j.savedAt),
     settings: j.settings,
+    savedWithToken: j.savedWithToken === true,
     result: {
       collected: j.result.collected,
       analysed: j.result.analysed.map((d) => ({
@@ -82,6 +91,9 @@ export function fromJson(raw: unknown): Snapshot {
       metrics: j.result.metrics,
       requestsUsed: j.result.requestsUsed,
       rateLimit: null,
+      previous: j.result.previous
+        ? { ...j.result.previous, window: { start: new Date(j.result.previous.window.start), end: new Date(j.result.previous.window.end) } }
+        : undefined,
     },
   };
 }

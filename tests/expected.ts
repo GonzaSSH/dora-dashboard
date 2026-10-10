@@ -13,7 +13,7 @@ export const EXPECTED = {
 
 /** EXPECTED.md Step 5, non-default setting "every patch release is rework". */
 export const EXPECTED_BROAD_REWORK = { rate: 0.5, rework: 5, shown: '50%' } as const;
-export const SANDBOX_REQUESTS = 25;
+export const SANDBOX_REQUESTS = 27; // EXPECTED.md v1.3: current period only
 
 // sandbox/EXPECTED.md, "Fixture case: reverts that name a pull request".
 export const PR_REVERTS_REPO = 'example/pr-reverts';
@@ -54,4 +54,33 @@ export const EXPECTED_UNFIXED = {
   changeFailureRate: { rate: 0.5, failed: 5 },
   recoveryTime: { medianHours: 34, count: 2, unrecovered: 3 },
   reworkRate: { rate: 0.4 },
+} as const;
+
+/** EXPECTED.md, "Context on the tiles (v1.3)". */
+export const SANDBOX_REQUESTS_WITH_COMPARISON = 37; // 27 current + 10 for the previous 90 days
+export const PREVIOUS_WINDOW = { start: new Date('2025-10-03T00:00:00Z'), end: new Date('2026-01-01T00:00:00Z') };
+export const EXPECTED_PREVIOUS = {
+  deploymentFrequency: { perWeek: 42 / 90, count: 6 },
+  leadTime: { medianHours: 96, commitCount: 7 },
+  changeFailureRate: { rate: 1 / 6, failed: 1 },
+  recoveryTime: { medianHours: 20, count: 1 },
+  reworkRate: { rate: 1 / 6, rework: 1 },
+} as const;
+export const EXPECTED_SENTENCES = {
+  deploymentFrequency: 'A new release about every 9 days.',
+  leadTime: 'A finished change waits about 2 days before users get it.',
+  changeFailureRate: '4 of 10 releases needed an urgent fix.',
+  recoveryTime: 'When a release went wrong, the fix usually reached users within about 33 hours.',
+  reworkRate: '4 of 10 releases were urgent fixes for earlier releases.',
+} as const;
+export const EXPECTED_COMPARISONS = {
+  deploymentFrequency: 'More often than the previous 90 days (0.78 vs 0.47 per week).',
+  leadTime: 'Faster than the previous 90 days (2.0 days vs 4.0 days).',
+  changeFailureRate: 'Higher than the previous 90 days (40% vs 16.7%).',
+  recoveryTime: 'Slower than the previous 90 days (33 hours vs 20 hours).',
+  reworkRate: 'Higher than the previous 90 days (40% vs 16.7%).',
+} as const;
+export const EXPECTED_DORA = {
+  deploymentFrequency: 'About 76% of surveyed teams ship this often or more.',
+  leadTime: 'About 56% of surveyed teams have this lead time or shorter.',
 } as const;

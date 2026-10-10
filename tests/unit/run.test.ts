@@ -64,8 +64,8 @@ describe('error cases', () => {
 
 describe('sampling when the request budget runs out', () => {
   it('still answers, measures the newest deployments first and says so', async () => {
-    // Sandbox v1.1: 15 requests list the 10 deployments (EXPECTED.md), leaving 3 of 18 for changes.
-    const r = await runAnalysis({ repo: 'GonzaSSH/dora-sandbox', settings: DEFAULT_SETTINGS, window: WINDOW, fetchFn: fixtureFetch(sandboxResponses), budget: 18 });
+    // Sandbox v1.3: 17 requests list the 10 deployments (EXPECTED.md: 3 + 14 tag dates), leaving 3 of 20.
+    const r = await runAnalysis({ repo: 'GonzaSSH/dora-sandbox', settings: DEFAULT_SETTINGS, window: WINDOW, fetchFn: fixtureFetch(sandboxResponses), budget: 20 });
     expect(r.collected.changesNeeded).toBe(10);
     expect(r.collected.changesFetched).toBe(3);
     expect(r.analysed.filter((d) => d.changes !== null).map((d) => d.name)).toEqual(['v1.5.0', 'v1.5.1', 'v1.5.2']);

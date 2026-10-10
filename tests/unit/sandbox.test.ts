@@ -88,7 +88,7 @@ describe('sandbox matches EXPECTED.md', () => {
     expect(formatPercent(m.reworkRate.rate!)).toBe(E.reworkRate.shown);
   });
 
-  it('fits comfortably inside the 60/hour unauthenticated limit (EXPECTED.md: 25 requests)', async () => {
+  it('fits comfortably inside the 60/hour unauthenticated limit (EXPECTED.md: 27 requests)', async () => {
     const r = await run();
     expect(r.requestsUsed).toBe(SANDBOX_REQUESTS);
     expect(r.collected.changesFetched).toBe(10);

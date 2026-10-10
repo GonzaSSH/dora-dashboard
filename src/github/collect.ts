@@ -42,7 +42,12 @@ async function tagDate(client: GitHubClient, base: string, obj: { sha: string; t
   return new Date(commit.committer.date);
 }
 
-export async function collect(client: GitHubClient, ref: RepoRef, settings: Settings, window: TimeWindow): Promise<Collected> {
+export interface CollectOptions {
+  /** With fewer deployments than this in the window, list them but fetch no change details. */
+  minDeployments?: number;
+}
+
+export async function collect(client: GitHubClient, ref: RepoRef, settings: Settings, window: TimeWindow, opts: CollectOptions = {}): Promise<Collected> {
   const base = `/repos/${ref.owner}/${ref.name}`;
   const notices: string[] = [];
 
@@ -73,6 +78,12 @@ export async function collect(client: GitHubClient, ref: RepoRef, settings: Sett
     .sort((a, b) => b.time.getTime() - a.time.getTime()); // newest first, so a sample is the most recent
   if (targets.length === 0) {
     throw new GitHubError('no-deployments', `No ${source} matching the pattern in the window`);
+  }
+  if (opts.minDeployments !== undefined && targets.length < opts.minDeployments) {
+    return {
+      repo: { fullName: repo.full_name, htmlUrl: repo.html_url },
+      source, deployments, notices, changesFetched: 0, changesNeeded: targets.length,
+    };
   }
 
   let fetched = 0;

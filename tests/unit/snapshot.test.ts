@@ -2,8 +2,8 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { fromJson, toJson, DEMOS } from '../../src/snapshot';
-import { runAnalysis } from '../../src/run';
-import { DEFAULT_SETTINGS, BUDGET_WITHOUT_TOKEN } from '../../src/config';
+import { runWithComparison } from '../../src/run';
+import { DEFAULT_SETTINGS, BUDGET_WITHOUT_TOKEN, BUDGET_WITH_TOKEN } from '../../src/config';
 import { fixtureFetch, sandboxResponses } from '../helpers/fixtures';
 import { EXPECTED, SANDBOX_REPO, SANDBOX_WINDOW } from '../expected';
 
@@ -20,9 +20,18 @@ describe('sandbox snapshot', () => {
   });
 
   it('is exactly what the current code produces from the recorded fixtures (no drift)', async () => {
-    const result = await runAnalysis({ repo: SANDBOX_REPO, settings: DEFAULT_SETTINGS, window: SANDBOX_WINDOW, budget: BUDGET_WITHOUT_TOKEN, fetchFn: fixtureFetch(sandboxResponses) });
+    const run = await runWithComparison({ repo: SANDBOX_REPO, settings: DEFAULT_SETTINGS, window: SANDBOX_WINDOW, budget: BUDGET_WITHOUT_TOKEN, fetchFn: fixtureFetch(sandboxResponses) });
+    const result = { ...run.current, requestsUsed: run.requestsUsed };
     const fresh = toJson({ id: 'sandbox', repo: SANDBOX_REPO, window: SANDBOX_WINDOW, savedAt: new Date('2026-10-10T00:00:00Z'), settings: DEFAULT_SETTINGS, result });
     expect(JSON.parse(readFileSync('public/snapshots/sandbox.json', 'utf8'))).toEqual(JSON.parse(JSON.stringify(fresh)));
+  });
+
+  it('carries the previous 90 days for the comparison (EXPECTED.md v1.3)', () => {
+    const s = load('sandbox');
+    expect(s.savedWithToken).toBe(false);
+    expect(s.result.previous?.status).toBe('ok');
+    expect(s.result.previous?.window.start.toISOString()).toBe('2025-10-03T00:00:00.000Z');
+    expect(s.result.previous?.metrics?.leadTime.medianHours).toBe(96);
   });
 
   it('round-trips dates', () => {
@@ -35,11 +44,13 @@ describe('sandbox snapshot', () => {
 
 describe('every demo has a snapshot', () => {
   for (const demo of DEMOS) {
-    it(`${demo.id}: present, default settings, within the anonymous budget`, () => {
+    it(`${demo.id}: present, default settings, within the budget it was saved with`, () => {
       const s = load(demo.id);
       expect(s.repo).toBe(demo.repo);
       expect(s.settings).toEqual(DEFAULT_SETTINGS);
-      expect(s.result.requestsUsed).toBeLessThanOrEqual(BUDGET_WITHOUT_TOKEN);
+      // v1.3 (delivery lead's decision): live demos are saved with a token and say so on the page.
+      expect(s.result.requestsUsed).toBeLessThanOrEqual(s.savedWithToken ? BUDGET_WITH_TOKEN : BUDGET_WITHOUT_TOKEN);
+      expect(s.result.previous).toBeDefined();
       expect(s.result.metrics.deploymentFrequency.count).toBeGreaterThan(0);
     });
   }
