@@ -2,6 +2,7 @@
 // Shared by the Vitest unit tests and the Playwright e2e tests.
 import sandboxFile from '../fixtures/sandbox.json' with { type: 'json' };
 import errorsFile from '../fixtures/errors.json' with { type: 'json' };
+import prRevertsFile from '../fixtures/pr-reverts.json' with { type: 'json' };
 
 export interface Recorded {
   status: number;
@@ -11,6 +12,7 @@ export interface Recorded {
 export type FixtureMap = Record<string, Recorded>;
 
 export const sandboxResponses = sandboxFile.responses as FixtureMap;
+export const prRevertResponses = prRevertsFile.responses as FixtureMap;
 export const errorFixtures = errorsFile as unknown as {
   notFound: Recorded;
   rateLimited: Recorded;

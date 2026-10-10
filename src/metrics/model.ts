@@ -1,6 +1,7 @@
 // Applies the proxy rules from PLAN.md §2 to a list of deployments.
 import type { Change, Deployment, Settings, TimeWindow } from '../types';
 import { compareVersions, parseVersion } from './version';
+import { parseRevert, sameCommit } from './revert';
 
 const HOUR = 3_600_000;
 
@@ -22,6 +23,8 @@ export interface Analysed {
   reworkReason: string | null;
   /** Hours from this failed deployment to the first good one after it. */
   recoveryHours: number | null;
+  /** First lines of reverts in this deployment that couldn't be matched to a release. */
+  unmatchedReverts: string[];
 }
 
 /**
@@ -60,35 +63,54 @@ export function analyse(all: Deployment[], window: TimeWindow, settings: Setting
     .filter((d) => inWindow(d, window))
     .sort((a, b) => a.time.getTime() - b.time.getTime() || a.name.localeCompare(b.name));
   const revertRe = compilePattern(settings.revertPattern);
-  const fixRe = compilePattern(settings.fixPattern);
   const pred = new Map(deps.map((d) => [d, findPredecessor(d, all)]));
 
-  // Failure: find each deployment's remediation (earliest of the enabled signals).
-  const remediation = new Map<Deployment, { by: Deployment; reason: string }>();
-  for (const d of deps) {
-    const candidates: { by: Deployment; reason: string }[] = [];
-    const v = parseVersion(d.name);
-    if (settings.useQuickPatch && v && v.pre === null) {
+  // Failure: each deployment's remediation is the earliest one found by the enabled signals.
+  const candidates = new Map<Deployment, { by: Deployment; reason: string }[]>();
+  const addCandidate = (d: Deployment, c: { by: Deployment; reason: string }) =>
+    candidates.set(d, [...(candidates.get(d) ?? []), c]);
+
+  if (settings.useQuickPatch) {
+    for (const d of deps) {
+      const v = parseVersion(d.name);
+      if (!v || v.pre !== null) continue;
       for (const e of deps) {
         const ev = parseVersion(e.name);
         const dt = e.time.getTime() - d.time.getTime();
         if (ev && ev.pre === null && ev.major === v.major && ev.minor === v.minor && ev.patch === v.patch + 1 &&
             dt > 0 && dt <= settings.quickPatchHours * HOUR) {
-          candidates.push({ by: e, reason: `Quick patch: ${e.name} followed within ${settings.quickPatchHours} hours` });
+          addCandidate(d, { by: e, reason: `Quick patch: ${e.name} followed within ${settings.quickPatchHours} hours` });
         }
       }
     }
-    if (settings.useRevert) {
-      for (const e of deps) {
-        if (pred.get(e) !== d) continue;
-        const revert = e.changes?.find((c) => revertRe.test(c.message));
-        if (revert) {
-          candidates.push({ by: e, reason: `Revert: ${e.name} contains ‘${firstLine(revert.message)}’` });
+  }
+
+  // Revert (v1.1): a revert names its target commit (directly, or via a pull request's merge
+  // commit looked up by the collector). The release that shipped that commit is failed.
+  // Reverts whose target can't be identified or found in a release fail nothing and are listed.
+  const unmatched = new Map<Deployment, string[]>();
+  if (settings.useRevert) {
+    for (const e of deps) {
+      for (const change of e.changes ?? []) {
+        const target = parseRevert(change.message, revertRe);
+        if (!target) continue;
+        const sha = target.kind === 'commit' ? target.sha : target.kind === 'pull' ? change.revertTarget ?? null : null;
+        const shipped = sha
+          ? deps.find((d) => d !== e && d.time < e.time && d.changes?.some((x) => sameCommit(x.sha, sha)))
+          : undefined;
+        if (shipped) {
+          addCandidate(shipped, { by: e, reason: `Revert: ${e.name} contains ‘${firstLine(change.message)}’` });
+        } else {
+          unmatched.set(e, [...(unmatched.get(e) ?? []), firstLine(change.message)]);
         }
       }
     }
-    candidates.sort((a, b) => a.by.time.getTime() - b.by.time.getTime());
-    if (candidates[0]) remediation.set(d, candidates[0]);
+  }
+
+  const remediation = new Map<Deployment, { by: Deployment; reason: string }>();
+  for (const [d, list] of candidates) {
+    list.sort((a, b) => a.by.time.getTime() - b.by.time.getTime());
+    remediation.set(d, list[0]!);
   }
 
   return deps.map((d) => {
@@ -102,24 +124,20 @@ export function analyse(all: Deployment[], window: TimeWindow, settings: Setting
       recoveryHours = (cur.time.getTime() - d.time.getTime()) / HOUR;
     }
 
-    let reworkReason: string | null = null;
-    if (remediates.length > 0) {
-      reworkReason = `Fixes failed deployment ${remediates.join(', ')}`;
-    } else {
-      const p = pred.get(d);
-      const v = parseVersion(d.name);
-      const pv = p ? parseVersion(p.name) : null;
-      const code = d.changes?.filter((c) => c.parents <= 1) ?? [];
-      if (v && pv && v.major === pv.major && v.minor === pv.minor && v.patch > pv.patch &&
-          code.length > 0 && code.every((c) => fixRe.test(c.message))) {
-        reworkReason = 'Patch release containing only fixes';
-      }
+    // Rework (v1.1): it fixed a failed release, or it is a patch release (whatever its commits say).
+    const reasons: string[] = [];
+    if (remediates.length > 0) reasons.push(`Fixes failed deployment ${remediates.join(', ')}`);
+    const p = pred.get(d);
+    const v = parseVersion(d.name);
+    const pv = p ? parseVersion(p.name) : null;
+    if (v && pv && v.major === pv.major && v.minor === pv.minor && v.patch > pv.patch) {
+      reasons.push(`Patch release (${p!.name} → ${d.name})`);
     }
 
     return {
       name: d.name,
       time: d.time,
-      predecessor: pred.get(d)?.name ?? null,
+      predecessor: p?.name ?? null,
       changes: d.changes,
       changesTruncated: d.changesTruncated,
       leadTimesHours: d.changes
@@ -131,9 +149,10 @@ export function analyse(all: Deployment[], window: TimeWindow, settings: Setting
       failureReason: fix?.reason ?? null,
       remediation: fix?.by.name ?? null,
       remediates,
-      rework: reworkReason !== null,
-      reworkReason,
+      rework: reasons.length > 0,
+      reworkReason: reasons.length ? reasons.join('; ') : null,
       recoveryHours,
+      unmatchedReverts: unmatched.get(d) ?? [],
     };
   });
 }

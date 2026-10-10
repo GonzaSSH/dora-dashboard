@@ -28,7 +28,6 @@ const field = {
   quickPatchHours: $<HTMLInputElement>('quickPatchHours'),
   useRevert: $<HTMLInputElement>('useRevert'),
   revertPattern: $<HTMLInputElement>('revertPattern'),
-  fixPattern: $<HTMLInputElement>('fixPattern'),
 };
 
 function writeSettings(s: Settings): void {
@@ -39,7 +38,6 @@ function writeSettings(s: Settings): void {
   field.quickPatchHours.value = String(s.quickPatchHours);
   field.useRevert.checked = s.useRevert;
   field.revertPattern.value = s.revertPattern;
-  field.fixPattern.value = s.fixPattern;
 }
 
 function readSettings(): Settings {
@@ -51,7 +49,6 @@ function readSettings(): Settings {
     quickPatchHours: Number(field.quickPatchHours.value),
     useRevert: field.useRevert.checked,
     revertPattern: field.revertPattern.value,
-    fixPattern: field.fixPattern.value,
   };
 }
 

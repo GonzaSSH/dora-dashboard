@@ -1,0 +1,35 @@
+# Creates a GitHub Release (and its tag) from release-notes/<version>.md.
+# Started by hand: Actions tab -> Release -> Run workflow. The Claude Code session that set
+# this up may not push tags itself, so GitHub creates them with this workflow's token.
+name: Release
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version to release, e.g. v1.1.0 (needs release-notes/<version>.md)
+        required: true
+      target:
+        description: Commit or branch to tag
+        default: main
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Check the version and notes
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          [[ "$VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "Version must look like v1.2.3"; exit 1; }
+          test -f "release-notes/$VERSION.md" || { echo "Missing release-notes/$VERSION.md"; exit 1; }
+      - name: Create the release (never overwrites an existing one)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+          TARGET: ${{ inputs.target }}
+        run: |
+          if gh release view "$VERSION" >/dev/null 2>&1; then echo "$VERSION already exists"; exit 1; fi
+          gh release create "$VERSION" --target "$TARGET" --title "$VERSION" --notes-file "release-notes/$VERSION.md"
+          gh release view "$VERSION"

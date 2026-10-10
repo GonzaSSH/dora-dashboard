@@ -3,6 +3,7 @@ import type { Change, Deployment, Settings, TimeWindow } from '../types';
 import type { RepoRef } from '../repo';
 import { compilePattern, findPredecessor, inWindow } from '../metrics/model';
 import { compareVersions, parseVersion } from '../metrics/version';
+import { parseRevert } from '../metrics/revert';
 import { GitHubClient, GitHubError } from './client';
 
 export interface Collected {
@@ -18,6 +19,7 @@ export interface Collected {
 interface RepoJson { full_name: string; html_url: string; private: boolean }
 interface ReleaseJson { tag_name: string; published_at: string | null; draft: boolean; prerelease: boolean }
 interface RefJson { ref: string; object: { sha: string; type: string } }
+interface PullJson { merge_commit_sha: string | null }
 interface CompareJson {
   total_commits: number;
   commits: { sha: string; parents: unknown[]; commit: { message: string; author: { date: string } | null; committer: { date: string } | null } }[];
@@ -95,6 +97,41 @@ export async function collect(client: GitHubClient, ref: RepoRef, settings: Sett
       if (e instanceof GitHubError && e.kind === 'not-found') continue;
       throw e;
     }
+  }
+
+  // Reverts that name a pull request: look up its merge commit (PLAN.md §2, v1.1), newest
+  // release first, within the same request budget. Unresolved ones stay unmatched.
+  let lookupsSkipped = 0;
+  if (settings.useRevert) {
+    const revertRe = compilePattern(settings.revertPattern);
+    for (const d of targets) {
+      for (const change of d.changes ?? []) {
+        const target = parseRevert(change.message, revertRe);
+        if (target?.kind !== 'pull') continue;
+        change.revertTarget = null;
+        if (target.repo && target.repo.toLowerCase() !== `${ref.owner}/${ref.name}`.toLowerCase()) continue;
+        if (stoppedBy) {
+          lookupsSkipped++;
+          continue;
+        }
+        try {
+          const pr = await client.get<PullJson>(`${base}/pulls/${target.number}`);
+          change.revertTarget = pr.merge_commit_sha ?? null;
+        } catch (e) {
+          if (e instanceof GitHubError && (e.kind === 'budget' || e.kind === 'rate-limit')) {
+            stoppedBy = e.kind;
+            lookupsSkipped++;
+          } else if (!(e instanceof GitHubError && e.kind === 'not-found')) {
+            throw e;
+          }
+        }
+      }
+    }
+  }
+  if (lookupsSkipped > 0) {
+    notices.push(
+      `The request limit was reached before ${lookupsSkipped} revert(s) could be looked up, so they count as unmatched.`,
+    );
   }
 
   const needed = targets.length - noPredecessor;
