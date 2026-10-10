@@ -12,7 +12,8 @@
     "test": "vitest run",
     "e2e": "playwright test",
     "record-fixtures": "tsx scripts/record-fixtures.ts",
-    "live-check": "tsx scripts/live-check.ts"
+    "live-check": "tsx scripts/live-check.ts",
+    "snapshots": "tsx scripts/snapshots.ts"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
