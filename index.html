@@ -90,7 +90,8 @@
             </label>
             <label class="check">
               <input id="useRevert" type="checkbox" data-testid="use-revert" />
-              <span>The next release contains a commit whose message matches</span>
+              <span>A later release reverts one of its commits (a commit whose first line matches the pattern below and
+                names the commit or pull request it undoes)</span>
             </label>
             <label>
               <span class="sr-only">Revert pattern</span>
@@ -99,11 +100,8 @@
           </fieldset>
           <fieldset>
             <legend>What counts as rework</legend>
-            <p class="muted">A release that fixed a failed release, or a patch release whose commit messages all match:</p>
-            <label>
-              <span class="sr-only">Fix pattern</span>
-              <input id="fixPattern" type="text" spellcheck="false" />
-            </label>
+            <p class="muted">A release that fixed a failed release, or any patch release (for example 1.4.0 → 1.4.1).
+              Fixed rule, decided by the project owner.</p>
           </fieldset>
           <button type="button" id="reset" class="link">Reset to defaults</button>
         </details>
@@ -122,8 +120,8 @@
         <h2 id="about-h">What the five metrics mean</h2>
         <div id="about"></div>
         <p class="muted">
-          "Strong" and "weak" are a rough guide based on DORA research, not a hard rule. Compare a team with its own past
-          more than with other teams.
+          "Strong" and "weak" are a rough guide, given only for the two directly measured metrics. The three proxy
+          metrics are estimates, so they get no rating. Compare a team with its own past, not with other teams.
         </p>
       </section>
     </main>

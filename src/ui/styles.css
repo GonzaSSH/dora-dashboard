@@ -140,3 +140,4 @@ td:last-child { min-width: 280px; }
 /* The token box is a text field (so password managers ignore it) shown as dots. */
 input.masked { -webkit-text-security: disc; text-security: disc; }
 .sample { margin: 0; font-size: 0.8rem; color: var(--ink-2); border-left: 3px solid var(--warning); padding-left: 6px; }
+.drivers { margin: 0; font-size: 0.85rem; color: var(--ink-2); }

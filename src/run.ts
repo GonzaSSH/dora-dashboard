@@ -51,7 +51,6 @@ function validate(s: Settings, w: TimeWindow): void {
   const patterns: [string, string][] = [
     ['Version pattern', s.versionPattern],
     ['Revert pattern', s.revertPattern],
-    ['Fix pattern', s.fixPattern],
   ];
   for (const [label, p] of patterns) {
     try {

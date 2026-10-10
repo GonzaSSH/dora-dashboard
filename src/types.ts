@@ -4,6 +4,11 @@ export interface Change {
   authoredAt: Date;
   /** Number of parent commits; more than one means a merge commit. */
   parents: number;
+  /**
+   * For reverts that name a pull request: that PR's merge commit, looked up by the collector.
+   * null when the look-up failed or wasn't made; undefined when not applicable.
+   */
+  revertTarget?: string | null;
 }
 
 export interface Deployment {
@@ -30,5 +35,4 @@ export interface Settings {
   quickPatchHours: number;
   useRevert: boolean;
   revertPattern: string;
-  fixPattern: string;
 }

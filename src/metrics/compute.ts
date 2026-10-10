@@ -5,7 +5,7 @@ import type { Analysed } from './model';
 export interface Metrics {
   deploymentFrequency: { perWeek: number; count: number; days: number };
   leadTime: { medianHours: number | null; commitCount: number; deploymentsMeasured: number; deploymentsTotal: number };
-  changeFailureRate: { rate: number | null; failed: number; total: number };
+  changeFailureRate: { rate: number | null; failed: number; total: number; unmatchedReverts: number };
   recoveryTime: { medianHours: number | null; count: number };
   reworkRate: { rate: number | null; rework: number; total: number };
 }
@@ -31,7 +31,12 @@ export function computeMetrics(deps: Analysed[], window: TimeWindow): Metrics {
       deploymentsMeasured: deps.filter((d) => d.leadTimesHours !== null).length,
       deploymentsTotal: n,
     },
-    changeFailureRate: { rate: n ? failed.length / n : null, failed: failed.length, total: n },
+    changeFailureRate: {
+      rate: n ? failed.length / n : null,
+      failed: failed.length,
+      total: n,
+      unmatchedReverts: deps.reduce((sum, d) => sum + d.unmatchedReverts.length, 0),
+    },
     recoveryTime: {
       medianHours: median(failed.map((d) => d.recoveryHours!)),
       count: failed.length,

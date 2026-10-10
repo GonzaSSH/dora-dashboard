@@ -1,7 +1,7 @@
 import type { RunResult } from '../run';
 import type { TimeWindow } from '../types';
 import { formatDuration, formatPercent, formatPerWeek } from '../format';
-import { rate, type MetricKey, type Rating } from '../ratings';
+import { isRated, rate, type MetricKey, type Rating } from '../ratings';
 import { EXPLANATIONS } from './explanations';
 import { h } from './dom';
 
@@ -68,6 +68,7 @@ function valueEl(key: MetricKey, text: string): HTMLElement {
 }
 
 function ratingChip(key: MetricKey, raw: number | null): HTMLElement | null {
+  if (!isRated(key)) return null; // proxies carry no rating (v1.1)
   const rating = rate(key, raw);
   if (!rating) return null;
   const l = RATING_LABEL[rating];
@@ -88,8 +89,16 @@ export function renderResults(el: HTMLElement, r: RunResult, window: TimeWindow)
       rl ? ` · ${rl.remaining} of ${rl.limit} left this hour` : ''),
   );
 
-  const notices = r.collected.notices.length
-    ? h('ul', { class: 'notices', 'data-testid': 'notices' }, ...r.collected.notices.map((n) => h('li', {}, n)))
+  const allNotices = [...r.collected.notices];
+  const unmatched = r.analysed.flatMap((d) => d.unmatchedReverts.map((m) => `${d.name}: ${m}`));
+  if (unmatched.length > 0) {
+    allNotices.push(
+      `${unmatched.length} ${unmatched.length === 1 ? 'revert' : 'reverts'} could not be matched to a release, ` +
+        `so ${unmatched.length === 1 ? 'it fails' : 'they fail'} no release (${unmatched.join('; ')}).`,
+    );
+  }
+  const notices = allNotices.length
+    ? h('ul', { class: 'notices', 'data-testid': 'notices' }, ...allNotices.map((n) => h('li', {}, n)))
     : null;
 
   const { changesFetched, changesNeeded } = r.collected;
@@ -109,6 +118,7 @@ export function renderResults(el: HTMLElement, r: RunResult, window: TimeWindow)
       valueEl(key, t[key].value),
       ratingChip(key, t[key].raw),
       h('p', { class: 'sub' }, t[key].sub),
+      e.drivers ? h('p', { class: 'drivers', 'data-testid': `drivers-${key}` }, e.drivers) : null,
       sampleNote,
       h('details', {},
         h('summary', {}, 'How this was worked out'),
@@ -146,7 +156,8 @@ export function renderAbout(el: HTMLElement): void {
     return h('div', { class: 'about-item' },
       h('h3', {}, e.title, e.proxy ? h('span', { class: 'badge' }, 'Proxy') : null),
       h('p', {}, e.meaning),
-      h('p', { class: 'muted' }, `${e.good} ${e.bad}`),
+      e.good ? h('p', { class: 'muted' }, `Rough guide: ${e.good} ${e.bad}`) : null,
+      e.drivers ? h('p', { class: 'muted' }, e.drivers) : null,
       e.proxy ? h('p', { class: 'muted' }, h('strong', {}, 'How we estimate it: '), e.proxy) : null,
     );
   }));

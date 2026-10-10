@@ -5,8 +5,11 @@ export interface Explanation {
   title: string;
   question: string;
   meaning: string;
-  good: string;
-  bad: string;
+  /** Rough guide, only for the two directly measured metrics (v1.1). */
+  good?: string;
+  bad?: string;
+  /** For proxies: what would make the number higher or lower (v1.1). */
+  drivers?: string;
   how: string;
   proxy: string | null;
 }
@@ -34,17 +37,15 @@ export const EXPLANATIONS: Record<MetricKey, Explanation> = {
     title: 'Change failure rate',
     question: 'How often does a release go wrong?',
     meaning: 'The share of releases that needed an urgent fix. A low number means changes are well tested before they ship.',
-    good: 'Strong: under 15%.',
-    bad: 'Weak: over 30%.',
+    drivers: 'It goes up when quick patches or reverts follow releases, and down when releases ship without needing an urgent fix.',
     how: 'Failed releases ÷ all releases.',
-    proxy: 'Public repos have no incident data, so a release counts as "failed" if it was followed by a quick patch (e.g. 1.2.0 → 1.2.1 within 48 hours) or if the next release reverts one of its changes.',
+    proxy: 'Public repos have no incident data, so a release counts as "failed" if it was followed by a quick patch (e.g. 1.2.0 → 1.2.1 within 48 hours) or if a later release reverts one of its commits.',
   },
   recoveryTime: {
     title: 'Failed deployment recovery time',
     question: 'When a release goes wrong, how fast is it fixed?',
     meaning: 'The typical time from a failed release to the release that fixed it. Fast recovery limits the harm a bad release can do.',
-    good: 'Strong: under a day.',
-    bad: 'Weak: over a week.',
+    drivers: 'It gets shorter when fixes ship soon after a failed release, and longer when a failed release waits for the next planned release.',
     how: 'For each failed release: time of the first good release after it − time of the failed release. The median is shown.',
     proxy: 'Uses the same guess of "failed" as the change failure rate. The fix is the quick patch or the release containing the revert.',
   },
@@ -52,9 +53,8 @@ export const EXPLANATIONS: Record<MetricKey, Explanation> = {
     title: 'Rework rate',
     question: 'How much of the shipping is unplanned fixing?',
     meaning: 'The share of releases made to fix problems rather than deliver new value. High rework means time spent going back over earlier work.',
-    good: 'Strong: under 10%.',
-    bad: 'Weak: over 25%.',
+    drivers: 'It goes up when more releases are patch releases or fixes for failed releases, and down when most releases are planned feature releases.',
     how: 'Rework releases ÷ all releases.',
-    proxy: 'A release counts as rework if it fixed a failed release, or if it is a patch release (e.g. 1.4.0 → 1.4.1) whose changes are all fixes (messages starting "fix:", "hotfix:", "bugfix:" or "Revert").',
+    proxy: 'A release counts as rework if it fixed a failed release, or if it is a patch release (e.g. 1.4.0 → 1.4.1), whatever its commits say.',
   },
 };
