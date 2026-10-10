@@ -1,6 +1,6 @@
 # PLAN — DORA metrics dashboard for public GitHub repos
 
-Status: **Phase 1, waiting for approval.** No app code yet.
+Status: **Version 1 done and live** at https://gonzassh.github.io/dora-dashboard/. This file is the approved spec; the sections below record decisions made along the way.
 
 ## 0. What I can and cannot do from this environment
 
