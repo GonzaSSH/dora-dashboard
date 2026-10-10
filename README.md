@@ -47,7 +47,7 @@ outcome, not the typing, so they're how you tell whether AI is actually helping 
 | **Change lead time** | How long does a change wait before users get it? | strong: under a day · weak: over a month |
 | **Change failure rate** *(proxy)* | How often does a release go wrong? | no rating: higher when quick patches or reverts follow releases |
 | **Failed deployment recovery time** *(proxy)* | When a release goes wrong, how fast is it fixed? | no rating: shorter when fixes ship soon after a failed release |
-| **Rework rate** *(proxy)* | How much of the shipping is unplanned fixing? | no rating: higher when more releases are patches or fixes for failures |
+| **Rework rate** *(proxy)* | How much of the shipping is unplanned fixing? | no rating: higher when more releases are urgent fixes for failed releases |
 
 Only the two directly measured metrics get a "strong / weak" rough guide. The three
 proxies are estimates, so the app shows the number and what moves it, not a verdict.
@@ -80,22 +80,40 @@ Full definitions are in [PLAN.md](PLAN.md#2-the-five-metrics-exact-formulas). In
   the same line (so 11.6.5 is compared with 11.6.4, not with 12.1.0).
 - **Change failure rate** = failed releases ÷ all releases. A release counts as **failed**
   if a quick patch followed (1.2.0 → 1.2.1 within 48 hours) or a later release reverts
-  one of its commits. The revert must name what it undoes, either a commit or a pull
-  request that is looked up. Reverts that can't be traced to a release fail nothing, and
-  the page lists them.
+  one of its commits.
+  - **How a revert is traced:** by the commit or pull request it names. When that doesn't
+    work, for example because the fix was copied to a maintenance branch under a new commit
+    ID, it's traced by the original commit's title.
+  - **A revert inside the same release** as the change fails nothing, because users never got
+    the change.
+  - **Reverts that can't be traced** fail nothing, and are listed under one collapsed note.
 - **Recovery time** = time from a failed release to the first good release after it (median).
-- **Rework rate** = rework releases ÷ all releases. A release is **rework** if it fixed a
-  failed release, or it's a patch release (1.4.0 → 1.4.1), whatever its commits say.
+- **Rework rate** = releases that fixed a detected failed release ÷ all releases. If a fix
+  itself fails and needs another fix, both fix releases count.
+  - **With public data this is usually close to the change failure rate.** Both come from
+    the same detected failures, so read them together, not as two independent signals.
+  - **That is DORA's own view.** Its [history of the metrics](https://dora.dev/insights/dora-metrics-history/)
+    says change failure rate "acted as a proxy for the amount of rework a team must
+    perform", and rework rate was added in 2024 to test that.
+  - **Why not count every patch release?** That was tried first, and on five real projects
+    (angular, vite, vitest, nuxt, grafana) it gave **75–96% rework**, because libraries ship
+    planned patch releases all the time. It is still available under **Settings** as a
+    broad, non-default reading.
 
 ### Honest limitations
 
 - **Three of the five metrics are proxies.** Public repositories don't publish incidents
   or outages, so failures are inferred from release patterns. A real outage that was
   fixed in a normal release is invisible; a planned quick patch is counted as a failure.
-- **Rework counts every patch release.** A project that ships planned patch releases on a
-  schedule will look like it does more unplanned fixing than it does.
-- **Reverts must name what they undo.** A revert written by hand without the commit or
-  pull request it reverts can't be traced, so it fails nothing (the page lists it).
+- **Rework and failure rate move together.** With public data both come from the same
+  detected failures (see above), so a low rework rate mostly means few *detected* failures.
+- **Failures are only detected through quick patches and reverts.** grafana/grafana is the
+  example: it ships about two releases a week, yet over the last 90 days the app detects
+  0% failures, because grafana fixes problems in normal releases rather than quick patches
+  or reverts. A real outage fixed that way is invisible to these proxies.
+- **Reverts are traced by commit ID or title.** A revert that names neither a commit nor
+  a pull request, and whose title matches no released commit, can't be traced; it fails
+  nothing and the page lists it.
 - **A release is not always a deployment.** Libraries publish releases that users adopt
   later; services may deploy many times between releases.
 - **Busy projects are sampled without a token.** To stay under GitHub's 60 requests per
@@ -137,7 +155,12 @@ the *what* and the *quality bar*, and delegating the *how*.
   - **The 48-hour quick-patch window:** kept.
   - **The revert rule:** made strict. A revert only fails the release that shipped the
     reverted commit, including reverts made with GitHub's Revert button.
-  - **The rework rule:** changed to count every patch release.
+  - **The rework rule:** I first chose "every patch release". On real data it gave
+    75–96% rework on five projects, so I changed it to releases that fixed a detected
+    failure, kept the broad reading as a non-default setting, and asked for a sandbox case
+    where one failure needs two fixes.
+  - **Copied commits:** I had reverts matched by title when a fix was copied to another
+    branch under a new commit ID (found while checking angular's numbers).
   - **The ratings:** limited to the two directly measured metrics. The three proxies are
     estimates and get no verdict.
 - The quality bar: a test repository with hand-worked answers written before any code,
