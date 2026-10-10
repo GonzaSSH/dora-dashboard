@@ -16,8 +16,5 @@ jobs:
           pdfinfo r.pdf | head -12
           pdftotext -layout r.pdf r.txt
           awk 'BEGIN{p=1} /\f/{p++} {print "p"p": "$0}' r.txt > n.txt
-          echo "=== licence / copyright lines"; grep -i -E 'creative commons|CC BY|licen|copyright|©' n.txt | head -15
-          echo "=== pages mentioning deployment frequency or lead time with percentages"
-          grep -i -E 'deployment frequency|lead time|deploy' n.txt | grep -E '[0-9]+(\.[0-9])?%' | head -40
-          echo "=== pages with frequency answer options"
-          grep -i -E 'on demand|once per (day|week|month)|between once|fewer than once|more than once' n.txt | head -60
+          echo "=== PAGE 19-21 FULL"; grep -E '^p(19|20|21): ' n.txt
+          echo "=== PAGE 141 licence context"; grep -E '^p141: ' n.txt | grep -i -B3 -A3 'licen'
