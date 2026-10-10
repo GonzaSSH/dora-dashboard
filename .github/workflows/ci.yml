@@ -1,0 +1,8 @@
+# Placeholder to confirm workflows can be pushed and run. Replaced in Phase 3.
+name: CI
+on: [push, workflow_dispatch]
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Actions works"
