@@ -37,6 +37,8 @@ export interface ClientOptions {
   budget?: number;
   fetchFn?: typeof fetch;
   baseUrl?: string;
+  /** Called after each request with the running count, for progress display. */
+  onRequest?: (used: number) => void;
 }
 
 export class GitHubClient {
@@ -44,6 +46,7 @@ export class GitHubClient {
   readonly budget: number;
   readonly #fetch: typeof fetch;
   readonly #base: string;
+  readonly #onRequest: ((used: number) => void) | undefined;
   requestsUsed = 0;
   rateLimit: RateLimit | null = null;
 
@@ -52,6 +55,7 @@ export class GitHubClient {
     this.budget = opts.budget ?? 50;
     this.#fetch = opts.fetchFn ?? ((input, init) => fetch(input, init));
     this.#base = opts.baseUrl ?? GITHUB_API;
+    this.#onRequest = opts.onRequest;
   }
 
   get hasToken(): boolean {
@@ -69,6 +73,7 @@ export class GitHubClient {
       throw new GitHubError('budget', 'Request budget used up');
     }
     this.requestsUsed++;
+    this.#onRequest?.(this.requestsUsed);
     const headers: Record<string, string> = { Accept: 'application/vnd.github+json' };
     if (this.#token) headers.Authorization = `Bearer ${this.#token}`;
 

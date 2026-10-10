@@ -14,6 +14,7 @@ export interface RunInput {
   window: TimeWindow;
   fetchFn?: typeof fetch;
   budget?: number;
+  onRequest?: (used: number) => void;
 }
 
 export interface RunResult {
@@ -32,6 +33,7 @@ export async function runAnalysis(input: RunInput): Promise<RunResult> {
   const client = new GitHubClient({
     token: input.token,
     fetchFn: input.fetchFn,
+    onRequest: input.onRequest,
     budget: input.budget ?? (input.token?.trim() ? BUDGET_WITH_TOKEN : BUDGET_WITHOUT_TOKEN),
   });
   const collected = await collect(client, ref, input.settings, input.window);

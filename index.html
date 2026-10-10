@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="See the five DORA software delivery metrics for any public GitHub repository." />
+    <title>DORA Dashboard</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='1' y='9' width='3' height='6' rx='1' fill='%232a6fdb'/%3E%3Crect x='6' y='5' width='3' height='10' rx='1' fill='%232a6fdb'/%3E%3Crect x='11' y='1' width='3' height='14' rx='1' fill='%232a6fdb'/%3E%3C/svg%3E" />
+  </head>
+  <body>
+    <header class="wrap">
+      <h1>DORA Dashboard</h1>
+      <p class="lede">
+        Type a public GitHub repository and see the five
+        <a href="https://dora.dev/guides/dora-metrics/" target="_blank" rel="noopener">DORA</a>
+        software delivery metrics, explained in plain language.
+      </p>
+    </header>
+
+    <main class="wrap">
+      <form id="form" class="card" novalidate>
+        <div class="row">
+          <label class="grow">
+            <span>Repository</span>
+            <input id="repo" name="repo" type="text" placeholder="owner/name, for example grafana/grafana"
+              autocomplete="off" spellcheck="false" required data-testid="repo-input" />
+          </label>
+        </div>
+        <div class="row">
+          <label>
+            <span>From</span>
+            <input id="from" type="date" required data-testid="from-input" />
+          </label>
+          <label>
+            <span>To</span>
+            <input id="to" type="date" required data-testid="to-input" />
+          </label>
+          <label class="grow">
+            <span>GitHub token <em>(optional)</em></span>
+            <input id="token" type="password" autocomplete="off" spellcheck="false"
+              placeholder="Paste a token for large repos" data-testid="token-input" data-1p-ignore data-lpignore="true" />
+          </label>
+        </div>
+        <details class="help">
+          <summary>Why a token?</summary>
+          <p>
+            Without a token, GitHub allows 60 requests per hour from your internet connection. That is enough for most
+            repositories; for very active ones the app measures a sample and tells you so. A token raises the limit
+            to 5,000 per hour.
+          </p>
+          <p>
+            To create one: on GitHub open <strong>Settings → Developer settings → Personal access tokens → Fine-grained
+            tokens → Generate new token</strong>, under "Repository access" choose "Public repositories", generate it and
+            paste it here.
+          </p>
+          <p>
+            <strong>Your token stays in this browser tab only.</strong> It is sent only to GitHub, never saved, and is
+            forgotten when you close or reload the page.
+          </p>
+        </details>
+
+        <details class="settings" data-testid="settings">
+          <summary>Settings: what counts as a deployment, a failure and rework</summary>
+          <fieldset>
+            <legend>What counts as a deployment</legend>
+            <label>
+              <span>Source</span>
+              <select id="source" data-testid="source-select">
+                <option value="auto">Automatic: GitHub Releases if the repo has any, otherwise version tags</option>
+                <option value="releases">GitHub Releases</option>
+                <option value="tags">Git tags</option>
+              </select>
+            </label>
+            <label>
+              <span>Version name pattern (regular expression)</span>
+              <input id="versionPattern" type="text" spellcheck="false" data-testid="version-pattern" />
+            </label>
+            <label class="check">
+              <input id="skipPrereleases" type="checkbox" />
+              <span>Ignore releases marked as pre-release on GitHub</span>
+            </label>
+          </fieldset>
+          <fieldset>
+            <legend>What counts as a failed deployment</legend>
+            <label class="check">
+              <input id="useQuickPatch" type="checkbox" data-testid="use-quick-patch" />
+              <span>A quick patch release follows (e.g. 1.2.0 → 1.2.1) within
+                <input id="quickPatchHours" type="number" min="1" step="1" class="tiny" /> hours</span>
+            </label>
+            <label class="check">
+              <input id="useRevert" type="checkbox" data-testid="use-revert" />
+              <span>The next release contains a commit whose message matches</span>
+            </label>
+            <label>
+              <span class="sr-only">Revert pattern</span>
+              <input id="revertPattern" type="text" spellcheck="false" />
+            </label>
+          </fieldset>
+          <fieldset>
+            <legend>What counts as rework</legend>
+            <p class="muted">A release that fixed a failed release, or a patch release whose commit messages all match:</p>
+            <label>
+              <span class="sr-only">Fix pattern</span>
+              <input id="fixPattern" type="text" spellcheck="false" />
+            </label>
+          </fieldset>
+          <button type="button" id="reset" class="link">Reset to defaults</button>
+        </details>
+
+        <div class="actions">
+          <button type="submit" id="go" class="primary" data-testid="analyse">Analyse</button>
+          <button type="button" id="demo" class="link" data-testid="demo">Try it on the test repository</button>
+        </div>
+      </form>
+
+      <p id="status" class="status" role="status" aria-live="polite" data-testid="status"></p>
+      <div id="error" class="card error" role="alert" hidden data-testid="error"></div>
+      <section id="results" hidden data-testid="results" aria-label="Results"></section>
+
+      <section class="card about" aria-labelledby="about-h">
+        <h2 id="about-h">What the five metrics mean</h2>
+        <div id="about"></div>
+        <p class="muted">
+          "Strong" and "weak" are a rough guide based on DORA research, not a hard rule. Compare a team with its own past
+          more than with other teams.
+        </p>
+      </section>
+    </main>
+
+    <footer class="wrap muted">
+      Runs entirely in your browser; no data is stored. Source:
+      <a href="https://github.com/GonzaSSH/dora-dashboard">GonzaSSH/dora-dashboard</a>.
+    </footer>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

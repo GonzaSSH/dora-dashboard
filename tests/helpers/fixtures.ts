@@ -1,7 +1,7 @@
 // Serves recorded GitHub API responses instead of the network.
 // Shared by the Vitest unit tests and the Playwright e2e tests.
-import sandboxFile from '../fixtures/sandbox.json';
-import errorsFile from '../fixtures/errors.json';
+import sandboxFile from '../fixtures/sandbox.json' with { type: 'json' };
+import errorsFile from '../fixtures/errors.json' with { type: 'json' };
 
 export interface Recorded {
   status: number;

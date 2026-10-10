@@ -83,7 +83,7 @@ export function analyse(all: Deployment[], window: TimeWindow, settings: Setting
         if (pred.get(e) !== d) continue;
         const revert = e.changes?.find((c) => revertRe.test(c.message));
         if (revert) {
-          candidates.push({ by: e, reason: `Revert: ${e.name} contains "${firstLine(revert.message)}"` });
+          candidates.push({ by: e, reason: `Revert: ${e.name} contains ‘${firstLine(revert.message)}’` });
         }
       }
     }
