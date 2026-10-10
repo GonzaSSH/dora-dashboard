@@ -103,8 +103,8 @@ Let `W` = deployments in the window, `n = |W|`, and `days` = window length in da
 4. **Failed deployment recovery time (proxy)** = median over failed `D ∈ W` of
    `time(remediation(D)) − time(D)`, in hours. If the remediation is itself
    failed, follow the chain to the first deployment that isn't failed.
-   Failures with no recovery by the end of the window are listed as "not yet
-   recovered" and left out of the median.
+   (Because a failure is only *detected* through its remediation, every detected
+   failure has a recovery; a failure with no fix yet is simply not detected.)
 
 5. **Rework rate (proxy)** = `rework(W) / n`, where D is **rework** (an
    unplanned deployment made to fix something) if:
@@ -112,6 +112,12 @@ Let `W` = deployments in the window, `n = |W|`, and `days` = window length in da
    - D is a patch bump (same major.minor as its predecessor) and **every**
      change commit matches the fix pattern
      `^(fix|hotfix|bugfix)(\(.+\))?!?:|^Revert` (configurable).
+
+Details settled during the build:
+- Remediations are looked for among deployments **inside the window** only.
+- **Merge commits** (more than one parent) are left out of lead time and of the
+  "all fixes" check; their date is the merge, not when the change was written.
+- A negative lead time (commit dated after its release, i.e. a clock problem) counts as 0.
 
 Every proxy metric shows a **"Proxy"** badge and a one-line "how we guessed this".
 The UI also lists every deployment with its time, number of commits, and
