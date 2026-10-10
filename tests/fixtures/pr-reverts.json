@@ -1,0 +1,223 @@
+{
+ "_note": "Hand-written in GitHub's response format for sandbox/EXPECTED.md 'Fixture case: reverts that name a pull request'. Pull-request merge times can't be backdated, so this case is not in the sandbox repository.",
+ "repo": "example/pr-reverts",
+ "responses": {
+  "/repos/example/pr-reverts": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "full_name": "example/pr-reverts",
+    "html_url": "https://github.com/example/pr-reverts",
+    "private": false
+   }
+  },
+  "/repos/example/pr-reverts/releases?per_page=100&page=1": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": [
+    {
+     "tag_name": "v2.3.0",
+     "published_at": "2026-02-15T12:00:00Z",
+     "draft": false,
+     "prerelease": false
+    },
+    {
+     "tag_name": "v2.2.0",
+     "published_at": "2026-02-01T12:00:00Z",
+     "draft": false,
+     "prerelease": false
+    },
+    {
+     "tag_name": "v2.1.0",
+     "published_at": "2026-01-20T12:00:00Z",
+     "draft": false,
+     "prerelease": false
+    },
+    {
+     "tag_name": "v2.0.0",
+     "published_at": "2026-01-10T12:00:00Z",
+     "draft": false,
+     "prerelease": false
+    },
+    {
+     "tag_name": "v1.9.0",
+     "published_at": "2025-12-01T12:00:00Z",
+     "draft": false,
+     "prerelease": false
+    }
+   ]
+  },
+  "/repos/example/pr-reverts/compare/v1.9.0...v2.0.0": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "total_commits": 1,
+    "commits": [
+     {
+      "sha": "a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0",
+      "parents": [
+       {
+        "sha": "p"
+       }
+      ],
+      "commit": {
+       "message": "feat: version two",
+       "author": {
+        "date": "2026-01-09T12:00:00Z"
+       },
+       "committer": {
+        "date": "2026-01-09T12:00:00Z"
+       }
+      }
+     }
+    ]
+   }
+  },
+  "/repos/example/pr-reverts/compare/v2.0.0...v2.1.0": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "total_commits": 1,
+    "commits": [
+     {
+      "sha": "a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+      "parents": [
+       {
+        "sha": "p"
+       }
+      ],
+      "commit": {
+       "message": "feat: search (#10)",
+       "author": {
+        "date": "2026-01-15T12:00:00Z"
+       },
+       "committer": {
+        "date": "2026-01-15T12:00:00Z"
+       }
+      }
+     }
+    ]
+   }
+  },
+  "/repos/example/pr-reverts/compare/v2.1.0...v2.2.0": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "total_commits": 2,
+    "commits": [
+     {
+      "sha": "b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1",
+      "parents": [
+       {
+        "sha": "p"
+       }
+      ],
+      "commit": {
+       "message": "Revert \"feat: search (#10)\" (#12)\n\nReverts example/pr-reverts#10",
+       "author": {
+        "date": "2026-01-25T12:00:00Z"
+       },
+       "committer": {
+        "date": "2026-01-25T12:00:00Z"
+       }
+      }
+     },
+     {
+      "sha": "c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1",
+      "parents": [
+       {
+        "sha": "p"
+       }
+      ],
+      "commit": {
+       "message": "feat: export (#11)",
+       "author": {
+        "date": "2026-01-28T12:00:00Z"
+       },
+       "committer": {
+        "date": "2026-01-28T12:00:00Z"
+       }
+      }
+     }
+    ]
+   }
+  },
+  "/repos/example/pr-reverts/compare/v2.2.0...v2.3.0": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "total_commits": 2,
+    "commits": [
+     {
+      "sha": "d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1",
+      "parents": [
+       {
+        "sha": "p"
+       }
+      ],
+      "commit": {
+       "message": "Revert \"feat: beta flag\" (#14)\n\nReverts example/pr-reverts#99",
+       "author": {
+        "date": "2026-02-10T12:00:00Z"
+       },
+       "committer": {
+        "date": "2026-02-10T12:00:00Z"
+       }
+      }
+     },
+     {
+      "sha": "e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1",
+      "parents": [
+       {
+        "sha": "p"
+       }
+      ],
+      "commit": {
+       "message": "Revert \"chore: tidy\"",
+       "author": {
+        "date": "2026-02-12T12:00:00Z"
+       },
+       "committer": {
+        "date": "2026-02-12T12:00:00Z"
+       }
+      }
+     }
+    ]
+   }
+  },
+  "/repos/example/pr-reverts/pulls/10": {
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "number": 10,
+    "merged": true,
+    "merge_commit_sha": "a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1"
+   }
+  },
+  "/repos/example/pr-reverts/pulls/99": {
+   "status": 404,
+   "headers": {
+    "content-type": "application/json; charset=utf-8"
+   },
+   "body": {
+    "message": "Not Found",
+    "documentation_url": "https://docs.github.com/rest/pulls/pulls#get-a-pull-request",
+    "status": "404"
+   }
+  }
+ }
+}
