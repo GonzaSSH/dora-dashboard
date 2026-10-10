@@ -9,15 +9,15 @@ jobs:
   fetch:
     runs-on: ubuntu-latest
     steps:
-      - name: DORA Quick Check 2025 data - files, licence, scale, distributions
+      - name: Read the 2025 DORA report PDF (Google-hosted)
         run: |
-          git clone -q --depth 1 https://github.com/dora-team/dora.dev site
-          cd site
-          echo "=== top-level licence files"; ls | grep -i -E 'licen|copying' ; for f in $(ls | grep -i -E 'licen|copying'); do head -8 "$f"; done
-          echo "=== all files under quick-check data"; find svelte/quick-check/src/lib/data -type f | head -40
-          echo "=== metrics_details.json"; cat svelte/quick-check/src/lib/data/metrics_details.json | head -c 5000; echo
-          echo "=== any file mentioning distribution / percent / respondents in quick-check"
-          grep -rl -i -E 'distribution|percent|respondent|histogram|quantile|percentile' svelte/quick-check/src | head -20
-          echo "=== 2025 edition files (sizes)"; ls -la svelte/quick-check/src/lib/data/editions/2025/ 2>/dev/null
-          echo "=== first 40 lines of industry_metrics.json"; head -40 svelte/quick-check/src/lib/data/editions/2025/industry_metrics.json
-          echo "=== README sections about scale and benchmarks"; grep -n -i -A3 -E 'scale|benchmark|0-10|normaliz' svelte/quick-check/README.md | head -60
+          sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils tesseract-ocr >/dev/null
+          curl -sSL https://services.google.com/fh/files/misc/2025_state_of_ai_assisted_software_development.pdf -o r.pdf -w "HTTP %{http_code}\n"
+          pdfinfo r.pdf | head -12
+          pdftotext -layout r.pdf r.txt
+          awk 'BEGIN{p=1} /\f/{p++} {print "p"p": "$0}' r.txt > n.txt
+          echo "=== licence / copyright lines"; grep -i -E 'creative commons|CC BY|licen|copyright|©' n.txt | head -15
+          echo "=== pages mentioning deployment frequency or lead time with percentages"
+          grep -i -E 'deployment frequency|lead time|deploy' n.txt | grep -E '[0-9]+(\.[0-9])?%' | head -40
+          echo "=== pages with frequency answer options"
+          grep -i -E 'on demand|once per (day|week|month)|between once|fewer than once|more than once' n.txt | head -60
