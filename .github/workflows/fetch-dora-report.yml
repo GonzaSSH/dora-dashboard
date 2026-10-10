@@ -1,4 +1,4 @@
-# One-off: read the DORA 2025 report from dora.dev (the Claude Code session can't reach it).
+# One-off: read pages the Claude Code session can't reach (here: Swarmia's help centre).
 name: Fetch DORA 2025 report
 on:
   push:
@@ -9,44 +9,15 @@ jobs:
   fetch:
     runs-on: ubuntu-latest
     steps:
-      - name: Install tools
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils >/dev/null
-      - name: Page text and links
+      - name: Swarmia change failure rate docs
         run: |
-          cat > totext.py <<'PY'
-          import sys, html, re
-          from html.parser import HTMLParser
-          class P(HTMLParser):
-              def __init__(s): super().__init__(); s.out=[]; s.links=[]; s.skip=0
-              def handle_starttag(s,t,a):
-                  if t in('script','style'): s.skip+=1
-                  for k,v in a:
-                      if k=='href' and v: s.links.append(v)
-              def handle_endtag(s,t):
-                  if t in('script','style'): s.skip-=1
-                  if t in('p','li','h1','h2','h3','h4','div','br'): s.out.append('\n')
-              def handle_data(s,d):
-                  if not s.skip: s.out.append(d)
-          p=P(); p.feed(open(sys.argv[1],encoding='utf-8',errors='ignore').read())
-          text=re.sub(r'\n\s*\n+','\n',''.join(p.out))
-          print(text[:12000]); print('=== LINKS'); print('\n'.join(sorted(set(p.links))))
-          PY
-          for u in https://dora.dev/research/2025/dora-report/ https://dora.dev/research/2025/; do
-            echo "################ $u"; curl -sSL --max-time 30 "$u" -o page.html; python3 totext.py page.html
-          done
-      - name: OCR the official infographic PDF from dora.dev
-        run: |
-          set -e
-          sudo apt-get install -y -qq tesseract-ocr >/dev/null
-          curl -sSL https://dora.dev/research/2025/2025-DORA-Report-Infographic.pdf -o info.pdf -w "HTTP %{http_code}\n"
-          pdftoppm -r 200 -png info.pdf page
-          for f in page*.png; do echo "===== $f"; tesseract "$f" - 2>/dev/null; done
-      - name: Search DORA's own site source for 2025 throughput / instability findings
-        run: |
-          set -e
-          git clone -q --depth 1 https://github.com/dora-team/dora.dev site
-          echo "=== files mentioning 2025 and throughput/instability"
-          grep -rliE 'throughput|instabilit' site --include=*.md | xargs grep -liE '2025|AI-assisted' | head -20
-          for f in $(grep -rliE 'throughput|instabilit' site --include=*.md | xargs grep -liE '2025|AI-assisted' | head -8); do
-            echo "################ $f"; grep -n -iE -B2 -A2 'throughput|instabilit' "$f" | head -60
+          for u in https://help.swarmia.com/metrics-and-definitions/dora-metrics/change-failure-rate https://help.swarmia.com/features/metrics/track-dora-metrics/automatic-change-failure-detection; do
+            echo "################ $u"
+            curl -sSL --max-time 30 "$u" | python3 -c "
+          import sys,re,html
+          t=sys.stdin.read()
+          t=re.sub(r'(?s)<(script|style)[^>]*>.*?</\1>','',t)
+          t=html.unescape(re.sub(r'<[^>]+>','\n',t))
+          lines=[l.strip() for l in t.split('\n') if l.strip()]
+          print('\n'.join(l for l in lines if re.search(r'(?i)manual|mark|fix|incident|revert|rollback|hotfix|failure',l))[:6000])"
           done
