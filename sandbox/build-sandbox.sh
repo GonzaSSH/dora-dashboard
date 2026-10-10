@@ -5,6 +5,9 @@
 # Usage:  sandbox/build-sandbox.sh [remote-url]
 #   PUSH=0 sandbox/build-sandbox.sh   # build only, print the result, don't push
 #
+# Normally this runs on GitHub: the workflow on the `claude/sandbox-builder`
+# branch of dora-sandbox checks out this repo and runs this script.
+#
 # The expected DORA metrics for this history are worked out in sandbox/EXPECTED.md.
 # If you change anything here, redo EXPECTED.md by hand first.
 set -euo pipefail
@@ -91,5 +94,7 @@ echo "HEAD $("${GIT[@]}" rev-parse HEAD)"
 "${GIT[@]}" for-each-ref refs/tags --sort=creatordate --format='%(refname:short) %(objecttype) %(creatordate:iso-strict)'
 
 if [ "$PUSH" = "1" ]; then
-  "${GIT[@]}" push --force --prune "$REMOTE" 'refs/heads/*:refs/heads/*' 'refs/tags/*:refs/tags/*'
+  # Rewrites main and replaces all tags. Other branches are left alone.
+  "${GIT[@]}" push --force "$REMOTE" main:refs/heads/main
+  "${GIT[@]}" push --force --prune "$REMOTE" 'refs/tags/*:refs/tags/*'
 fi
