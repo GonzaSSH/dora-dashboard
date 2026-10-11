@@ -32,3 +32,5 @@ Spec: PLAN.md. Expected sandbox values: sandbox/EXPECTED.md (mirrored in tests/e
 - The sandbox repo's main and tags are written by the workflow on its `claude/sandbox-builder` branch, not by direct pushes.
 - After any change to metric code, rebuild the sandbox snapshot (`npm run snapshots -- --offline`) and refresh the other snapshots, so demo links never show stale definitions.
 - CI (.github/workflows/ci.yml) must be green; Pages deploys from `main` only.
+- Pull requests: the owner merges every PR; never merge one yourself. End every PR description with these two lines:
+  `🤖 Generated with [Claude Code](https://claude.com/claude-code)` and `🤓 Reviewed by Gonzalo Schwindt`.
