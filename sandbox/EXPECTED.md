@@ -267,6 +267,32 @@ Figures 11 and 12, "Top %" column; licensed CC BY-NC-SA 4.0.
   shorter."
 - The three proxy tiles show no DORA figure.
 
+## Weekly charts on the cards (v1.5)
+
+Each card shows one bar per week. Weeks start on the window start (2026-01-01 00:00 UTC) and
+are 7 days long; the 90-day window gives **13 weeks**, the last one 6 days long (03-26 → 03-31).
+Week number = whole weeks since 01-01: e.g. 02-16 is day 46 → week 6 (46 ÷ 7 = 6.6).
+
+| Week | Starts | Releases (Step 1) | Failed | Rework | Lead times of its changes (Step 2) | Typical wait (median) | Time to fix (Step 4.4) |
+|---|---|---|---|---|---|---|---|
+| 0 | 01-01 | v1.0.0 | 0 | 0 | 75, 21 | (21 + 75) / 2 = **48 h** | — |
+| 1 | 01-08 | — | 0 | 0 | — | none | — |
+| 2 | 01-15 | v1.1.0 | 0 | 0 | 170, 74, 18 | **74 h** | — |
+| 3 | 01-22 | — | 0 | 0 | — | none | — |
+| 4 | 01-29 | v1.2.0, v1.2.1 | 1 (v1.2.0) | 1 (v1.2.1) | 168, 76, 2 | **76 h** | v1.2.0: **20 h** |
+| 5 | 02-05 | — | 0 | 0 | — | none | — |
+| 6 | 02-12 | v1.3.0, v1.4.0 | 1 (v1.3.0) | 1 (v1.4.0) | 168, 72, 26, 4 | (26 + 72) / 2 = **49 h** | v1.3.0: **48 h** |
+| 7 | 02-19 | — | 0 | 0 | — | none | — |
+| 8 | 02-26 | — | 0 | 0 | — | none | — |
+| 9 | 03-05 | v1.4.1 | 0 | 0 | 96, 24 | (24 + 96) / 2 = **60 h** | — |
+| 10 | 03-12 | — | 0 | 0 | — | none | — |
+| 11 | 03-19 | v1.5.0, v1.5.1, v1.5.2 | 2 (v1.5.0, v1.5.1) | 2 (v1.5.1, v1.5.2) | 192, 24, 2, 2 | (2 + 24) / 2 = **13 h** | 44, 22 → (22 + 44) / 2 = **33 h** |
+| 12 | 03-26 | — | 0 | 0 | — | none | — |
+
+**Releases per week:** `1, 0, 1, 0, 2, 0, 2, 0, 0, 1, 0, 3, 0` (sum 10). The grey reference line on
+the lead-time card is the previous 90 days' 96 h, and on the recovery card their 20 h. Periods
+longer than 182 days use calendar months instead of weeks.
+
 ## Manual corrections (v1.2)
 
 A person can overrule the automatic detection for any release in the deployments list
