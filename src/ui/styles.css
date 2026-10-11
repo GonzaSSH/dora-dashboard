@@ -173,14 +173,28 @@ a { color: var(--accent); text-underline-offset: 2px; }
 
 .main { background: var(--bg); border-radius: var(--radius-panel); min-width: 0; padding: var(--space-6) var(--gutter) var(--space-7); outline: none; display: flex; flex-direction: column; }
 /* With a result on screen it comes first, like a playlist page; the search form follows it. */
-.main.has-results { padding-top: 0; }
-.main.has-results .loading { order: -3; }
-.main.has-results .error { order: -2; }
-.main.has-results .results { order: -1; margin-top: 0; }
-.main.has-results .intro { margin-top: var(--space-6); }
 .main > [hidden] { display: none; }
-.intro { margin-bottom: var(--space-4); }
-.lede { color: var(--ink-2); max-width: 60ch; font-size: 1.05rem; }
+/* Banner: headline and description over the accent wash, with a decorative release rhythm. */
+.banner {
+  position: relative; overflow: hidden;
+  background: linear-gradient(115deg, var(--header-tint) 0%, var(--raised) 70%);
+  border-radius: var(--radius-panel);
+  padding: var(--space-7) var(--space-6);
+  margin-bottom: var(--space-5);
+  display: grid; gap: var(--space-3);
+}
+.app-title { font-size: var(--fs-hero); font-weight: var(--fw-heavy); line-height: 1.04; letter-spacing: -0.035em; max-width: 16ch; }
+.app-lede { font-size: 1.15rem; color: var(--ink-2); max-width: 52ch; }
+.app-title, .app-lede { position: relative; }
+/* Wide screens: the text column stops before the rhythm on the right. */
+@media (min-width: 1401px) { .app-title, .app-lede { max-width: min(52ch, calc(100% - 420px)); } }
+.rhythm { position: absolute; right: var(--space-6); bottom: 0; width: 380px; height: 200px; display: flex; align-items: flex-end; gap: 6px; }
+.rhythm i { flex: 1; height: calc(var(--h) * 100%); background: var(--accent); opacity: calc(0.35 + 0.65 * var(--h)); border-radius: var(--radius-pill) var(--radius-pill) 0 0; }
+@media (max-width: 1400px) {
+  /* Narrower screens: the rhythm becomes a strip under the text, never behind it. */
+  .banner { padding-bottom: 0; }
+  .rhythm { position: static; width: 100%; max-width: 420px; height: 56px; margin-top: var(--space-3); }
+}
 
 /* ---------- Search form ---------- */
 .search-card > * { min-width: 0; }
@@ -241,7 +255,7 @@ button.link { background: none; border: 0; color: var(--accent); padding: 0; tex
   display: grid; gap: var(--space-3);
 }
 .kicker { color: var(--ink-2); font-weight: var(--fw-strong); }
-.summary h2 { font-size: var(--fs-hero); font-weight: var(--fw-heavy); line-height: 1.04; letter-spacing: -0.035em; overflow-wrap: anywhere; }
+.summary h2 { font-size: clamp(1.8rem, 3.4vw, 2.6rem); font-weight: var(--fw-heavy); line-height: 1.04; letter-spacing: -0.035em; overflow-wrap: anywhere; }
 .summary h2 a { color: var(--ink); text-decoration: none; }
 .summary h2 a:hover { text-decoration: underline; text-decoration-thickness: 3px; }
 .meta { color: var(--ink-2); }
@@ -368,5 +382,8 @@ footer { padding: var(--space-6) 0 0; font-size: var(--fs-small); }
   .summary { border-radius: 0; padding-top: var(--space-6); }
   .tiles, .skeleton-tiles { grid-template-columns: minmax(0, 1fr); }
   .search-card { padding: var(--space-4); }
+  .banner { padding: var(--space-6) var(--space-4) 0; }
+  .rhythm { height: 44px; }
+  #repo { padding: 0 var(--space-4); font-size: var(--fs-body); }
   .actions .pill, .header-actions .pill { flex: 1 1 auto; }
 }
