@@ -24,8 +24,8 @@ test('typing a repo and dates shows the five metrics from EXPECTED.md', async ({
     await expect(page.getByTestId(`proxy-${key}`)).toHaveCount(0);
   }
   // v1.1: only the two measured metrics carry a rough-guide rating; proxies explain what moves them.
-  await expect(page.getByTestId('rating-deploymentFrequency')).toContainText('In between');
-  await expect(page.getByTestId('rating-leadTime')).toContainText('In between');
+  await expect(page.getByTestId('rating-deploymentFrequency')).toContainText('Medium');
+  await expect(page.getByTestId('rating-leadTime')).toContainText('Medium');
   for (const key of ['changeFailureRate', 'recoveryTime', 'reworkRate']) {
     await expect(page.getByTestId(`rating-${key}`)).toHaveCount(0);
     await expect(page.getByTestId(`drivers-${key}`)).toContainText(/goes up|gets shorter/);

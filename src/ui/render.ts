@@ -12,7 +12,7 @@ import { h } from './dom';
 
 const RATING_LABEL: Record<Rating, { icon: string; text: string }> = {
   strong: { icon: '✓', text: 'Strong' },
-  middle: { icon: '•', text: 'In between' },
+  middle: { icon: '•', text: 'Medium' },
   weak: { icon: '!', text: 'Weak' },
 };
 
