@@ -73,6 +73,18 @@ test.describe('sidebar', () => {
     await expect(menu).toHaveAttribute('aria-expanded', 'false');
   });
 
+  test('"Analyse a repository…" starts from scratch on the start page', async ({ page, baseURL }) => {
+    await page.goto('./?demo=sandbox&failed=v1.4.1&hours=24');
+    await expect(page.getByTestId('results')).toBeVisible();
+    const menu = page.getByTestId('menu');
+    if (await menu.isVisible()) await menu.click();
+    await page.getByTestId('find').click();
+    await expect(page).toHaveURL(baseURL!);
+    await expect(page.getByTestId('results')).toBeHidden();
+    await expect(page.getByTestId('repo-input')).toHaveValue('');
+    await expect(page.getByTestId('banner')).toBeVisible();
+  });
+
   test('Settings in the sidebar opens the settings', async ({ page }) => {
     await page.goto('./');
     const menu = page.getByTestId('menu');

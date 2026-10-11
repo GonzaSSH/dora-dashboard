@@ -270,11 +270,8 @@ sideEl.addEventListener('keydown', (e) => {
     menuBtn.focus();
   }
 });
-$<HTMLButtonElement>('find').addEventListener('click', () => {
-  setMenu(false);
-  repoIn.focus();
-  repoIn.scrollIntoView({ block: 'center' });
-});
+// "Analyse a repository…" is a plain link to the start page (index.html): a fresh start with no
+// repository, dates, settings or corrections in the address.
 $<HTMLButtonElement>('open-settings').addEventListener('click', () => {
   setMenu(false);
   const details = document.querySelector<HTMLDetailsElement>('[data-testid="settings"]')!;

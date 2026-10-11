@@ -156,7 +156,7 @@ a { color: var(--accent); text-underline-offset: 2px; }
 .mark i:nth-child(3) { height: 15px; }
 .menu { display: none; }
 .nav { display: flex; flex-direction: column; gap: var(--space-4); flex: 1; }
-.find { min-height: var(--tap); width: 100%; text-align: left; border: 0; border-radius: var(--radius-pill); background: var(--field); box-shadow: inset 0 0 0 1.5px var(--field-ring); color: var(--ink-2); font: inherit; padding: 0 var(--space-5); cursor: pointer; }
+.find { display: flex; align-items: center; text-decoration: none; min-height: var(--tap); width: 100%; text-align: left; border: 0; border-radius: var(--radius-pill); background: var(--field); box-shadow: inset 0 0 0 1.5px var(--field-ring); color: var(--ink-2); font: inherit; padding: 0 var(--space-5); cursor: pointer; }
 .nav-h { font-size: var(--fs-small); font-weight: var(--fw-strong); color: var(--muted); letter-spacing: 0; padding: 0 var(--space-2); }
 .library { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-1); }
 .item { width: 100%; display: flex; gap: var(--space-3); align-items: center; text-align: left; border: 0; background: transparent; color: var(--ink); font: inherit; padding: var(--space-2); border-radius: var(--radius-small); cursor: pointer; min-height: var(--tap); }
