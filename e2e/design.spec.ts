@@ -61,6 +61,12 @@ test.describe('sidebar', () => {
     await expect(page.getByTestId('demo')).toBeVisible();
     await menu.click();
     await expect(page.getByTestId('demo')).toBeHidden();
+    // Escape closes it and puts focus back on the menu button.
+    await menu.click();
+    await page.getByTestId('demo').focus();
+    await page.keyboard.press('Escape');
+    await expect(page.getByTestId('demo')).toBeHidden();
+    await expect(menu).toBeFocused();
     // Choosing an example closes the menu and shows the result.
     await openSavedExample(page, 'demo-angular');
     await expect(page.getByTestId('repo-link')).toHaveText('angular/angular');

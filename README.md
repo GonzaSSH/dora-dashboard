@@ -43,9 +43,11 @@ you tell whether AI is actually helping a team ship.
 
 1. Open the [live demo](https://gonzassh.github.io/dora-dashboard/).
 2. In **Repository**, type the project's GitHub name as `owner/name`, for example
-   `angular/angular`. You can also paste its GitHub address. Or click one of the
-   **Saved examples**: they load instantly and use none of your GitHub allowance (the page
-   says when a result is saved, and **Analyse** fetches live data).
+   `angular/angular`. You can also paste its GitHub address. Or pick one of the
+   **Saved examples** in the sidebar (behind the menu button on phones): the test
+   repository, angular/angular, or this dashboard measured on its own releases. They load
+   instantly and use none of your GitHub allowance (the page says when a result is saved,
+   and **Analyse live** fetches live data).
 3. Choose the **From** and **To** dates. The default is the last 90 days.
 4. Click **Analyse**. A small project takes a few seconds; a very busy one up to about 30.
 5. Read the five tiles. Each one says in a plain sentence what its number means, compares it
@@ -254,6 +256,10 @@ the *what* and the *quality bar*, and delegating the *how*.
   from the report itself, linked, licence checked) appear only on deployment frequency and
   lead time, the two numbers measured the same way DORA asks about them. Saved examples of
   real projects are made with a token so the comparison is always complete, and say so.
+- **The visual direction (v1.4):** dark first, with bold type, big numbers, rounded
+  surfaces separated by tone and a playlist-style results page, inspired by music-app
+  interfaces, with our own "signal amber" accent rather than any brand's colour, a light
+  theme from the visitor's system setting, and WCAG AA contrast checked in both themes.
 - The quality bar: a test repository with hand-worked answers written before any code,
   tests that may never be weakened to pass, live checks against real projects, and an
   independent review.

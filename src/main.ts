@@ -253,6 +253,13 @@ form.addEventListener('keydown', (e) => {
 });
 for (const [id, btn] of Object.entries(demoButtons)) btn.addEventListener('click', () => void loadDemo(id as DemoId));
 menuBtn.addEventListener('click', () => setMenu(menuBtn.getAttribute('aria-expanded') !== 'true'));
+// Escape closes the phone menu and returns focus to its button.
+sideEl.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && menuBtn.getAttribute('aria-expanded') === 'true') {
+    setMenu(false);
+    menuBtn.focus();
+  }
+});
 $<HTMLButtonElement>('find').addEventListener('click', () => {
   setMenu(false);
   repoIn.focus();

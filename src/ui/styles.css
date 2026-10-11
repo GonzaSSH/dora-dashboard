@@ -295,7 +295,7 @@ button.link { background: none; border: 0; color: var(--accent); padding: 0; tex
 .deployments > summary { font-size: var(--fs-h2); font-weight: var(--fw-heavy); color: var(--ink); letter-spacing: -0.02em; gap: var(--space-3); }
 .deployments > p { color: var(--muted); font-size: var(--fs-small); margin: var(--space-2) 0 var(--space-4); max-width: 80ch; }
 .tracks { width: 100%; border-collapse: separate; border-spacing: 0; font-size: var(--fs-small); }
-.tracks th { text-align: left; color: var(--muted); font-weight: var(--fw-strong); padding: var(--space-2) var(--space-3); box-shadow: inset 0 -1px 0 var(--rule); }
+.tracks th { white-space: nowrap; text-align: left; color: var(--muted); font-weight: var(--fw-strong); padding: var(--space-2) var(--space-3); box-shadow: inset 0 -1px 0 var(--rule); }
 .tracks td { padding: var(--space-3); vertical-align: middle; color: var(--ink-2); }
 .tracks td:first-child { border-radius: var(--radius-small) 0 0 var(--radius-small); }
 .tracks td:last-child { border-radius: 0 var(--radius-small) var(--radius-small) 0; }
@@ -352,6 +352,8 @@ footer { padding: var(--space-6) 0 0; font-size: var(--fs-small); }
 /* ---------- Phone: the sidebar becomes a top bar with a menu ---------- */
 @media (max-width: 720px) {
   :root { --gutter: 16px; --fs-number: 2.25rem; }
+  /* Keep a focused control from scrolling under the sticky top bar (WCAG 2.4.11). */
+  html { scroll-padding-top: calc(var(--tap) + 2 * var(--space-4)); }
   .app { display: block; padding: 0; }
   .side { position: sticky; top: 0; z-index: 5; height: auto; border-radius: 0; padding: var(--space-2) var(--gutter); gap: 0; overflow: visible; }
   .menu { display: inline-grid; place-items: center; width: var(--tap); height: var(--tap); border: 0; border-radius: var(--radius-pill); background: var(--raised); color: var(--ink); cursor: pointer; }

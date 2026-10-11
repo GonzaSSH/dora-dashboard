@@ -26,6 +26,7 @@ Spec: PLAN.md. Expected sandbox values: sandbox/EXPECTED.md (mirrored in tests/e
 - Changing sandbox/build-sandbox.sh means redoing EXPECTED.md by hand first, then re-recording fixtures.
 - Tokens: memory only. Never put a token in a URL, storage, log, error message, fixture, trace or commit. No `console` in src/ (lint enforces).
 - Shared links: every non-default setting and all manual corrections live in the page address (src/url-state.ts); never store them elsewhere, never put a token there.
+- Visual design: every colour, spacing, radius, type size and duration is a token on `:root` in src/ui/styles.css (light theme redefines the same tokens). No hardcoded colours in components; e2e/design.spec.ts checks AA contrast, focus, 44px tap targets and reduced motion in both themes.
 - Render GitHub data with textContent only (src/ui/dom.ts `h()`), never innerHTML.
 - Stay within 50 requests per analysis without a token (GitHub allows 60/hour).
 - The sandbox repo's main and tags are written by the workflow on its `claude/sandbox-builder` branch, not by direct pushes.
