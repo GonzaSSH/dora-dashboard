@@ -1,6 +1,6 @@
 // Full user flow against the recorded sandbox: values must match sandbox/EXPECTED.md.
 import { expect, test } from '@playwright/test';
-import { SANDBOX_URL, serveGitHub } from './fixtures';
+import { SANDBOX_URL, serveGitHub, openSavedExample } from './fixtures';
 import { prRevertResponses, sandboxResponses } from '../tests/helpers/fixtures';
 import { EXPECTED, SANDBOX_REQUESTS_WITH_COMPARISON } from '../tests/expected';
 
@@ -41,7 +41,7 @@ test('typing a repo and dates shows the five metrics from EXPECTED.md', async ({
 
 test('the demo button shows the sandbox (saved result)', async ({ page }) => {
   await page.goto('./');
-  await page.getByTestId('demo').click();
+  await openSavedExample(page, 'demo');
   await expect(page.getByTestId('value-changeFailureRate')).toHaveText(EXPECTED.changeFailureRate.shown);
 });
 

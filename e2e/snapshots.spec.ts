@@ -2,7 +2,7 @@
 import { expect, test, type Page } from '@playwright/test';
 import { EXPECTED } from '../tests/expected';
 import { prRevertResponses } from '../tests/helpers/fixtures';
-import { serveGitHub } from './fixtures';
+import { serveGitHub, openSavedExample } from './fixtures';
 
 async function countGitHub(page: Page) {
   const calls: string[] = [];
@@ -36,9 +36,9 @@ test('the angular demo link makes no GitHub requests', async ({ page }) => {
 test('the demo buttons load the saved results without GitHub requests', async ({ page }) => {
   const calls = await countGitHub(page);
   await page.goto('./');
-  await page.getByTestId('demo').click();
+  await openSavedExample(page, 'demo');
   await expect(page.getByTestId('value-changeFailureRate')).toHaveText(EXPECTED.changeFailureRate.shown);
-  await page.getByTestId('demo-angular').click();
+  await openSavedExample(page, 'demo-angular');
   await expect(page.getByTestId('repo-link')).toHaveText('angular/angular');
   expect(calls).toEqual([]);
 });
