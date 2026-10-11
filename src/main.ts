@@ -23,6 +23,15 @@ const goBtn = $<HTMLButtonElement>('go');
 const statusEl = $<HTMLElement>('status');
 const errorEl = $<HTMLElement>('error');
 const resultsEl = $<HTMLElement>('results');
+const mainEl = $<HTMLElement>('main');
+const loadingEl = $<HTMLElement>('loading');
+const sideEl = document.querySelector<HTMLElement>('.side')!;
+const menuBtn = $<HTMLButtonElement>('menu');
+const demoButtons: Record<DemoId, HTMLButtonElement> = {
+  sandbox: $<HTMLButtonElement>('demo'),
+  angular: $<HTMLButtonElement>('demo-angular'),
+  dashboard: $<HTMLButtonElement>('demo-dashboard'),
+};
 
 const field = {
   source: $<HTMLSelectElement>('source'),
@@ -70,7 +79,43 @@ function setDefaultDates(): void {
   fromIn.value = new Date(Date.parse(`${today}T00:00:00Z`) - (DEFAULT_WINDOW_DAYS - 1) * DAY).toISOString().slice(0, 10);
 }
 
+/** Phones: the sidebar is a top bar whose menu opens the navigation (v1.4). */
+function setMenu(open: boolean): void {
+  sideEl.classList.toggle('open', open);
+  menuBtn.setAttribute('aria-expanded', String(open));
+}
+
+function markDemo(id: DemoId | undefined): void {
+  for (const [key, btn] of Object.entries(demoButtons)) {
+    if (key === id) btn.setAttribute('aria-current', 'true');
+    else btn.removeAttribute('aria-current');
+  }
+}
+
+/** Five placeholder cards while GitHub is read, instead of a spinner. */
+function showLoading(on: boolean): void {
+  loadingEl.hidden = !on;
+  if (on) {
+    loadingEl.replaceChildren(
+      h('div', { class: 'skeleton skeleton-head' }),
+      h('div', { class: 'skeleton-tiles' }, ...Array.from({ length: 5 }, () => h('div', { class: 'skeleton skeleton-tile' }))),
+    );
+  } else {
+    loadingEl.replaceChildren();
+  }
+}
+
+async function share(): Promise<string> {
+  try {
+    await navigator.clipboard.writeText(location.href);
+    return 'Link copied';
+  } catch {
+    return 'Copy the page address to share this view';
+  }
+}
+
 function showError(err: unknown): void {
+  mainEl.classList.remove('has-results');
   const m = messageFor(err);
   errorEl.replaceChildren(h('h2', {}, m.title), h('p', {}, m.detail));
   errorEl.hidden = false;
@@ -109,8 +154,12 @@ function show(): void {
       corrections = NO_CORRECTIONS;
       show();
     },
+    onShare: share,
+    onAnalyseLive: base.savedAt ? () => void analyse(corrections) : undefined,
   });
+  markDemo(base.demo);
   resultsEl.hidden = false;
+  mainEl.classList.add('has-results');
   // Shareable link: repository, dates, non-default settings and corrections. Never the token.
   const params = writeState({
     demo: base.demo,
@@ -136,6 +185,7 @@ function correct(name: string, choice: 'auto' | 'failed' | 'not-failed', fixedBy
 /** Loads a saved demo result: zero GitHub requests (v1.1 item 2). */
 async function loadDemo(id: DemoId, keep: Corrections = NO_CORRECTIONS): Promise<void> {
   if (running) return;
+  setMenu(false);
   errorEl.hidden = true;
   try {
     const res = await fetch(`snapshots/${id}.json`);
@@ -162,6 +212,7 @@ async function analyse(keep: Corrections = NO_CORRECTIONS): Promise<void> {
   goBtn.disabled = true;
   errorEl.hidden = true;
   resultsEl.hidden = true;
+  showLoading(true);
   statusEl.textContent = 'Reading the repository from GitHub…';
   const window = readWindow();
   const settings = readSettings();
@@ -186,6 +237,7 @@ async function analyse(keep: Corrections = NO_CORRECTIONS): Promise<void> {
     statusEl.textContent = '';
     showError(err);
   } finally {
+    showLoading(false);
     running = false;
     goBtn.disabled = false;
   }
@@ -199,8 +251,20 @@ form.addEventListener('keydown', (e) => {
     void analyse();
   }
 });
-$<HTMLButtonElement>('demo').addEventListener('click', () => void loadDemo('sandbox'));
-$<HTMLButtonElement>('demo-angular').addEventListener('click', () => void loadDemo('angular'));
+for (const [id, btn] of Object.entries(demoButtons)) btn.addEventListener('click', () => void loadDemo(id as DemoId));
+menuBtn.addEventListener('click', () => setMenu(menuBtn.getAttribute('aria-expanded') !== 'true'));
+$<HTMLButtonElement>('find').addEventListener('click', () => {
+  setMenu(false);
+  repoIn.focus();
+  repoIn.scrollIntoView({ block: 'center' });
+});
+$<HTMLButtonElement>('open-settings').addEventListener('click', () => {
+  setMenu(false);
+  const details = document.querySelector<HTMLDetailsElement>('[data-testid="settings"]')!;
+  details.open = true;
+  details.querySelector('summary')!.focus();
+  details.scrollIntoView({ block: 'start' });
+});
 $<HTMLButtonElement>('reset').addEventListener('click', () => writeSettings(DEFAULT_SETTINGS));
 
 writeSettings(DEFAULT_SETTINGS);

@@ -2,24 +2,44 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="color-scheme" content="dark light" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="See the five DORA software delivery metrics for any public GitHub repository." />
     <title>DORA Dashboard</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='1' y='9' width='3' height='6' rx='1' fill='%232a6fdb'/%3E%3Crect x='6' y='5' width='3' height='10' rx='1' fill='%232a6fdb'/%3E%3Crect x='11' y='1' width='3' height='14' rx='1' fill='%232a6fdb'/%3E%3C/svg%3E" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='1' y='9' width='3' height='6' rx='1' fill='%23FFB45C'/%3E%3Crect x='6' y='5' width='3' height='10' rx='1' fill='%23FFB45C'/%3E%3Crect x='11' y='1' width='3' height='14' rx='1' fill='%23FFB45C'/%3E%3C/svg%3E" />
   </head>
   <body>
-    <header class="wrap">
-      <h1>DORA Dashboard</h1>
-      <p class="lede">
-        Type a public GitHub repository and see the five
-        <a href="https://dora.dev/guides/dora-metrics/" target="_blank" rel="noopener">DORA</a>
-        software delivery metrics, explained in plain language.
-      </p>
-    </header>
+    <a class="skip" href="#main">Skip to the dashboard</a>
+    <div class="app">
+      <aside class="side" data-testid="sidebar">
+        <div class="brandbar">
+          <h1 class="brand"><span class="mark" aria-hidden="true"><i></i><i></i><i></i></span>DORA Dashboard</h1>
+          <button type="button" id="menu" class="menu" aria-expanded="false" aria-controls="nav" data-testid="menu">
+            <span class="menu-icon" aria-hidden="true"></span><span class="sr-only">Menu</span>
+          </button>
+        </div>
+        <nav id="nav" class="nav" aria-label="Main">
+          <button type="button" id="find" class="find" data-testid="find">Analyse a repository…</button>
+          <h2 class="nav-h">Saved examples</h2>
+          <ul class="library">
+            <li><button type="button" id="demo" class="item" data-testid="demo"><span class="cover c1" aria-hidden="true"></span><span><b>The test repository</b><small>Known answers, worked out by hand</small></span></button></li>
+            <li><button type="button" id="demo-angular" class="item" data-testid="demo-angular"><span class="cover c2" aria-hidden="true"></span><span><b>angular/angular</b><small>A large open-source project</small></span></button></li>
+            <li><button type="button" id="demo-dashboard" class="item" data-testid="demo-dashboard"><span class="cover c3" aria-hidden="true"></span><span><b>This dashboard</b><small>Measured on its own releases</small></span></button></li>
+          </ul>
+          <button type="button" id="open-settings" class="nav-link" data-testid="open-settings"><span class="gear" aria-hidden="true"></span>Settings</button>
+        </nav>
+      </aside>
 
-    <main class="wrap">
+      <main id="main" class="main" tabindex="-1">
+        <header class="intro">
+          <p class="lede">
+            Type a public GitHub repository and see the five
+            <a href="https://dora.dev/guides/dora-metrics/" target="_blank" rel="noopener">DORA</a>
+            software delivery metrics, explained in plain language.
+          </p>
+        </header>
       <!-- Deliberately not a <form>: browsers then never offer to save the token. -->
-      <div id="form" class="card" role="search">
+      <div id="form" class="search-card" role="search" aria-label="Analyse a repository">
         <div class="row">
           <label class="grow">
             <span>Repository</span>
@@ -108,22 +128,20 @@
               </select>
             </label>
           </fieldset>
-          <button type="button" id="reset" class="link">Reset to defaults</button>
+          <button type="button" id="reset" class="pill quiet">Reset to defaults</button>
         </details>
 
         <div class="actions">
-          <button type="button" id="go" class="primary" data-testid="analyse">Analyse</button>
-          <span class="muted">Saved examples:</span>
-          <button type="button" id="demo" class="link" data-testid="demo">the test repository</button>
-          <button type="button" id="demo-angular" class="link" data-testid="demo-angular">angular/angular</button>
+          <button type="button" id="go" class="pill primary" data-testid="analyse">Analyse</button>
         </div>
       </div>
 
       <p id="status" class="status" role="status" aria-live="polite" data-testid="status"></p>
-      <div id="error" class="card error" role="alert" hidden data-testid="error"></div>
-      <section id="results" hidden data-testid="results" aria-label="Results"></section>
+        <div id="loading" class="loading" hidden data-testid="loading" aria-hidden="true"></div>
+        <div id="error" class="error" role="alert" hidden data-testid="error"></div>
+        <section id="results" class="results" hidden data-testid="results" aria-label="Results"></section>
 
-      <section class="card about" aria-labelledby="about-h">
+        <section class="about" aria-labelledby="about-h">
         <h2 id="about-h">What the five metrics mean</h2>
         <div id="about"></div>
         <p class="muted">
@@ -131,12 +149,13 @@
           metrics are estimates, so they get no rating. Compare a team with its own past, not with other teams.
         </p>
       </section>
-    </main>
-
-    <footer class="wrap muted">
+    
+        <footer class="muted">
       Runs entirely in your browser; no data is stored. Source:
       <a href="https://github.com/GonzaSSH/dora-dashboard">GonzaSSH/dora-dashboard</a>.
     </footer>
+      </main>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

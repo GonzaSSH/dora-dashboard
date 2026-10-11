@@ -32,3 +32,13 @@ export async function serveGitHub(page: Page, map: FixtureMap = sandboxResponses
   });
   return { seen, unrecorded };
 }
+
+/**
+ * Clicks a saved example in the sidebar (v1.4). On phones the sidebar is a top bar, so the
+ * menu is opened first, as a visitor would.
+ */
+export async function openSavedExample(page: Page, testId: 'demo' | 'demo-angular' | 'demo-dashboard') {
+  const menu = page.getByTestId('menu');
+  if (await menu.isVisible()) await menu.click();
+  await page.getByTestId(testId).click();
+}

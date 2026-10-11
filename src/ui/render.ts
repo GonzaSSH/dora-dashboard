@@ -3,6 +3,7 @@ import type { Settings, TimeWindow } from '../types';
 import type { Corrections } from '../metrics/corrections';
 import { DEFAULT_SETTINGS } from '../config';
 import { formatDuration, formatPercent, formatPerWeek } from '../format';
+import { median } from '../metrics/compute';
 import { isRated, rate, type MetricKey, type Rating } from '../ratings';
 import { EXPLANATIONS } from './explanations';
 import { comparisonLine, sentenceFor } from '../context/sentences';
@@ -120,6 +121,10 @@ export interface ViewOptions {
   tableOpen: boolean;
   onCorrect: (name: string, choice: 'auto' | 'failed' | 'not-failed', fixedBy?: string | null) => void;
   onReset: () => void;
+  /** Copies the page address (v1.4). Resolves to the message shown next to the button. */
+  onShare: () => Promise<string>;
+  /** For saved results: runs a live analysis of the same repository and dates. */
+  onAnalyseLive?: () => void;
 }
 
 export function renderResults(el: HTMLElement, r: RunResult, window: TimeWindow, o: ViewOptions): void {
@@ -128,19 +133,38 @@ export function renderResults(el: HTMLElement, r: RunResult, window: TimeWindow,
   const t = tiles(r);
   const rl = r.rateLimit;
 
-  const summary = h('div', { class: 'summary' },
-    h('h2', {}, 'Results for ', h('a', { href: r.collected.repo.htmlUrl, target: '_blank', rel: 'noopener', 'data-testid': 'repo-link' }, r.collected.repo.fullName)),
-    h('p', { class: 'muted' },
+  const definitions = h('p', { class: 'definitions', 'data-testid': 'definitions' },
+    h('strong', {}, 'Definitions used: '),
+    ...describeSettings(o.settings).flatMap((d, i) => [
+      i > 0 ? ' · ' : '',
+      d.changed ? h('span', { class: 'changed' }, `${d.text} (changed)`) : d.text,
+    ]));
+
+  // Header like a playlist page: what it is, the repository large, then period, definitions, actions.
+  const shareStatus = h('span', { class: 'share-status', role: 'status', 'aria-live': 'polite', 'data-testid': 'share-status' });
+  const shareBtn = h('button', { type: 'button', class: 'pill secondary', 'data-testid': 'share' }, 'Share');
+  shareBtn.addEventListener('click', () => {
+    void o.onShare().then((m) => { shareStatus.textContent = m; });
+  });
+  const liveBtn = savedAt && o.onAnalyseLive
+    ? h('button', { type: 'button', class: 'pill primary', 'data-testid': 'analyse-live' }, 'Analyse live')
+    : null;
+  if (liveBtn && o.onAnalyseLive) liveBtn.addEventListener('click', o.onAnalyseLive);
+  const summary = h('header', { class: 'summary' },
+    savedAt
+      ? h('p', { class: 'snapshot-note', 'data-testid': 'snapshot-note' },
+        `Saved result from ${savedAt.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })}` +
+        `${o.savedWithToken ? ', saved with a GitHub token' : ''}. Click Analyse for live data.`)
+      : h('p', { class: 'kicker' }, 'Results for'),
+    h('h2', {}, h('a', { href: r.collected.repo.htmlUrl, target: '_blank', rel: 'noopener', 'data-testid': 'repo-link' }, r.collected.repo.fullName)),
+    h('p', { class: 'meta' },
       `${utcDay(window.start)} to ${utcDay(lastDay)} · deployments = ${r.collected.source === 'releases' ? 'GitHub Releases' : 'version tags'} · `,
       savedAt
         ? h('span', { 'data-testid': 'requests-used' }, 'saved result: no GitHub requests used now')
         : h('span', { 'data-testid': 'requests-used' }, `${r.requestsUsed} GitHub requests used`),
       rl && !savedAt ? ` · ${rl.remaining} of ${rl.limit} left this hour` : ''),
-    savedAt
-      ? h('p', { class: 'snapshot-note', 'data-testid': 'snapshot-note' },
-        `Saved result from ${savedAt.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })}` +
-        `${o.savedWithToken ? ', saved with a GitHub token' : ''}. Click Analyse for live data.`)
-      : null,
+    definitions,
+    h('div', { class: 'header-actions' }, liveBtn, shareBtn, shareStatus),
   );
 
   // Unmatched reverts: one collapsed line, expandable to see which (v1.1).
@@ -204,41 +228,37 @@ export function renderResults(el: HTMLElement, r: RunResult, window: TimeWindow,
     );
   }));
 
-  const definitions = h('p', { class: 'definitions', 'data-testid': 'definitions' },
-    h('strong', {}, 'Definitions used: '),
-    ...describeSettings(o.settings).flatMap((d, i) => [
-      i > 0 ? ' · ' : '',
-      d.changed ? h('span', { class: 'changed' }, `${d.text} (changed)`) : d.text,
-    ]));
-
-  const rows = [...r.analysed].reverse().map((d) => {
-    const flags: string[] = [];
-    if (d.failed) flags.push(`Failed: ${d.failureReason}`);
-    if (d.rework) flags.push(`Rework: ${d.reworkReason}`);
+  // Releases as a track list (v1.4): newest first, numbered, status as text tags.
+  const total = r.analysed.length;
+  const rows = [...r.analysed].reverse().map((d, i) => {
+    const n = d.changes?.length ?? 0;
+    const changes = d.changes ? `${n}${d.changesTruncated ? '+' : ''} ${n === 1 && !d.changesTruncated ? 'change' : 'changes'}` : 'changes not fetched';
+    const lead = d.leadTimesHours ? median(d.leadTimesHours) : null;
+    const tags = [
+      d.manuallyCorrected ? h('span', { class: 'tag corrected' }, 'manually corrected') : null,
+      d.failed ? h('span', { class: 'tag failed' }, `Failed: ${d.failureReason}`) : null,
+      d.rework ? h('span', { class: 'tag rework' }, `Rework: ${d.reworkReason}`) : null,
+    ].filter((x) => x !== null) as HTMLElement[];
     return h('tr', { 'data-testid': `deployment-${d.name}`, class: d.manuallyCorrected ? 'corrected' : undefined },
-      h('td', {}, d.name),
-      h('td', { class: 'num' }, utcDateTime(d.time)),
-      h('td', {}, d.predecessor ?? '—'),
-      h('td', { class: 'num' }, d.changes ? `${d.changes.length}${d.changesTruncated ? '+' : ''}` : 'not fetched'),
-      h('td', {},
-        d.manuallyCorrected ? h('span', { class: 'badge corrected-badge' }, 'manually corrected') : null,
-        d.manuallyCorrected ? ' ' : '',
-        flags.length ? flags.join(' · ') : '—'),
+      h('td', { class: 'idx' }, String(total - i)),
+      h('td', { class: 'version' }, h('b', {}, d.name), h('small', {}, d.predecessor ? `${changes} since ${d.predecessor}` : 'no earlier version to compare with')),
+      h('td', { class: 'num', 'data-label': 'Released' }, utcDateTime(d.time)),
+      h('td', { class: 'num', 'data-label': 'Lead time' }, lead === null ? '—' : formatDuration(lead)),
+      h('td', {}, h('div', { class: 'status' }, ...(tags.length ? tags : [h('span', { class: 'none' }, 'No problems detected')]))),
       h('td', {}, correctionControls(d.name, r, o)),
     );
   });
-  const table = h('details', { class: 'card deployments', open: o.tableOpen },
+  const table = h('details', { class: 'deployments', open: o.tableOpen },
     h('summary', {}, `All ${r.analysed.length} deployments in this period, with how each was classified (you can correct them)`),
-    h('p', { class: 'muted' },
+    h('p', {},
       'Disagree with a classification? Mark a release as failed or not failed, and for a failure pick the release that fixed it. ' +
       'All five numbers update straight away, and the page address keeps your corrections so a shared link shows the same view.'),
-    h('div', { class: 'table-scroll' },
-      h('table', {},
-        h('thead', {}, h('tr', {}, h('th', {}, 'Version'), h('th', {}, 'Released'), h('th', {}, 'Compared with'), h('th', {}, 'Changes'), h('th', {}, 'Classification'), h('th', {}, 'Correction'))),
-        h('tbody', {}, ...rows))),
+    h('table', { class: 'tracks' },
+      h('thead', {}, h('tr', {}, h('th', { class: 'idx' }, '#'), h('th', {}, 'Version'), h('th', {}, 'Released'), h('th', {}, 'Lead time'), h('th', {}, 'Status'), h('th', {}, 'Correction'))),
+      h('tbody', {}, ...rows)),
   );
 
-  el.replaceChildren(summary, ...([correctionsLine, ignoredLine, notices].filter((x) => x !== null) as HTMLElement[]), grid, definitions, table);
+  el.replaceChildren(summary, ...([correctionsLine, ignoredLine, notices].filter((x) => x !== null) as HTMLElement[]), grid, table);
 }
 
 function correctionControls(name: string, r: RunResult, o: ViewOptions): HTMLElement {

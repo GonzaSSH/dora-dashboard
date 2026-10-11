@@ -17,6 +17,7 @@ export interface Snapshot {
 export const DEMOS = [
   { id: 'sandbox', repo: 'GonzaSSH/dora-sandbox', label: 'the test repository', window: { start: '2026-01-01', end: '2026-03-31' } },
   { id: 'angular', repo: 'angular/angular', label: 'angular/angular', window: null },
+  { id: 'dashboard', repo: 'GonzaSSH/dora-dashboard', label: 'this dashboard', window: null },
 ] as const;
 export type DemoId = (typeof DEMOS)[number]['id'];
 
