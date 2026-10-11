@@ -23,7 +23,6 @@ const goBtn = $<HTMLButtonElement>('go');
 const statusEl = $<HTMLElement>('status');
 const errorEl = $<HTMLElement>('error');
 const resultsEl = $<HTMLElement>('results');
-const mainEl = $<HTMLElement>('main');
 const loadingEl = $<HTMLElement>('loading');
 const sideEl = document.querySelector<HTMLElement>('.side')!;
 const menuBtn = $<HTMLButtonElement>('menu');
@@ -114,8 +113,13 @@ async function share(): Promise<string> {
   }
 }
 
+/** After a new result (not a correction), bring it into view below the banner and form. */
+function revealResults(): void {
+  const instant = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  resultsEl.scrollIntoView({ behavior: instant ? 'auto' : 'smooth', block: 'start' });
+}
+
 function showError(err: unknown): void {
-  mainEl.classList.remove('has-results');
   const m = messageFor(err);
   errorEl.replaceChildren(h('h2', {}, m.title), h('p', {}, m.detail));
   errorEl.hidden = false;
@@ -159,7 +163,6 @@ function show(): void {
   });
   markDemo(base.demo);
   resultsEl.hidden = false;
-  mainEl.classList.add('has-results');
   // Shareable link: repository, dates, non-default settings and corrections. Never the token.
   const params = writeState({
     demo: base.demo,
@@ -179,7 +182,12 @@ function correct(name: string, choice: 'auto' | 'failed' | 'not-failed', fixedBy
   if (choice === 'failed') failed.push({ name, fixedBy: fixedBy === undefined ? 'next' : fixedBy });
   if (choice === 'not-failed') notFailed.push(name);
   corrections = { failed, notFailed };
+  // The results are rebuilt; keep the reader where they were and focus on the same control.
+  const y = window.scrollY;
+  const focused = (document.activeElement as HTMLElement | null)?.dataset.testid;
   show();
+  window.scrollTo({ top: y, behavior: 'instant' });
+  if (focused) resultsEl.querySelector<HTMLElement>(`[data-testid="${CSS.escape(focused)}"]`)?.focus({ preventScroll: true });
 }
 
 /** Loads a saved demo result: zero GitHub requests (v1.1 item 2). */
@@ -200,6 +208,7 @@ async function loadDemo(id: DemoId, keep: Corrections = NO_CORRECTIONS): Promise
     tableOpen = false;
     statusEl.textContent = '';
     show();
+    revealResults();
   } catch {
     errorEl.replaceChildren(h('h2', {}, "Couldn't load the saved example"), h('p', {}, 'Type a repository and click Analyse to run a live analysis instead.'));
     errorEl.hidden = false;
@@ -233,6 +242,7 @@ async function analyse(keep: Corrections = NO_CORRECTIONS): Promise<void> {
     tableOpen = false;
     statusEl.textContent = '';
     show();
+    revealResults();
   } catch (err) {
     statusEl.textContent = '';
     showError(err);

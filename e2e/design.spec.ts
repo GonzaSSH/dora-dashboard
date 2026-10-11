@@ -199,6 +199,64 @@ test.describe('motion and loading', () => {
   });
 });
 
+test.describe('banner', () => {
+  test('headline and description come first, with the repository field right under them', async ({ page }) => {
+    await page.goto('./');
+    const banner = page.getByTestId('banner');
+    await expect(banner.getByRole('heading', { name: 'Performance metrics for engineering teams' })).toBeVisible();
+    await expect(banner).toContainText(
+      'Plug in any public GitHub repository and see how fast and how safely the teams behind it deliver, based on the DORA metrics.');
+    const bannerBox = (await banner.boundingBox())!;
+    const fieldBox = (await page.getByTestId('repo-input').boundingBox())!;
+    expect(fieldBox.y).toBeGreaterThan(bannerBox.y + bannerBox.height);
+    // Nothing else sits between the banner and the form.
+    expect(fieldBox.y - (bannerBox.y + bannerBox.height)).toBeLessThan(120);
+  });
+
+  test('the release rhythm is decoration only: hidden from screen readers, never behind text', async ({ page }) => {
+    for (const width of [1440, 1300, 1100, 820, 390]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto('./');
+      const rhythm = page.locator('.rhythm');
+      await expect(rhythm).toHaveAttribute('aria-hidden', 'true');
+      const r = (await rhythm.boundingBox())!;
+      for (const sel of ['.app-title', '.app-lede']) {
+        const t = (await page.locator(sel).boundingBox())!;
+        const overlaps = r.x < t.x + t.width && t.x < r.x + r.width && r.y < t.y + t.height && t.y < r.y + r.height;
+        expect(overlaps, `${sel} at ${width}px`).toBe(false);
+      }
+    }
+  });
+
+  test('opening a saved example scrolls down to its result', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('./');
+    await openSavedExample(page, 'demo');
+    await expect(page.getByTestId('repo-link')).toHaveText('GonzaSSH/dora-sandbox');
+    await expect.poll(async () => (await page.getByTestId('results').boundingBox())!.y).toBeLessThan(120);
+  });
+
+  test('changing a correction does not jump the page back to the top of the results', async ({ page }) => {
+    await page.goto('./?demo=sandbox');
+    await page.locator('details.deployments summary').click();
+    const row = page.getByTestId('correct-v1.4.1');
+    const settled = async () => {
+      let last = -1;
+      await expect.poll(async () => { const y = await page.evaluate(() => window.scrollY); const same = y === last; last = y; return same; }, { intervals: [200] }).toBe(true);
+      return last;
+    };
+    await settled(); // the scroll to the result after loading has finished
+    await row.scrollIntoViewIfNeeded();
+    const before = await settled();
+    await row.focus(); // as a keyboard user who tabbed to it
+    await row.selectOption('failed');
+    await expect(page.getByTestId('corrections-summary')).toBeVisible();
+    expect(Math.abs((await settled()) - before)).toBeLessThan(400);
+    // Keyboard users stay on the control they just changed.
+    await expect(page.getByTestId('correct-v1.4.1')).toBeFocused();
+  });
+});
+
 test('Share copies the page address', async ({ page, context, browserName }) => {
   test.skip(browserName !== 'chromium', 'clipboard permission is Chromium-only');
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
@@ -212,8 +270,8 @@ test('Share copies the page address', async ({ page, context, browserName }) => 
 
 /**
  * Runs in the page: every visible element with its own text, checked against the colour
- * behind it (WCAG 2 contrast ≥ 4.5). Over the header gradient the tint end is used, which is
- * the lower-contrast end in both themes.
+ * behind it (WCAG 2 contrast ≥ 4.5). Over the accent gradients (banner, results header) the
+ * tint end is used, which is the lower-contrast end in both themes.
  */
 function lowContrastText(): string[] {
   const parse = (c: string) => (c.match(/[\d.]+/g) ?? []).map(Number);
@@ -225,7 +283,7 @@ function lowContrastText(): string[] {
   const behind = (el: Element): number[] => {
     for (let e: Element | null = el; e; e = e.parentElement) {
       const s = getComputedStyle(e);
-      if (s.backgroundImage.includes('gradient') && e.classList.contains('summary')) {
+      if (s.backgroundImage.includes('gradient') && (e.classList.contains('summary') || e.classList.contains('banner'))) {
         const probe = document.createElement('span');
         probe.style.color = s.getPropertyValue('--header-tint');
         document.body.append(probe);
