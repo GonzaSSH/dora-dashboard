@@ -84,3 +84,12 @@ export const EXPECTED_DORA = {
   deploymentFrequency: 'About 76% of surveyed teams ship this often or more.',
   leadTime: 'About 56% of surveyed teams have this lead time or shorter.',
 } as const;
+
+/** EXPECTED.md, "Weekly charts on the cards (v1.5)". */
+export const EXPECTED_WEEKS = {
+  releases: [1, 0, 1, 0, 2, 0, 2, 0, 0, 1, 0, 3, 0],
+  failed: [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 2, 0],
+  rework: [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 2, 0],
+  leadHours: [48, null, 74, null, 76, null, 49, null, null, 60, null, 13, null],
+  recoveryHours: [null, null, null, null, 20, null, 48, null, null, null, null, 33, null],
+} as const;

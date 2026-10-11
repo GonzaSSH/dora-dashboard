@@ -50,7 +50,8 @@ you tell whether AI is actually helping a team ship.
    and **Analyse live** fetches live data).
 3. Choose the **From** and **To** dates. The default is the last 90 days.
 4. Click **Analyse**. A small project takes a few seconds; a very busy one up to about 30.
-5. Read the five tiles. Each one says in a plain sentence what its number means, compares it
+5. Read the five tiles. Under each number a small bar chart shows the period week by week
+   (hover or tap a bar for that week). Each tile also says in a plain sentence what its number means, compares it
    with the 90 days before (or the same length as your period), and, for deployment frequency
    and lead time, shows how the result sits among the teams DORA surveyed. Open **How this was
    worked out** under any tile, or the list of deployments below them, to see exactly what

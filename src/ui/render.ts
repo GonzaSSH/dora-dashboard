@@ -4,6 +4,7 @@ import type { Corrections } from '../metrics/corrections';
 import { DEFAULT_SETTINGS } from '../config';
 import { formatDuration, formatPercent, formatPerWeek } from '../format';
 import { median } from '../metrics/compute';
+import { metricChart, seriesFor } from './charts';
 import { isRated, rate, type MetricKey, type Rating } from '../ratings';
 import { EXPLANATIONS } from './explanations';
 import { comparisonLine, sentenceFor } from '../context/sentences';
@@ -132,7 +133,7 @@ function contextEls(key: MetricKey, r: RunResult): HTMLElement[] {
             h('a', { href: src.licenceUrl, target: '_blank', rel: 'noopener' }, src.licence), `). ${SERVICES_NOTE}`))
         : null
       : h('p', { class: 'dora muted', 'data-testid': `no-benchmark-${key}` }, NO_BENCHMARK),
-  ].filter((x) => x !== null) as HTMLElement[];
+  ].map((x) => x ?? h('div', { class: 'slot', 'aria-hidden': 'true' }));
 }
 
 export interface ViewOptions {
@@ -227,6 +228,10 @@ export function renderResults(el: HTMLElement, r: RunResult, window: TimeWindow,
 
   const { changesFetched, changesNeeded } = r.collected;
   const sampled = changesFetched < changesNeeded;
+  // Every card has the same rows in the same order (empty slots included), so numbers, charts
+  // and sentences line up across the row of cards (CSS subgrid, styles.css).
+  const series = seriesFor(r.analysed, window);
+  const slot = (el: HTMLElement | null) => el ?? h('div', { class: 'slot', 'aria-hidden': 'true' });
   const grid = h('div', { class: 'tiles' }, ...ORDER.map((key) => {
     const e = EXPLANATIONS[key];
     // Deployment frequency never depends on change details; the others partly do.
@@ -240,14 +245,15 @@ export function renderResults(el: HTMLElement, r: RunResult, window: TimeWindow,
         e.proxy ? h('span', { class: 'badge', title: 'Estimated from indirect signals', 'data-testid': `proxy-${key}` }, 'Proxy') : null),
       h('p', { class: 'question' }, e.question),
       valueEl(key, t[key].value),
-      ratingChip(key, t[key].raw),
+      slot(ratingChip(key, t[key].raw)),
+      metricChart(key, series, r.previous),
       ...contextEls(key, r),
       h('p', { class: 'sub' }, t[key].sub),
-      e.drivers ? h('p', { class: 'drivers', 'data-testid': `drivers-${key}` }, e.drivers) : null,
-      sampleNote,
-      key === 'recoveryTime' && r.metrics.recoveryTime.unrecovered
+      slot(e.drivers ? h('p', { class: 'drivers', 'data-testid': `drivers-${key}` }, e.drivers) : null),
+      slot(sampleNote),
+      slot(key === 'recoveryTime' && r.metrics.recoveryTime.unrecovered
         ? h('p', { class: 'sample' }, `${r.metrics.recoveryTime.unrecovered} failed ${r.metrics.recoveryTime.unrecovered === 1 ? 'release was' : 'releases were'} not fixed in this period, so ${r.metrics.recoveryTime.unrecovered === 1 ? 'it is' : 'they are'} not in the median.`)
-        : null,
+        : null),
       h('details', {},
         disclosure('How this was worked out', ICON.info, 'quiet'),
         h('p', {}, e.how),

@@ -280,6 +280,61 @@ test('every fold-out looks like a button, with an icon and an arrow that flips w
   expect(await angle()).not.toBe('none');
 });
 
+test.describe('charts on the cards', () => {
+  const KEYS = ['deploymentFrequency', 'leadTime', 'changeFailureRate', 'recoveryTime', 'reworkRate'];
+
+  test('every card has a weekly chart with the hand-worked values (EXPECTED.md)', async ({ page }) => {
+    await page.goto('./?demo=sandbox');
+    for (const key of KEYS) await expect(page.getByTestId(`chart-${key}`)).toBeVisible();
+    await expect(page.getByTestId('chart-deploymentFrequency').locator('svg'))
+      .toHaveAttribute('aria-label', 'Releases per week: 1, 0, 1, 0, 2, 0, 2, 0, 0, 1, 0, 3, 0.');
+    // 6 weeks with releases, one bar each; 4 of them have an urgent-fix part.
+    await expect(page.getByTestId('chart-deploymentFrequency').locator('rect.bar')).toHaveCount(6);
+    await expect(page.getByTestId('chart-changeFailureRate').locator('rect.bar.bad')).toHaveCount(3);
+    await expect(page.getByTestId('chart-recoveryTime').locator('rect.bar.bad')).toHaveCount(3);
+  });
+
+  test('numbers, charts and sentences line up across the cards in a row', async ({ page }) => {
+    for (const [width, perRow] of [[1440, 5], [820, 2]] as const) {
+      await page.setViewportSize({ width, height: 900 });
+      for (const demo of ['sandbox', 'angular', 'dashboard']) {
+        await page.goto(`./?demo=${demo}`);
+        await expect(page.getByTestId('chart-reworkRate')).toBeVisible();
+        for (const prefix of ['value', 'chart', 'sentence', 'trend']) {
+          const tops = await page.evaluate(([p, keys]) => keys.map((k) => Math.round(document.querySelector(`[data-testid="${p}-${k}"]`)!.getBoundingClientRect().top)),
+            [prefix, KEYS] as const);
+          for (let i = 0; i < tops.length; i += perRow) {
+            const row = tops.slice(i, i + perRow);
+            expect(new Set(row).size, `${demo} ${prefix} at ${width}px: ${row.join(', ')}`).toBe(1);
+          }
+        }
+      }
+    }
+  });
+
+  test('hovering a bar shows that week inside the card', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('./?demo=sandbox');
+    const chart = page.getByTestId('chart-changeFailureRate');
+    const svg = chart.locator('svg');
+    const box = (await svg.boundingBox())!;
+    await svg.hover({ position: { x: box.width * (11.5 / 13), y: box.height - 4 } });
+    const tip = chart.locator('.chart-tip');
+    await expect(tip).toHaveText('Week of 19 Mar: 3 releases, 2 needed an urgent fix');
+    const t = (await tip.boundingBox())!, card = (await page.getByTestId('metric-changeFailureRate').boundingBox())!;
+    expect(t.x).toBeGreaterThanOrEqual(card.x);
+    expect(t.x + t.width).toBeLessThanOrEqual(card.x + card.width);
+  });
+
+  test('marking a release failed by hand updates the chart straight away', async ({ page }) => {
+    await page.goto('./?demo=sandbox');
+    const bad = page.getByTestId('chart-changeFailureRate').locator('rect.bar.bad');
+    await expect(bad).toHaveCount(3);
+    await page.goto('./?demo=sandbox&failed=v1.4.1');
+    await expect(bad).toHaveCount(4);
+  });
+});
+
 test('Share copies the page address', async ({ page, context, browserName }) => {
   test.skip(browserName !== 'chromium', 'clipboard permission is Chromium-only');
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
