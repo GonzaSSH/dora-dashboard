@@ -19,6 +19,8 @@
   --raised: #1c1c22;
   --raised-hover: #26262e;
   --field: #26262e;
+  /* Edge of form fields: 3:1 against every surface (WCAG 1.4.11); cards themselves stay borderless. */
+  --field-ring: #6e6e7c;
   --rule: #2c2c35;
   /* Text */
   --ink: #f4f4f6;
@@ -94,7 +96,8 @@
     --sidebar: #ffffff;
     --raised: #ffffff;
     --raised-hover: #f4f4f7;
-    --field: #eeeef2;
+    --field: #f4f4f7;
+    --field-ring: #80808c;
     --rule: #e1e1e8;
     --ink: #141418;
     --ink-2: #3f3f4a;
@@ -153,7 +156,7 @@ a { color: var(--accent); text-underline-offset: 2px; }
 .mark i:nth-child(3) { height: 15px; }
 .menu { display: none; }
 .nav { display: flex; flex-direction: column; gap: var(--space-4); flex: 1; }
-.find { min-height: var(--tap); width: 100%; text-align: left; border: 0; border-radius: var(--radius-pill); background: var(--raised); color: var(--ink-2); font: inherit; padding: 0 var(--space-5); cursor: pointer; }
+.find { min-height: var(--tap); width: 100%; text-align: left; border: 0; border-radius: var(--radius-pill); background: var(--field); box-shadow: inset 0 0 0 1.5px var(--field-ring); color: var(--ink-2); font: inherit; padding: 0 var(--space-5); cursor: pointer; }
 .nav-h { font-size: var(--fs-small); font-weight: var(--fw-strong); color: var(--muted); letter-spacing: 0; padding: 0 var(--space-2); }
 .library { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-1); }
 .item { width: 100%; display: flex; gap: var(--space-3); align-items: center; text-align: left; border: 0; background: transparent; color: var(--ink); font: inherit; padding: var(--space-2); border-radius: var(--radius-small); cursor: pointer; min-height: var(--tap); }
@@ -189,7 +192,7 @@ label em { font-style: normal; font-weight: var(--fw-regular); color: var(--mute
 input, select {
   font: inherit; font-weight: var(--fw-regular);
   color: var(--ink); background: var(--field);
-  border: 0; border-radius: var(--radius-small);
+  border: 0; border-radius: var(--radius-small); box-shadow: inset 0 0 0 1.5px var(--field-ring);
   min-height: var(--tap); padding: 0 var(--space-3); min-width: 0; max-width: 100%;
 }
 #repo { border-radius: var(--radius-pill); padding: 0 var(--space-5); font-size: 1.05rem; }
@@ -262,6 +265,7 @@ button.link { background: none; border: 0; color: var(--accent); padding: 0; tex
 .tile h3 { font-size: var(--fs-body); font-weight: var(--fw-strong); color: var(--ink-2); letter-spacing: 0; }
 .question { font-size: var(--fs-small); color: var(--muted); }
 .value { font-size: var(--fs-number); font-weight: var(--fw-heavy); line-height: 1; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+.value-text { font-size: var(--fs-h2); letter-spacing: -0.02em; line-height: 1.15; }
 .value .unit { font-size: var(--fs-body); font-weight: var(--fw-strong); color: var(--ink-2); letter-spacing: 0; margin-left: var(--space-1); }
 .sentence { font-weight: var(--fw-strong); line-height: 1.35; }
 .trend { font-size: var(--fs-small); color: var(--muted); }

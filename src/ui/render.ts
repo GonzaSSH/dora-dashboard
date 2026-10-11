@@ -68,7 +68,10 @@ function valueEl(key: MetricKey, text: string): HTMLElement {
   const m = /^([\d.,]+%?)(\s.*)?$/.exec(text);
   const p = h('p', { class: 'value', 'data-testid': `value-${key}` });
   if (m) p.append(m[1]!, ...(m[2] ? [h('span', { class: 'unit' }, m[2])] : []));
-  else p.append(text);
+  else {
+    p.classList.add('value-text'); // words like "No failures found" are not set at number size
+    p.append(text);
+  }
   return p;
 }
 
