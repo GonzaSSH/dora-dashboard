@@ -12,7 +12,7 @@ import { h } from './dom';
 
 const RATING_LABEL: Record<Rating, { icon: string; text: string }> = {
   strong: { icon: '✓', text: 'Strong' },
-  middle: { icon: '•', text: 'In between' },
+  middle: { icon: '•', text: 'Medium' },
   weak: { icon: '!', text: 'Weak' },
 };
 
@@ -61,6 +61,30 @@ function tiles(r: RunResult): Record<MetricKey, Tile> {
       sub: `${m.reworkRate.rework} of ${m.reworkRate.total} deployments were rework`,
     },
   };
+}
+
+// Fold-outs look like buttons (v1.5): an icon, the label and an arrow that flips when open.
+const SVG_NS = 'http://www.w3.org/2000/svg';
+const ICON = {
+  chevron: 'M6 9l6 6 6-6',
+  info: 'M12 21a9 9 0 1 1 0-18 9 9 0 0 1 0 18zM12 16v-5M12 8h.01',
+  list: 'M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01',
+  alert: 'M12 3l9 16H3zM12 10v4M12 17h.01',
+};
+function icon(cls: string, d: string): SVGSVGElement {
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('class', cls);
+  svg.setAttribute('viewBox', '0 0 24 24');
+  svg.setAttribute('aria-hidden', 'true');
+  const path = document.createElementNS(SVG_NS, 'path');
+  path.setAttribute('d', d);
+  svg.append(path);
+  return svg;
+}
+function disclosure(text: string, glyph: string, variant?: 'quiet' | 'large'): HTMLElement {
+  const s = h('summary', { class: variant ? `disclosure ${variant}` : 'disclosure' });
+  s.append(icon('ico', glyph), h('span', {}, text), icon('chev', ICON.chevron));
+  return s;
 }
 
 /** "3.0 days" → big "3.0" and a smaller " days"; text without a leading number stays as is. */
@@ -175,7 +199,7 @@ export function renderResults(el: HTMLElement, r: RunResult, window: TimeWindow,
   const unmatchedItem = unmatched.length
     ? h('li', {},
       h('details', { 'data-testid': 'unmatched-reverts' },
-        h('summary', {}, `${unmatched.length} ${unmatched.length === 1 ? 'revert' : 'reverts'} could not be matched to a release`),
+        disclosure(`${unmatched.length} ${unmatched.length === 1 ? 'revert' : 'reverts'} could not be matched to a release`, ICON.alert, 'quiet'),
         h('p', { class: 'muted' }, 'Their target was not found in any release in this period, so they fail no release.'),
         h('ul', {}, ...unmatched.map((u) => h('li', {}, u)))))
     : null;
@@ -225,7 +249,7 @@ export function renderResults(el: HTMLElement, r: RunResult, window: TimeWindow,
         ? h('p', { class: 'sample' }, `${r.metrics.recoveryTime.unrecovered} failed ${r.metrics.recoveryTime.unrecovered === 1 ? 'release was' : 'releases were'} not fixed in this period, so ${r.metrics.recoveryTime.unrecovered === 1 ? 'it is' : 'they are'} not in the median.`)
         : null,
       h('details', {},
-        h('summary', {}, 'How this was worked out'),
+        disclosure('How this was worked out', ICON.info, 'quiet'),
         h('p', {}, e.how),
         e.proxy ? h('p', {}, h('strong', {}, 'Proxy: '), e.proxy) : null),
     );
@@ -252,7 +276,7 @@ export function renderResults(el: HTMLElement, r: RunResult, window: TimeWindow,
     );
   });
   const table = h('details', { class: 'deployments', open: o.tableOpen },
-    h('summary', {}, `All ${r.analysed.length} deployments in this period, with how each was classified (you can correct them)`),
+    disclosure(`All ${r.analysed.length} deployments in this period, with how each was classified (you can correct them)`, ICON.list, 'large'),
     h('p', {},
       'Disagree with a classification? Mark a release as failed or not failed, and for a failure pick the release that fixed it. ' +
       'All five numbers update straight away, and the page address keeps your corrections so a shared link shows the same view.'),

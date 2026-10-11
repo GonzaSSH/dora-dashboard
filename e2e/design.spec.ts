@@ -257,6 +257,29 @@ test.describe('banner', () => {
   });
 });
 
+test('every fold-out looks like a button, with an icon and an arrow that flips when open', async ({ page }) => {
+  await page.goto('./?demo=sandbox');
+  await expect(page.getByTestId('results')).toBeVisible();
+  const summaries = page.locator('summary');
+  const n = await summaries.count();
+  expect(n).toBeGreaterThanOrEqual(8); // why a token, settings, 5 cards, the release list
+  for (let i = 0; i < n; i++) {
+    const s = summaries.nth(i);
+    if (!(await s.isVisible())) continue;
+    await expect(s).toHaveClass(/disclosure/);
+    await expect(s.locator('svg.ico')).toHaveCount(1);
+    await expect(s.locator('svg.chev')).toHaveCount(1);
+    // A visible edge or fill, so it reads as something to press.
+    const look = await s.evaluate((el) => { const c = getComputedStyle(el); return { shadow: c.boxShadow, bg: c.backgroundColor }; });
+    expect(look.shadow !== 'none' || look.bg !== 'rgba(0, 0, 0, 0)').toBe(true);
+  }
+  const settings = page.getByTestId('settings').locator('summary');
+  const angle = () => settings.locator('svg.chev').evaluate((el) => getComputedStyle(el).transform);
+  expect(await angle()).toBe('none');
+  await settings.click();
+  expect(await angle()).not.toBe('none');
+});
+
 test('Share copies the page address', async ({ page, context, browserName }) => {
   test.skip(browserName !== 'chromium', 'clipboard permission is Chromium-only');
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);

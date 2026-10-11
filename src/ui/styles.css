@@ -217,6 +217,30 @@ input.masked { -webkit-text-security: disc; text-security: disc; }
 label.check { flex-direction: row; align-items: center; gap: var(--space-3); font-weight: var(--fw-regular); min-height: var(--tap); }
 label.check span { display: inline-flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
 details > summary { cursor: pointer; color: var(--ink-2); font-weight: var(--fw-strong); min-height: var(--tap); display: flex; align-items: center; list-style-position: inside; }
+/* Disclosure buttons ("Why a token?", "Settings"): look tappable, show they open. */
+summary.disclosure {
+  list-style: none; display: inline-flex; align-items: center; gap: var(--space-2);
+  min-height: var(--tap); padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-small); background: var(--raised-hover);
+  box-shadow: inset 0 0 0 1.5px var(--field-ring); color: var(--ink); width: fit-content; max-width: 100%;
+}
+summary.disclosure::-webkit-details-marker { display: none; }
+summary.disclosure:hover { background: var(--field); }
+summary.disclosure .ico, summary.disclosure .chev { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+summary.disclosure .ico { color: var(--accent); }
+details[open] > summary.disclosure .chev { transform: rotate(180deg); }
+summary.disclosure.quiet { background: transparent; font-size: var(--fs-small); padding: var(--space-2) var(--space-3); }
+summary.disclosure.quiet:hover { background: var(--raised-hover); }
+summary.disclosure.large {
+  width: 100%; justify-content: flex-start; padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-card); background: var(--raised);
+  font-size: 1.25rem; font-weight: var(--fw-heavy); letter-spacing: -0.01em;
+}
+summary.disclosure.large:hover { background: var(--raised-hover); }
+summary.disclosure.large .ico, summary.disclosure.large .chev { width: 22px; height: 22px; }
+summary.disclosure.large .chev { margin-left: auto; }
+.tile summary.disclosure { width: 100%; }
+.tile summary.disclosure .chev { margin-left: auto; }
 details.help p { font-size: var(--fs-small); color: var(--ink-2); margin: var(--space-2) 0; max-width: 72ch; }
 .settings fieldset { min-width: 0; grid-template-columns: minmax(0, 1fr); border: 0; background: var(--bg); border-radius: var(--radius-small); margin: var(--space-3) 0; padding: var(--space-4); display: grid; gap: var(--space-3); }
 legend { float: left; width: 100%; padding: 0; font-weight: var(--fw-heavy); color: var(--ink); }
@@ -306,7 +330,6 @@ button.link { background: none; border: 0; color: var(--accent); padding: 0; tex
 
 /* ---------- Releases as a track list ---------- */
 .deployments { margin-top: var(--space-6); }
-.deployments > summary { font-size: var(--fs-h2); font-weight: var(--fw-heavy); color: var(--ink); letter-spacing: -0.02em; gap: var(--space-3); }
 .deployments > p { color: var(--muted); font-size: var(--fs-small); margin: var(--space-2) 0 var(--space-4); max-width: 80ch; }
 .tracks { width: 100%; border-collapse: separate; border-spacing: 0; font-size: var(--fs-small); }
 .tracks th { white-space: nowrap; text-align: left; color: var(--muted); font-weight: var(--fw-strong); padding: var(--space-2) var(--space-3); box-shadow: inset 0 -1px 0 var(--rule); }
@@ -339,7 +362,8 @@ footer { padding: var(--space-6) 0 0; font-size: var(--fs-small); }
 
 /* ---------- Motion: only for visitors who haven't asked for less ---------- */
 @media (prefers-reduced-motion: no-preference) {
-  .tile, .item, .find, .nav-link, .tracks td { transition: background-color var(--duration) ease; }
+  .tile, .item, .find, .nav-link, .tracks td, summary.disclosure { transition: background-color var(--duration) ease; }
+  summary.disclosure .chev { transition: transform var(--duration) ease; }
   .pill { transition: transform var(--duration) ease, background-color var(--duration) ease; }
   .pill:hover:not(:disabled) { transform: scale(var(--lift)); }
   .skeleton { animation: shimmer 1.4s ease-in-out infinite; }
@@ -384,6 +408,7 @@ footer { padding: var(--space-6) 0 0; font-size: var(--fs-small); }
   .search-card { padding: var(--space-4); }
   .banner { padding: var(--space-6) var(--space-4) 0; }
   .rhythm { height: 44px; }
+  summary.disclosure.large { font-size: var(--fs-body); padding: var(--space-3) var(--space-4); }
   #repo { padding: 0 var(--space-4); font-size: var(--fs-body); }
   .actions .pill, .header-actions .pill { flex: 1 1 auto; }
 }
